@@ -1,0 +1,46 @@
+# The following redirect is intended for use with most SPAs that handle
+# routing internally.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[headers]]
+  # Define which paths this specific [[headers]] block will cover.
+  for = "/*"
+    [headers.values]
+    Access-Control-Allow-Origin = "*"
+
+# Production context:
+# All deploys from the main repository branch
+# will inherit these settings. This branch is "main"
+[context.production]
+  command = "npm run build-prod"
+  # Deploys from main branch run this plugin in the build.
+  # Plugins context requires double brackets.
+  [[context.production.plugins]]
+    package = "@netlify/plugin-sitemap"
+
+# Deploy Preview context:
+# All deploys generated from a pull/merge request
+# will inherit these settings.
+[context.deploy-preview.environment]
+  command = "npm run build-dev"
+
+# Branch deploy context:
+# All deploys that are not from a pull/merge request
+# or from the production branch will inherit these settings.
+# [context.branch-deploy]
+#   command = "npm run build-dev"
+
+# Specific branch context:
+# Deploys from this branch will take these settings
+# and override their current ones.
+# Staging branch is a replication of main before being pushed out
+[context.staging]
+  command = "npm run build-staging"
+
+# This is our public dev branch which deploys a publicly accessible site
+# with dev networks
+[context.development]
+  command = "npm run build-dev"

@@ -1,0 +1,177 @@
+<template>
+  <!-- token select/display -->
+  <!-- TODO: make into token component, incorporate in token select modal -->
+  <div class="relative flex flex-col items-center">
+    <div
+      class="flex flex-grow flex-row justify-center items-center mt-6 cursor-pointer relative"
+      @click="this.showTokenSelect = !this.showTokenSelect"
+    >
+      <p
+        class="validation-err text-red-500 text-xs w-full"
+        v-if="v$.token.$invalid"
+      >
+        * required
+      </p>
+      <div class="bg-black bg-opacity-50 rounded-lg p-2">
+        <img v-if="this.token.icon" :src="this.token.icon" class="h-6" />
+        <img v-else src="@/assets/icons/token.svg" class="h-6" />
+      </div>
+      <div class="ml-2">
+        <div class="flex flex-row items-center h-3">
+          <n-text>{{ this.token.symbol || 'TOKEN' }}</n-text>
+          <img src="@/assets/icons/select.svg" class="ml-1" />
+        </div>
+        <n-text class="opacity-60 text-xs">
+          <!-- token not selected -->
+          <span v-if="!this.token.symbol">Select asset</span>
+          <!-- token selected -->
+          <span v-else>
+            {{ balance ? toDecimals(balance, token.decimals, 6) : 0 }} Avail.
+          </span>
+        </n-text>
+      </div>
+    </div>
+  </div>
+
+  <!-- token select modal -->
+  <token-select
+    :show="showTokenSelect"
+    @selectToken="selectToken"
+    @hide="this.showTokenSelect = false"
+  />
+
+  <!-- amount -->
+  <input
+    type="number"
+    ref="amount"
+    v-model="amt"
+    placeholder="0.00"
+    class="w-full text-5xl font-extra-light bg-transparent outline-none placeholder-white placeholder-opacity-60 text-center"
+  />
+
+  <!-- amount errors -->
+  <p
+    v-if="v$.amt.$errors.length"
+    class="text-center text-red-500 flex flex-col"
+  >
+    <span
+      v-for="(error, index) of v$.amt.$errors"
+      :key="index"
+      class="error-msg"
+      >{{ error.$message }}</span
+    >
+  </p>
+
+  <!-- amount USD -->
+  <p v-else class="text-center opacity-70">
+    <span v-if="!amt" class="uppercase">Enter Amount</span>
+    <span v-else-if="token.coinGeckoId">~ ${{ amtInUSD }} USD</span>
+  </p>
+</template>
+
+<script lang="ts">
+import { defineComponent, computed } from 'vue'
+import { NText } from 'naive-ui'
+import { ethers, BigNumber } from 'ethers'
+import useVuelidate from '@vuelidate/core'
+import { required, helpers } from '@vuelidate/validators'
+
+import { useStore } from '@/store'
+import { getMinAmount, toDecimals } from '@/utils'
+import { TokenMetadata } from '@/config/config.types'
+import TokenSelect from './Bridge.tokens.vue'
+
+interface ComponentData {
+  amt: number | null
+  showTokenSelect: boolean
+  amtInUSD: string
+  toDecimals: (
+    amnt: BigNumber,
+    tokenDecimals: number,
+    numDecimals?: number
+  ) => string
+}
+
+export default defineComponent({
+  components: {
+    NText,
+    TokenSelect,
+  },
+  data() {
+    return {
+      showTokenSelect: false,
+      amt: null,
+      amtInUSD: '',
+      toDecimals,
+    } as ComponentData
+  },
+  setup() {
+    const store = useStore()
+    const v$ = useVuelidate({ $scope: 'bridge' })
+
+    return {
+      token: computed(() => store.state.userInput.token),
+      balance: computed(() => store.state.sdk.balance),
+      store,
+      v$,
+    }
+  },
+  validations() {
+    return {
+      amt: {
+        required: helpers.withMessage('Enter an amount to bridge', required),
+        noFunds: helpers.withMessage(
+          'No funds',
+          () => !!this.balance && !this.balance!.isZero()
+        ),
+        sufficientFunds: helpers.withMessage(
+          'Amount exceeds balance',
+          (value: number) => {
+            if (this.balance && this.amt && this.token.symbol) {
+              const amtBN = ethers.utils.parseUnits(
+                value.toString(),
+                this.token.decimals
+              )
+              return amtBN.lt(this.balance)
+            }
+            return true
+          }
+        ),
+      },
+      token: {
+        required: (value: TokenMetadata) => !!value.symbol,
+        $lazy: true,
+      },
+    }
+  },
+  methods: {
+    selectToken(token: TokenMetadata) {
+      this.store.dispatch('setToken', token)
+      this.showTokenSelect = false
+      this.updateAmtInUSD(token.coinGeckoId, this.amt)
+    },
+    async updateAmtInUSD(coinGeckoId: string, amt: number | null) {
+      if (!this.amt) {
+        this.amtInUSD = ''
+        return
+      }
+      const amtInUSD = (await getMinAmount(coinGeckoId)) * amt!
+      this.amtInUSD = amtInUSD.toFixed(2).toString()
+    },
+  },
+  watch: {
+    token(newToken) {
+      // update the usd amt if the token if changed outside of this component
+      this.updateAmtInUSD(newToken.coinGeckoId, this.amt)
+    },
+    async amt(newAmt) {
+      this.v$.amt.$touch()
+      this.store.dispatch('setSendAmount', newAmt || 0)
+      if (this.token.coinGeckoId) {
+        // TODO: we might want to debounce this function depending on performance
+        await this.updateAmtInUSD(this.token.coinGeckoId, this.amt)
+      }
+    },
+  },
+})
+</script>

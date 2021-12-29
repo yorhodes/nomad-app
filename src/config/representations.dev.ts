@@ -1,0 +1,24 @@
+// TODO: add the rest for dev
+const alfajores = {
+  CELO: '0xF194afDf50B03e69Bd7D057c1Aa9e10c9954E4C9',
+  CUSD: '0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1',
+  CEUR: '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F',
+}
+
+const kovan = {
+  KWETH: '0xd0a1e359811322d97991e03f863a0c30c2cf029c',
+  USDC: '0xb7a4f3e9097c08da09517b5ab877f7a917224ede',
+  USDT: '0x13512979ade267ab5100878e2e0f485b568328a4',
+  SUSHI: '0x33a368b290589ce8cf781ab4331fe52e77478736',
+  DAI: '0xFf795577d9AC8bD7D90Ee22b6C1703490b6512FD',
+}
+
+const rinkeby = {
+  RWETH: '0xc778417e063141139fce010982780140aa0cd5ab',
+}
+
+export default {
+  alfajores,
+  kovan,
+  rinkeby,
+}

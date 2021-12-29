@@ -17,7 +17,7 @@
   "dependencies": {
     "@connext/nxtp-sdk": "^0.1.7",
     "@nomad-xyz/contract-interfaces": "^1.0.1",
-    "@nomad-xyz/sdk": "^0.1.6",
+    "@nomad-xyz/sdk": "^0.1.7",
     "@vicons/ionicons5": "^0.11.0",
     "@vuelidate/core": "^2.0.0-alpha.32",
     "@vuelidate/validators": "^2.0.0-alpha.25",

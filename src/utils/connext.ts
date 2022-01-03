@@ -29,8 +29,7 @@ export default async function instantiateConnextSDK(): Promise<NxtpSdk> {
 //
 // Instructions:
 // 1. Go to network
-// 2. Fill WALLET_ADDRESS with your wallet address
-// 3. `await mintTestERC20(yourWalletAddress)`
+// 2. `await mintTestERC20(yourWalletAddress)`
 export async function mintTestERC20(address: string, signer?: ethers.Signer) {
   let _signer
   if (signer) {

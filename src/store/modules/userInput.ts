@@ -22,8 +22,8 @@ export interface UserInputState {
 }
 
 const state: UserInputState = {
-  showDisclaimer: localStorage.getItem('show_disclaimer') === 'true' || true,
-  disableConnext: localStorage.getItem('disable_connext') === 'true' || true,
+  showDisclaimer: localStorage.getItem('show_disclaimer') === 'true',
+  disableConnext: localStorage.getItem('disable_connext') === 'true',
   destinationAddress: '',
   sendAmount: 0,
   originNetwork: '',

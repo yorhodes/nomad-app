@@ -90,8 +90,10 @@ export default defineComponent({
       const amount = utils.parseUnits('10', 18)
       // TODO: fill from user input, using test tokens
       const payload = {
+        // kovan
         sendingChainId: 42,
         sendingAssetId: '0xe71678794fff8846bff855f716b0ce9d9a78e844',
+        // rinkeby
         receivingChainId: 4,
         receivingAssetId: '0x0868185bb974bcf518be732ee57510143acffefb',
         receivingAddress: destinationAddress,

@@ -99,18 +99,50 @@ export default defineComponent({
       // get sdk
       const sdk = await instantiateConnextSDK()
 
+      sdk.attach(NxtpSdkEvents.SenderTransactionPrepared, (data) => {
+        console.log("!!SenderTransactionPrepared:", data)
+      })
+
+      sdk.attach(NxtpSdkEvents.SenderTransactionFulfilled, (data) => {
+        console.log("!!SenderTransactionFulfilled:", data)
+      })
+
+      sdk.attach(NxtpSdkEvents.SenderTransactionCancelled, (data) => {
+        console.log("!!SenderTransactionCancelled:", data)
+      })
+
+      sdk.attach(NxtpSdkEvents.ReceiverTransactionPrepared, (data) => {
+        console.log("!!ReceiverTransactionPrepared:", data)
+      })
+
+      sdk.attach(NxtpSdkEvents.ReceiverTransactionFulfilled, async (data) => {
+        console.log("!!ReceiverTransactionFulfilled:", data)
+      })
+
+      sdk.attach(NxtpSdkEvents.ReceiverTransactionCancelled, (data) => {
+        console.log("!!ReceiverTransactionCancelled:", data)
+      })
+
+      sdk.attach(NxtpSdkEvents.SenderTokenApprovalMined, (data) => {
+        console.log("!!SenderTokenApprovalMined:", data)
+      })
+
+      sdk.attach(NxtpSdkEvents.SenderTransactionPrepareSubmitted, (data) => {
+        console.log("!!SenderTransactionPrepareSubmitted:", data)
+      })
+
       // get quote
       const { destinationAddress } = this.userInput
       // const amount = utils.parseUnits(sendAmount.toString(), token.decimals)
       const amount = utils.parseUnits('10', 18)
       // TODO: fill from user input, using test tokens
       const payload = {
-        // kovan
-        sendingChainId: 42,
-        sendingAssetId: '0xe71678794fff8846bff855f716b0ce9d9a78e844',
         // rinkeby
-        receivingChainId: 4,
-        receivingAssetId: '0x0868185bb974bcf518be732ee57510143acffefb',
+        sendingAssetId: "0x0868185bb974bcf518be732ee57510143acffefb",
+        sendingChainId: 4,
+        // goerli
+        receivingAssetId: "0x8a1cad3703e0beae0e0237369b4fcd04228d1682",
+        receivingChainId: 5,
         receivingAddress: destinationAddress,
         amount: amount.toString(),
       }

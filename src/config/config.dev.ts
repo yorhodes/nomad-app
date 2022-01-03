@@ -148,4 +148,10 @@ export const connextConfig: SdkBaseChainConfigParams = {
       'https://eth-rinkeby.alchemyapi.io/v2/uOf-lO18qM7rAT6NOgMAZQoyuS__lhqN',
     ],
   },
+  5: {
+    // goerli
+    providers: [
+      'https://eth-goerli.alchemyapi.io/v2/imWPm8YYzUT-hocpV1Wtqu5HLgMHVpNU',
+    ],
+  },
 }

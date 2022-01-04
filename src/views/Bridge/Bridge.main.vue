@@ -152,11 +152,6 @@ export default defineComponent({
         amnt: utils.parseUnits(sendAmount.toString(), token.decimals),
         recipient: destinationAddress,
       }
-      this.notification.info({
-        title: 'Pending',
-        content:
-          'Please continue to Metamask to approve your bridge transaction. A record of your transaction will be available shortly.',
-      })
 
       // send tx
       // null if not successful
@@ -168,10 +163,8 @@ export default defineComponent({
         const txHash = transferMessage.receipt.transactionHash
         this.$router.push(`/transaction/${originNetwork}/${txHash}`)
         this.store.dispatch('clearInputs')
-        this.notification.success({
-          title: 'Transaction sent',
-        })
       } else {
+        // TODO: better error
         this.notification.warning({
           title: 'Transaction send failed',
           content:

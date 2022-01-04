@@ -42,13 +42,11 @@
 
   <nomad-button
     class="w-full uppercase mt-6 bg-white text-black h-11 flex justify-center"
-    :disabled="sending"
     @click="$emit('send')"
   >
-    <span v-if="!sending" class="capitalize">
+    <span class="capitalize">
       {{ connextAvail ? 'Swap Tokens' : 'Bridge Tokens' }}
     </span>
-    <n-spin v-else stroke="#000" />
   </nomad-button>
 
   <p class="opacity-50 text-center mt-3">
@@ -58,7 +56,7 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
-import { NText, NDivider, NSpin } from 'naive-ui'
+import { NText, NDivider } from 'naive-ui'
 import { networks } from '@/config'
 import { useStore } from '@/store'
 import {
@@ -78,7 +76,6 @@ export default defineComponent({
   components: {
     NText,
     NDivider,
-    NSpin,
     NomadButton,
   },
   setup: () => {
@@ -94,7 +91,6 @@ export default defineComponent({
       destinationNetwork: computed(
         () => store.state.userInput.destinationNetwork
       ),
-      sending: computed(() => store.state.sdk.sending),
     }
   },
 })

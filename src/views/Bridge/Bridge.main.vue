@@ -137,12 +137,10 @@ export default defineComponent({
       const amount = utils.parseUnits('10', 18)
       // TODO: fill from user input, using test tokens
       const payload = {
-        // rinkeby
-        sendingAssetId: "0x0868185bb974bcf518be732ee57510143acffefb",
         sendingChainId: 4,
-        // goerli
-        receivingAssetId: "0x8a1cad3703e0beae0e0237369b4fcd04228d1682",
+        sendingAssetId: '0x82800cFeBC6bE8D65F69deA383B227e16cf70791',
         receivingChainId: 5,
+        receivingAssetId: '0xcfDAD1B98bc62DACca93A92286479C997034337E',
         receivingAddress: destinationAddress,
         amount: amount.toString(),
       }

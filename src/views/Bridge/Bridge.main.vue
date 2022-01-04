@@ -15,7 +15,8 @@
 
     <!-- bottom drawer -->
     <div class="drawer pt-24 pb-5 px-8">
-      <bridge-send :connext-avail="connextAvail" @send="send" />
+      <bridge-pending v-if="sending" />
+      <bridge-send v-else :connext-avail="connextAvail" @send="send" />
     </div>
   </div>
 </template>
@@ -36,6 +37,7 @@ import { useNotification } from 'naive-ui'
 import BridgeAmount from './Bridge.amount.vue'
 import BridgeInputs from './Bridge.inputs.vue'
 import BridgeSend from './Bridge.send.vue'
+import BridgePending from './Bridge.pending.vue'
 import BgBlur from './Bridge.bgblur.vue'
 
 export default defineComponent({
@@ -44,6 +46,7 @@ export default defineComponent({
     BgBlur,
     BridgeInputs,
     BridgeSend,
+    BridgePending,
   },
 
   setup: () => {
@@ -59,6 +62,7 @@ export default defineComponent({
       userInput: computed(() => store.state.userInput),
       originAddress: computed(() => store.state.wallet.address),
       balance: computed(() => store.state.sdk.balance),
+      sending: computed(() => store.state.sdk.sending),
       connextAvail: computed(() => {
         // if connext is disabled, return false
         if (store.state.userInput.disableConnext) return false
@@ -148,11 +152,6 @@ export default defineComponent({
         amnt: utils.parseUnits(sendAmount.toString(), token.decimals),
         recipient: destinationAddress,
       }
-      this.notification.info({
-        title: 'Pending',
-        content:
-          'Please continue to Metamask to approve your bridge transaction. A record of your transaction will be available shortly.',
-      })
 
       // send tx
       // null if not successful
@@ -164,10 +163,8 @@ export default defineComponent({
         const txHash = transferMessage.receipt.transactionHash
         this.$router.push(`/transaction/${originNetwork}/${txHash}`)
         this.store.dispatch('clearInputs')
-        this.notification.success({
-          title: 'Transaction sent',
-        })
       } else {
+        // TODO: better error
         this.notification.warning({
           title: 'Transaction send failed',
           content:

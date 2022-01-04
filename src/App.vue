@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="header"><Nav /></div>
-    <div class="main flex justify-center m-auto">
+    <div class="main flex flex-col justify-center m-auto">
       <router-view></router-view>
     </div>
     <div class="footer"><Footer /></div>
@@ -17,12 +17,14 @@ import { getNetworkByChainID } from '@/utils'
 import { RouterView } from 'vue-router'
 import Nav from '@/components/Layout/Nav.vue'
 import Footer from '@/components/Layout/Footer.vue'
+import TestConnext from '@/components/TestConnext.vue'
 
 export default defineComponent({
   components: {
     RouterView,
     Nav,
     Footer,
+    TestConnext,
   },
   async mounted() {
     const store = useStore()

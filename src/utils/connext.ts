@@ -86,7 +86,7 @@ export async function mintTestERC20(address: string, signer?: ethers.Signer) {
   const kovanTestERC20 = new ethers.Contract(kAddress, kAbi, _signer)
 
   // get 10 test token
-  const amt = utils.parseEther('10')
+  const amt = utils.parseEther('100')
   await rinkebyTestERC20.mint(address, amt)
   await kovanTestERC20.mint(address, amt)
   console.log('complete')

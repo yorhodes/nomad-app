@@ -3,11 +3,8 @@
     class="flex items-center justify-between flex-wrap p-6 max-w-screen-xl mx-auto"
   >
     <!-- left side of nav -->
-    <div class="flex items-center flex-shrink-0 text-white mr-6">
-      <!-- company logo + name -->
-      <img src="@/assets/placeholder.png" class="logo flex items-center" />
-      <n-text class="font-semibold text-2xl tracking-tight pl-2">Nomad</n-text>
-    </div>
+    <!-- company wordmark -->
+    <img src="@/assets/wordmark.svg" class="logo flex items-center" />
 
     <!-- right side of nav -->
     <div class="flex items-center">
@@ -126,5 +123,5 @@ export default defineComponent({
   color: rgba(255, 255, 255, 0.4)
 
 .logo
-    height 20px
+  height 30px
 </style>

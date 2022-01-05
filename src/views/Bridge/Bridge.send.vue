@@ -2,7 +2,8 @@
   <!-- ETA -->
   <div class="flex flex-row justify-between">
     <n-text class="opacity-50">Est. time to delivery</n-text>
-    <n-text v-if="destinationNetwork">{{ timeToDelivery }}</n-text>
+    <n-text v-if="connextAvail">Less than 10 minutes</n-text>
+    <n-text v-else-if="destinationNetwork">{{ timeToDelivery }}</n-text>
     <n-text v-else>—</n-text>
   </div>
 

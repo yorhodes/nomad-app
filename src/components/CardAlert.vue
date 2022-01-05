@@ -16,29 +16,32 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, computed } from 'vue'
 import { NCollapseTransition, NIcon } from 'naive-ui'
 import { CloseOutline, AlertCircleOutline } from '@vicons/ionicons5'
 
+import { useStore } from '@/store'
+
 export default defineComponent({
+  props: {
+    title: String,
+  },
   components: {
     NCollapseTransition,
     CloseOutline,
     AlertCircleOutline,
     NIcon,
   },
-  props: {
-    title: String,
-  },
-  data () {
+  setup() {
+    const store = useStore()
     return {
-      show: true,
+      show: computed(() => !store.state.userInput.dismissDisclaimer),
+      store,
     }
   },
   methods: {
     dismissDisclaimer() {
-      this.show = false
-      console.log('dismiss')
+      this.store.dispatch('dismissDisclaimer')
     }
   }
 })

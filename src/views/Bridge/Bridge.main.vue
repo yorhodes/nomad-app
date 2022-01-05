@@ -1,22 +1,31 @@
 <template>
-  <!-- BRIDGE TOKENS card -->
   <div class="max-w-xl relative">
-    <!-- color blur section -->
-    <div class="bridge pt-8 pb-28 px-5 relative">
-      <bg-blur class="absolute inset-0 w-full h-full z-negative" />
-      <h2 class="uppercase text-center mb-7">Bridge tokens</h2>
-      <bridge-amount ref="bridgeAmount" />
-    </div>
+    <!-- disclaimer -->
+    <card-alert title="Nomad is currently in beta">
+      <div class="opacity-80 text-sm">
+        Nomad is a new cross-chain protocol that is currently in a beta release phase. Please only bridge funds that you feel comfortable deploying in an experimental system. Read more about <a href="docs.nomad.xyz" target="_blank" class="hover:underline">Nomad.</a>
+      </div>
+    </card-alert>
 
-    <!-- bridge inputs overlay -->
-    <div class="bridge-inputs-container absolute w-full">
-      <bridge-inputs class="bridge-inputs mx-8" />
-    </div>
+    <!-- BRIDGE TOKENS card -->
+    <div class="relative">
+      <!-- color blur section -->
+      <div class="bridge pt-8 pb-28 px-5 relative">
+        <bg-blur class="absolute inset-0 w-full h-full z-negative" />
+        <h2 class="uppercase text-center mb-7">Bridge tokens</h2>
+        <bridge-amount ref="bridgeAmount" />
+      </div>
 
-    <!-- bottom drawer -->
-    <div class="drawer pt-24 pb-5 px-8">
-      <bridge-pending v-if="sending" />
-      <bridge-send v-else :connext-avail="connextAvail" @send="send" />
+      <!-- bridge inputs overlay -->
+      <div class="bridge-inputs-container absolute w-full">
+        <bridge-inputs class="bridge-inputs mx-8" />
+      </div>
+
+      <!-- bottom drawer -->
+      <div class="drawer pt-24 pb-5 px-8">
+        <bridge-pending v-if="sending" />
+        <bridge-send v-else :connext-avail="connextAvail" @send="send" />
+      </div>
     </div>
   </div>
 </template>
@@ -39,6 +48,7 @@ import BridgeInputs from './Bridge.inputs.vue'
 import BridgeSend from './Bridge.send.vue'
 import BridgePending from './Bridge.pending.vue'
 import BgBlur from './Bridge.bgblur.vue'
+import CardAlert from '@/components/CardAlert.vue'
 
 export default defineComponent({
   components: {
@@ -47,6 +57,7 @@ export default defineComponent({
     BridgeInputs,
     BridgeSend,
     BridgePending,
+    CardAlert,
   },
 
   setup: () => {

@@ -1,6 +1,6 @@
 <template>
   <footer
-    class="flex items-center justify-between flex-wrap max-w-screen-xl mx-auto p-6"
+    class="flex items-center justify-between flex-wrap max-w-screen-xl mx-auto p-6 pb-20"
   >
     <div class="pb-5 md:pb-0">
       <n-text class="opacity-70 ml text-xs">Powered by</n-text>

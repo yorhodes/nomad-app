@@ -78,8 +78,8 @@ export default defineComponent({
 
   methods: {
     // use connext if available
-    send() {
-      this.connextAvail ? this.swapTokens() : this.bridgeTokens()
+    async send() {
+      this.connextAvail ? await this.swapTokens() : await this.bridgeTokens()
     },
     // use connext to swap tokens
     async swapTokens() {

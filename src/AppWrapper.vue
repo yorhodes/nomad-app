@@ -1,10 +1,9 @@
 <template>
-  <n-config-provider
-    :theme="darkTheme"
-    :theme-overrides="themeOverrides"
-  >
+  <n-config-provider :theme="darkTheme" :theme-overrides="themeOverrides">
     <n-notification-provider>
+      <ErrorBoundary>
         <App />
+      </ErrorBoundary>
     </n-notification-provider>
   </n-config-provider>
 </template>
@@ -12,6 +11,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { NConfigProvider, NNotificationProvider, darkTheme } from 'naive-ui'
+import ErrorBoundary from '@/components/ErrorBoundary.vue'
 import App from './App.vue'
 
 const themeOverrides = {
@@ -26,14 +26,13 @@ export default defineComponent({
   components: {
     NConfigProvider,
     NNotificationProvider,
+    ErrorBoundary,
     App,
   },
-   data() {
-    return {
-      darkTheme,
-      themeOverrides,
-    }
-  },
+  data: () => ({
+    darkTheme,
+    themeOverrides,
+  }),
 })
 </script>
 

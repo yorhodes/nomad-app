@@ -11,7 +11,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { BigNumber } from 'ethers'
-import { useNotification } from 'naive-ui'
 import { useStore } from '@/store'
 import { getNetworkByChainID } from '@/utils'
 
@@ -25,18 +24,18 @@ export default defineComponent({
     Nav,
     Footer,
   },
-  mounted() {
+  async mounted() {
     const store = useStore()
     const { ethereum } = window
 
     // instantiate Nomad
-    store.dispatch('instantiateNomad')
+    await store.dispatch('instantiateNomad')
 
     // check if user is connected
     const connected = ethereum.isConnected()
     if (connected) {
       // TODO: fix connect wallet button flicker
-      store.dispatch('connectWallet')
+      await store.dispatch('connectWallet')
     }
 
     if (ethereum) {
@@ -59,16 +58,6 @@ export default defineComponent({
         location.reload()
       })
     }
-  },
-
-  // global error boundary for any unhandled errors in App
-  errorCaptured(err) {
-    const notification = useNotification()
-
-    notification.error({
-      title: 'Something went wrong',
-      description: (err as Error).message
-    })
   },
 })
 </script>

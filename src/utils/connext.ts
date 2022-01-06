@@ -7,7 +7,14 @@ import { connextConfig } from '@/config'
 export default async function instantiateConnextSDK(): Promise<NxtpSdk> {
   // Get signer from metamask
   const { ethereum } = window
-  await ethereum.request({ method: 'eth_requestAccounts' })
+
+  try {
+    await ethereum.request({ method: 'eth_requestAccounts' })
+  } catch (e) {
+    console.error(e)
+    throw new Error('Couldn\'t connect to metamask')
+  }
+
   const provider = new providers.Web3Provider(ethereum)
   const _signer = provider.getSigner()
 
@@ -16,12 +23,16 @@ export default async function instantiateConnextSDK(): Promise<NxtpSdk> {
   // const logger = new Logger({ name: 'shuturface', level: 'silent' })
 
   // Instantiate SDK
-  const sdk = await NxtpSdk.create({
-    chainConfig: connextConfig,
-    signer: _signer,
-  })
-  console.log('sdk', sdk)
-  return sdk
+  try {
+    const sdk = await NxtpSdk.create({
+      chainConfig: connextConfig,
+      signer: _signer,
+    })
+    console.log('sdk', sdk)
+    return sdk
+  } catch (e) {
+    throw new Error('Could\'t setup connext')
+  }
 }
 
 // The test tokens are collateralized by routers on the test network, so swap requests
@@ -37,16 +48,36 @@ export async function mintTestERC20(address: string, signer?: ethers.Signer) {
   } else {
     // Get signer from metamask
     const { ethereum } = window
-    await ethereum.request({ method: 'eth_requestAccounts' })
+
+    try {
+      await ethereum.request({ method: 'eth_requestAccounts' })
+    } catch (e) {
+      console.error(e)
+      throw new Error('Couldn\'t connect to metamask')
+    }
+
     const provider = new providers.Web3Provider(ethereum)
     _signer = provider.getSigner()
   }
 
-  // get TestERC20 contracts
-  const response = await fetch(
-    'https://raw.githubusercontent.com/connext/nxtp/main/packages/contracts/deployments.json'
-  )
-  const deployments = await response.json()
+  let response
+
+  try {
+    // get TestERC20 contracts
+    response = await fetch(
+      'https://raw.githubusercontent.com/connext/nxtp/main/packages/contracts/deployments.json'
+    )
+  } catch (e) {
+    throw new Error('Couldn\'t fetch ERC20 contracts')
+  }
+
+  let deployments
+  try {
+    deployments = await response.json()
+  } catch (e) {
+    throw new Error('Couldn\'t parse ERC20 contracts')
+  }
+
   const { address: rAddress, abi: rAbi } =
     deployments['4'].rinkeby.contracts.TestERC20
   const { address: kAddress, abi: kAbi } =

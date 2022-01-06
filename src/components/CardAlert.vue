@@ -8,7 +8,11 @@
         <div class="uppercase mb-1">{{ title }}</div>
         <slot />
       </div>
-      <n-icon size="20" @click="dismissDisclaimer">
+      <n-icon
+        class="cursor-pointer"
+        size="20"
+        @click="dismissDisclaimer"
+      >
         <close-outline />
       </n-icon>
     </div>

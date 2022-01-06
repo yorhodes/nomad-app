@@ -28,7 +28,8 @@
   </div>
 
   <!-- Fast Liquidity -->
-  <div v-else class="flex flex-row items-center">
+  <!-- Not supported currently, will be optional setting in the future -->
+  <!-- <div v-else class="flex flex-row items-center">
     <img src="@/assets/icons/fast-liquidity.svg" class="h-9 mr-2" />
     <div class="flex flex-col">
       <n-text>Your funds may be delivered instantaneously.</n-text>
@@ -39,7 +40,7 @@
         </a>
       </n-text>
     </div>
-  </div>
+  </div> -->
 
   <nomad-button
     class="w-full uppercase mt-6 bg-white text-black h-11 flex justify-center"

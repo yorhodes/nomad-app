@@ -25,8 +25,6 @@ export default defineComponent({
     Footer,
   },
   async mounted() {
-    /* eslint-disable */
-    throw new Error("Hello World with Errors!")
     const store = useStore()
     const { ethereum } = window
 

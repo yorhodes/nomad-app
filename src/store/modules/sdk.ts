@@ -148,22 +148,16 @@ const actions = <ActionTree<SDKState, RootState>>{
     try {
       // if ETH Helper contract exists, native token must be wrapped
       // before sending, use sendNative
-      console.log(1)
       const ethHelper = nomad.getBridge(originDomain)?.ethHelper
-      console.log(2)
-      console.log('eth helper, ', ethHelper)
       if (ethHelper && isNative) {
         console.log('send native')
-        console.log(3)
         transferMessage = await nomad.sendNative(
           originDomain,
           destDomain,
           amnt,
           recipient
         )
-        console.log(4)
       } else {
-        console.log(5, originDomain, destDomain, asset, amnt, recipient)
         console.log('send ERC-20')
         transferMessage = await nomad.send(
           originDomain,
@@ -172,9 +166,7 @@ const actions = <ActionTree<SDKState, RootState>>{
           amnt,
           recipient,
         )
-        console.log(6)
       }
-      console.log(7)
       console.log('tx sent!!!!!!!!!!!!', transferMessage)
       commit(types.SET_SENDING, false)
       return transferMessage

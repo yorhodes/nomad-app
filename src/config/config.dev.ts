@@ -1,4 +1,3 @@
-import CeloIcon from '@/assets/token-logos/CELO.png'
 import wETHIcon from '@/assets/token-logos/WETH.png'
 import USDTIcon from '@/assets/token-logos/USDT.png'
 import USDCIcon from '@/assets/token-logos/USDC.png'
@@ -12,63 +11,27 @@ import { TokenMetadata, NetworkMetadata } from './config.types'
 import representationsDev from './representations.dev'
 
 export const tokens: { [key: string]: TokenMetadata } = {
-  CELO: {
-    nativeNetwork: 'alfajores',
-    symbol: 'CELO',
-    name: 'Alfajores CELO',
-    icon: CeloIcon,
-    iconColors: ['#EBC05A', '#41C976'],
-    decimals: 18,
-    coinGeckoId: 'celo',
-    tokenIdentifier: testnetTokens.CELO,
-    nativeOnly: false,
-    minAmt: 1.8,
-  },
-  KWETH: {
+  WETH: {
     nativeNetwork: 'kovan',
-    symbol: 'kWETH',
+    symbol: 'WETH',
     name: 'Kovan WETH',
     icon: wETHIcon,
     iconColors: ['#C0CEF7', '#7594EE'],
     decimals: 18,
     coinGeckoId: 'weth',
-    tokenIdentifier: testnetTokens.kWETH,
+    tokenIdentifier: testnetTokens.WETH,
     nativeOnly: false,
     minAmt: 0.0028,
   },
-  RWETH: {
-    nativeNetwork: 'rinkeby',
-    symbol: 'rWETH',
-    name: 'Rinkeby WETH',
-    icon: wETHIcon,
-    iconColors: ['#C0CEF7', '#7594EE'],
-    decimals: 18,
-    coinGeckoId: 'weth',
-    tokenIdentifier: testnetTokens.rWETH,
-    nativeOnly: false,
-    minAmt: 0.0028,
-  },
-  KETH: {
+  ETH: {
     nativeNetwork: 'kovan',
-    symbol: 'kETH',
+    symbol: 'ETH',
     name: 'Kovan ETH',
     icon: wETHIcon,
     iconColors: ['#C0CEF7', '#7594EE'],
     decimals: 18,
     coinGeckoId: 'ethereum',
-    tokenIdentifier: testnetTokens.kWETH,
-    nativeOnly: true,
-    minAmt: 0.0028,
-  },
-  RETH: {
-    nativeNetwork: 'rinkeby',
-    symbol: 'rETH',
-    name: 'Rinkeby ETH',
-    icon: wETHIcon,
-    iconColors: ['#C0CEF7', '#7594EE'],
-    decimals: 18,
-    coinGeckoId: 'ethereum',
-    tokenIdentifier: testnetTokens.rWETH,
+    tokenIdentifier: testnetTokens.WETH,
     nativeOnly: true,
     minAmt: 0.0028,
   },
@@ -123,35 +86,14 @@ export const tokens: { [key: string]: TokenMetadata } = {
 }
 
 export const networks: { [key: string]: NetworkMetadata } = {
-  alfajores: {
-    name: 'alfajores',
-    chainID: 44787,
-    domainID: 1000,
-    rpcUrl: 'https://alfajores-forno.celo-testnet.org',
-    nativeToken: tokens.CELO,
-    blockExplorer: 'https://alfajores-blockscout.celo-testnet.org/',
-    icon: CeloIcon,
-    confirmationTimeInMinutes: 2,
-  },
   kovan: {
     name: 'kovan',
     chainID: 42,
     domainID: 3000,
-    nativeToken: tokens.KETH,
+    nativeToken: tokens.ETH,
     rpcUrl:
       'https://eth-kovan.alchemyapi.io/v2/aJP38P1ZeHbXP3Td8vVh8vFmxkKT9pnR',
     blockExplorer: 'https://kovan.etherscan.io/',
-    icon: wETHIcon,
-    confirmationTimeInMinutes: 2,
-  },
-  rinkeby: {
-    name: 'rinkeby',
-    chainID: 4,
-    domainID: 2000,
-    nativeToken: tokens.RETH,
-    rpcUrl:
-      'https://eth-rinkeby.alchemyapi.io/v2/uOf-lO18qM7rAT6NOgMAZQoyuS__lhqN',
-    blockExplorer: 'https://rinkeby.etherscan.io/',
     icon: wETHIcon,
     confirmationTimeInMinutes: 2,
   },
@@ -182,13 +124,10 @@ export const networks: { [key: string]: NetworkMetadata } = {
 export const representations = representationsDev
 
 export const connextPools: { [key: string]: string[] } = {
-  alfajores: [],
   moonbasealpha: [],
   kovan: ['WETH', 'USDC', 'USDT', 'DAI'],
-  rinkeby: ['WETH', 'USDC', 'USDT', 'DAI'],
 }
 
-// TODO: provide transaction manager for alfajores/moonbase
 export const connextConfig: SdkBaseChainConfigParams = {
   // must have Ethereum for some reason
   1: {
@@ -209,14 +148,4 @@ export const connextConfig: SdkBaseChainConfigParams = {
       'https://eth-rinkeby.alchemyapi.io/v2/uOf-lO18qM7rAT6NOgMAZQoyuS__lhqN',
     ],
   },
-
-  // Not supported by Connext:
-  // 44787: {
-  //   // alfajores
-  //   providers: ['https://alfajores-forno.celo-testnet.org'],
-  // },
-  // 1287: {
-  //   // moonbase
-  //   providers: ['https://rpc.testnet.moonbeam.network'],
-  // },
 }

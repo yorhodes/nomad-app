@@ -63,8 +63,12 @@ const mutations = <MutationTree<SDKState>>{
 const actions = <ActionTree<SDKState, RootState>>{
   instantiateNomad() {
     console.log('called on mount, production = ', isProduction)
-    nomad = _instantiateNomad(isProduction)
-    console.log('nomad after instantiating', nomad)
+    try {
+      nomad = _instantiateNomad(isProduction)
+      console.log('nomad after instantiating', nomad)
+    } catch (e) {
+      throw new Error('Couldn\'t setup Nomad')
+    }
   },
 
   async getBalanceFromWallet({ rootState, commit }) {
@@ -80,15 +84,27 @@ const actions = <ActionTree<SDKState, RootState>>{
     if (token.tokenIdentifier.domain === networkName) {
       if (isNativeToken(networkName, token)) {
         console.log('getting native token balance')
-        balance = await getNativeBalance(nomad, network.name, address)
+        try {
+          balance = await getNativeBalance(nomad, network.name, address)
+        } catch (e) {
+          balance = 0
+          console.error(e)
+          console.log(`no balance for ${token.name}`)
+        }
       } else {
         console.log('getting balance of ERC20 token: ', token.name)
         const provider = nomad.getProvider(network.name)
-        balance = await getERC20Balance(
-          provider as ethers.providers.Web3Provider,
-          token.tokenIdentifier.id as string,
-          address
-        )
+        try {
+          balance = await getERC20Balance(
+            provider as ethers.providers.Web3Provider,
+            token.tokenIdentifier.id as string,
+            address
+          )
+        } catch (e) {
+          balance = 0
+          console.error(e)
+          console.log(`no balance for ${token.name}`)
+        }
       }
     } else {
       console.log('getting representational token balance')
@@ -103,6 +119,7 @@ const actions = <ActionTree<SDKState, RootState>>{
         // there is no balance so it errors
         // should return 0
         balance = 0
+        console.error(e)
         console.log(`no balance for ${token.name}`)
       }
     }
@@ -194,11 +211,18 @@ const getters = <GetterTree<SDKState, RootState>>{
 
   getTxMessage: () => async (tx: TXData): Promise<TransferMessage> => {
     const { network, hash } = tx
-    const message = await TransferMessage.singleFromTransactionHash(
-      nomad,
-      network,
-      hash
-    )
+    let message
+
+    try {
+      message = await TransferMessage.singleFromTransactionHash(
+        nomad,
+        network,
+        hash
+      )
+    } catch (e) {
+      console.error(e)
+    }
+
     return message as TransferMessage
   },
 
@@ -211,7 +235,15 @@ const getters = <GetterTree<SDKState, RootState>>{
   },
 
   resolveRepresentation: (state: SDKState) => async (network: string, token: TokenIdentifier) => {
-    return await nomad.resolveRepresentation(network, token)
+    let bridgeToken
+
+    try {
+      await nomad.resolveRepresentation(network, token)
+    } catch (e) {
+      console.error(e)
+    }
+
+    return bridgeToken
   },
 }
 

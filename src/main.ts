@@ -9,9 +9,6 @@ import './index.css'
 
 const app = createApp(AppWrapper)
 
-initSentry(app, router)
+initSentry(app)
 
-app
-  .use(store, key)
-  .use(router)
-  .mount('#app')
+app.use(store, key).use(router).mount('#app')

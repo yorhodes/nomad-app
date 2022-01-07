@@ -1,8 +1,7 @@
-import * as Sentry from '@sentry/vue';
-import { Router } from 'vue-router';
-import { App } from 'vue';
+import * as Sentry from '@sentry/vue'
+import { App } from 'vue'
 
-const initSentry = (app: App, router: Router) => {
+const initSentry = (app: App) => {
   Sentry.init({
     app,
     dsn: process.env.VUE_APP_SENTRY_DSN || '',
@@ -11,7 +10,7 @@ const initSentry = (app: App, router: Router) => {
     // of transactions for performance monitoring.
     // We recommend adjusting this value in production
     tracesSampleRate: 1.0, // capture everything for now, we can dial back if too much noise
-  });
+  })
 }
 
 export default initSentry

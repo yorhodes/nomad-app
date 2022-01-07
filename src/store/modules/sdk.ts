@@ -144,7 +144,7 @@ const actions = <ActionTree<SDKState, RootState>>{
   },
 
   async send(
-    { commit, dispatch },
+    { commit },
     payload: SendData
   ): Promise<TransferMessage | null> {
     console.log('sending...', payload)
@@ -156,7 +156,6 @@ const actions = <ActionTree<SDKState, RootState>>{
       asset,
       amnt,
       recipient,
-      gasLimit,
     } = payload
 
     const originDomain = nomad.resolveDomain(originNetwork)
@@ -183,7 +182,6 @@ const actions = <ActionTree<SDKState, RootState>>{
           asset,
           amnt,
           recipient,
-          { gasLimit: gasLimit || 300_000 }
         )
       }
       console.log('tx sent!!!!!!!!!!!!', transferMessage)

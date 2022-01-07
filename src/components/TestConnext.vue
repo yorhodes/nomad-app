@@ -71,9 +71,9 @@ export default defineComponent({
       // TODO: fill from user input, using test tokens
       const payload = {
         sendingChainId: 4,
-        sendingAssetId: '0x82800cFeBC6bE8D65F69deA383B227e16cf70791',
+        sendingAssetId: '0x9aC2c46d7AcC21c881154D57c0Dc1c55a3139198',
         receivingChainId: 5,
-        receivingAssetId: '0xcfDAD1B98bc62DACca93A92286479C997034337E',
+        receivingAssetId: '0x8a1Cad3703E0beAe0e0237369B4fcD04228d1682',
         receivingAddress: this.destinationAddress,
         amount: amount.toString(),
       }

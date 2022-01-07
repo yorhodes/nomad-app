@@ -1,7 +1,8 @@
 <template>
   <div class="app-container">
     <div class="header"><Nav /></div>
-    <div class="main flex flex-col justify-center m-auto">
+    <div class="main flex flex-col items-center m-auto">
+      <test-connext />
       <router-view></router-view>
     </div>
     <div class="footer"><Footer /></div>

@@ -1,8 +1,17 @@
 import { ethers, utils, providers } from 'ethers'
-import { NxtpSdk } from '@connext/nxtp-sdk'
+import { NxtpSdk, NxtpSdkEvents } from '@connext/nxtp-sdk'
 // import { Logger } from '@connext/nxtp-utils'
 
 import { connextConfig } from '@/config'
+import { MainnetNetwork, TestnetNetwork, TokenMetadata } from '@/config/config.types'
+
+export type SwapData = {
+  origin: MainnetNetwork | TestnetNetwork;
+  destination: MainnetNetwork | TestnetNetwork;
+  destinationAddress: string;
+  token: TokenMetadata;
+  amount: number;
+}
 
 export default async function instantiateConnextSDK(): Promise<NxtpSdk> {
   // Get signer from metamask
@@ -29,6 +38,33 @@ export default async function instantiateConnextSDK(): Promise<NxtpSdk> {
       signer: _signer,
     })
     console.log('sdk', sdk)
+
+    // set up event listeners
+    sdk.attach(NxtpSdkEvents.SenderTransactionPrepared, (data) => {
+      console.log("!!SenderTransactionPrepared:", data)
+    })
+    sdk.attach(NxtpSdkEvents.SenderTransactionFulfilled, (data) => {
+      console.log("!!SenderTransactionFulfilled:", data)
+    })
+    sdk.attach(NxtpSdkEvents.SenderTransactionCancelled, (data) => {
+      console.log("!!SenderTransactionCancelled:", data)
+    })
+    sdk.attach(NxtpSdkEvents.ReceiverTransactionPrepared, (data) => {
+      console.log("!!ReceiverTransactionPrepared:", data)
+    })
+    sdk.attach(NxtpSdkEvents.ReceiverTransactionFulfilled, async (data) => {
+      console.log("!!ReceiverTransactionFulfilled:", data)
+    })
+    sdk.attach(NxtpSdkEvents.ReceiverTransactionCancelled, (data) => {
+      console.log("!!ReceiverTransactionCancelled:", data)
+    })
+    sdk.attach(NxtpSdkEvents.SenderTokenApprovalMined, (data) => {
+      console.log("!!SenderTokenApprovalMined:", data)
+    })
+    sdk.attach(NxtpSdkEvents.SenderTransactionPrepareSubmitted, (data) => {
+      console.log("!!SenderTransactionPrepareSubmitted:", data)
+    })
+
     return sdk
   } catch (e) {
     throw new Error('Could\'t setup connext')

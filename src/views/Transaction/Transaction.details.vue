@@ -130,7 +130,9 @@ export default defineComponent({
     // amount as BN
     const amountBN = message.amount.toString()
     // amount divided by decimals
-    this.amount = await utils.formatUnits(amountBN, await token!.decimals())
+    // TODO: fix
+    // this.amount = await utils.formatUnits(amountBN, await token!.decimals())
+    this.amount = await utils.formatUnits(amountBN, 18)
     // status
     await this.getStatus(message)
 

@@ -124,7 +124,7 @@ export const networks: { [key: string]: NetworkMetadata } = {
 export const representations = representationsDev
 
 export const connextPools: { [key: string]: string[] } = {
-  moonbasealpha: [],
+  moonbasealpha: ['WETH', 'USDC', 'USDT', 'DAI'],
   kovan: ['WETH', 'USDC', 'USDT', 'DAI'],
 }
 

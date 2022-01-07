@@ -47,7 +47,7 @@
     @click="$emit('send')"
   >
     <span class="capitalize">
-      {{ connextAvail ? 'Swap Tokens' : 'Bridge Tokens' }}
+      {{ connextAvail ? 'Quote Swap' : 'Bridge Tokens' }}
     </span>
   </nomad-button>
 

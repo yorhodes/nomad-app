@@ -28,17 +28,17 @@
       </div>
     </div>
   </div>
+
+  <bridge-quote />
 </template>
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
 import { utils } from 'ethers'
 import { useVuelidate } from '@vuelidate/core'
-import { NxtpSdkEvents } from '@connext/nxtp-sdk'
 
 import { useStore } from '@/store'
 import { networks } from '@/config'
-import instantiateConnextSDK from '@/utils/connext'
 import { isNativeToken, getNetworkDomainIDByName, checkConnext } from '@/utils'
 
 import { useNotification } from 'naive-ui'
@@ -49,6 +49,7 @@ import BridgeSend from './Bridge.send.vue'
 import BridgePending from './Bridge.pending.vue'
 import BgBlur from './Bridge.bgblur.vue'
 import CardAlert from '@/components/CardAlert.vue'
+import BridgeQuote from './Bridge.quote.vue'
 
 export default defineComponent({
   components: {
@@ -58,6 +59,7 @@ export default defineComponent({
     BridgeSend,
     BridgePending,
     CardAlert,
+    BridgeQuote,
   },
 
   setup: () => {
@@ -90,6 +92,7 @@ export default defineComponent({
   methods: {
     // use connext if available
     async send() {
+      // TODO: move validation here
       this.connextAvail ? await this.swapTokens() : await this.bridgeTokens()
     },
     // use connext to swap tokens
@@ -98,6 +101,7 @@ export default defineComponent({
       await this.store.dispatch('instantiateConnext')
 
       // format data
+      // TODO: pass in amount as BN
       const swapData = {
         origin: this.userInput.originNetwork,
         destination: this.userInput.destinationNetwork,

@@ -20,3 +20,8 @@ export const SET_SENDING = 'mp/SET_SENDING'
 export const SET_TRANSACTION = 'transactions/SET_TRANSACTION'
 export const SET_NEW_TRANSACTION = 'transactions/SET_NEW_TRANSACTION'
 export const REMOVE_TRANSACTION = 'transactions/REMOVE_TRANSACTION'
+
+// connext
+export const SET_QUOTE = 'connext/SET_QUOTE'
+export const SET_PREPARED = 'connext/SET_PREPARED'
+export const SET_FEE = 'connext/SET_FEE'

@@ -15,6 +15,11 @@ const routes: Array<RouteRecordRaw> = [
     component: Transaction,
   },
   {
+    path: '/connext-transaction/:id',
+    name: 'Connext',
+    component: Transaction,
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: 'not-found',
     component: PageNotFound,

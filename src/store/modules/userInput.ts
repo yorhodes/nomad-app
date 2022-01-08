@@ -111,7 +111,8 @@ const actions = <ActionTree<UserInputState, RootState>>{
     commit(types.SET_DESTINATION_NETWORK, null)
   },
 
-  setToken({ commit, dispatch }, token: string) {
+  setToken({ commit, dispatch }, token: TokenMetadata) {
+    dispatch('switchNetwork', token.nativeNetwork)
     commit(types.SET_TOKEN, token)
     dispatch('getBalanceFromWallet')
   },

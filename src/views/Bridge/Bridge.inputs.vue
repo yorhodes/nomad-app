@@ -201,14 +201,12 @@ export default defineComponent({
       this.v$.originNetwork.$touch()
       this.store.dispatch('switchNetwork', network.name)
 
-      if (network.name === this.destinationNetwork) {
-        // if there are only 2 networks, set the destination
-        // network since it's the only other network option
-        if (Object.keys(networks).length === 2) {
-          this.store.dispatch('setDestinationNetwork', getOnlyOtherNetwork(network.name))
-        } else {
-          this.store.dispatch('setDestinationNetwork', null)
-        }
+      // if there are only 2 networks, set the destination
+      // network since it's the only other network option
+      if (Object.keys(networks).length === 2) {
+        this.store.dispatch('setDestinationNetwork', getOnlyOtherNetwork(network.name))
+      } else if (network.name === this.destinationNetwork) {
+        this.store.dispatch('setDestinationNetwork', null)
       }
 
       this.showSelectOriginNetwork = false

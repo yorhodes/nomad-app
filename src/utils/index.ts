@@ -4,11 +4,11 @@ import { networks, tokens } from '@/config'
 import { NetworkMetadata, TokenMetadata } from '@/config/config.types'
 import { connextPools } from '@/config/index'
 
-const coinGecoIds = Object.values(tokens).map((t) => t.coinGeckoId)
+const coinGeckoIds = Object.values(tokens).map((t) => t.coinGeckoId)
 
 // turn array of coin gecko ids into a union type of all strings in array
 // ex: value ['foo', 'bar', 'baz'] -> a type 'foo'|'bar'|'baz'
-export type CoinGeckoIds = typeof coinGecoIds[number]
+export type CoinGeckoIds = typeof coinGeckoIds[number]
 
 // UI DISPLAY
 
@@ -66,9 +66,26 @@ export function filterDestinationNetworks(
   options: { [key: string]: NetworkMetadata },
   originNetworkName: string
 ): NetworkMetadata[] {
-  return Object.values(options).filter(
-    (option: NetworkMetadata) => option.name !== originNetworkName
-  )
+  const optionValues = Object.values(options)
+
+  return optionValues.length === 2
+    ? optionValues
+    : Object.values(options).filter(
+      (option: NetworkMetadata) => option.name !== originNetworkName
+    )
+}
+
+// to be used when there are only 2 networks and you want
+// to get the *other* network name given the input network name
+export function getOnlyOtherNetwork(network: string): string {
+  const networkValues = Object.values(networks)
+
+  if (networkValues.length !== 2) {
+    // don't throw an error since the user can easily fix
+    console.error('Should only be used when there are *exactly* 2 networks')
+  }
+
+  return networkValues.find(n => n.name !== network)!.name
 }
 
 // NETWORK

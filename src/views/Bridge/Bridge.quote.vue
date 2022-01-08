@@ -56,7 +56,7 @@ export default defineComponent({
   methods: {
     async prepareTransfer() {
       await this.store.dispatch('prepareTransfer')
-      this.$router.push(`/connext-transaction/${this.prepared.txData.transactionId}`)
+      this.$router.push(`/tx/connext/${this.prepared.txData.transactionId}`)
     },
   },
 })

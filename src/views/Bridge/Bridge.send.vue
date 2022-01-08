@@ -106,7 +106,7 @@ export default defineComponent({
       if (transferMessage) {
         console.log('transferMessage', transferMessage)
         const txHash = transferMessage.receipt.transactionHash
-        this.$router.push(`/transaction/${originNetwork}/${txHash}`)
+        this.$router.push(`/tx/nomad/${originNetwork}/${txHash}`)
         this.store.dispatch('clearInputs')
       } else {
         // TODO: better error

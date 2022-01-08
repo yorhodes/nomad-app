@@ -24,57 +24,42 @@
       <!-- bottom drawer -->
       <div class="drawer pt-24 pb-5 px-8">
         <bridge-pending v-if="sending" />
-        <bridge-send v-else :connext-avail="connextAvail" @send="send" />
+        <bridge-send v-else-if="!connextAvail" />
+        <swap-send v-else />
       </div>
     </div>
   </div>
-
-  <bridge-quote />
 </template>
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
-import { utils } from 'ethers'
-import { useVuelidate } from '@vuelidate/core'
 
 import { useStore } from '@/store'
-import { networks } from '@/config'
-import { isNativeToken, getNetworkDomainIDByName, checkConnext } from '@/utils'
+import { checkConnext } from '@/utils'
 
-import { useNotification } from 'naive-ui'
-
+import CardAlert from '@/components/CardAlert.vue'
+import BgBlur from './Bridge.bgblur.vue'
 import BridgeAmount from './Bridge.amount.vue'
 import BridgeInputs from './Bridge.inputs.vue'
-import BridgeSend from './Bridge.send.vue'
 import BridgePending from './Bridge.pending.vue'
-import BgBlur from './Bridge.bgblur.vue'
-import CardAlert from '@/components/CardAlert.vue'
-import BridgeQuote from './Bridge.quote.vue'
+import BridgeSend from './Bridge.send.vue'
+import SwapSend from './Swap.send.vue'
 
 export default defineComponent({
   components: {
+    CardAlert,
     BridgeAmount,
     BgBlur,
     BridgeInputs,
-    BridgeSend,
     BridgePending,
-    CardAlert,
-    BridgeQuote,
+    BridgeSend,
+    SwapSend,
   },
 
   setup: () => {
     const store = useStore()
-    const notification = useNotification()
-    // contains validation scope, collects validations from children components but does not emit up to parent
-    const v$ = useVuelidate({
-      $scope: 'bridge',
-      $stopPropagation: true,
-    })
-
+    
     return {
-      userInput: computed(() => store.state.userInput),
-      originAddress: computed(() => store.state.wallet.address),
-      balance: computed(() => store.state.sdk.balance),
       sending: computed(() => store.state.sdk.sending),
       connextAvail: computed(() => {
         // if connext is disabled, return false
@@ -83,81 +68,7 @@ export default defineComponent({
         const { token, destinationNetwork } = store.state.userInput
         return checkConnext(destinationNetwork, token.symbol)
       }),
-      notification,
-      store,
-      v$,
     }
-  },
-
-  methods: {
-    // use connext if available
-    async send() {
-      // TODO: move validation here
-      this.connextAvail ? await this.swapTokens() : await this.bridgeTokens()
-    },
-    // use connext to swap tokens
-    async swapTokens() {
-      // instantiate connext
-      await this.store.dispatch('instantiateConnext')
-
-      // format data
-      // TODO: pass in amount as BN
-      const swapData = {
-        origin: this.userInput.originNetwork,
-        destination: this.userInput.destinationNetwork,
-        destinationAddress: this.userInput.destinationAddress,
-        token: this.userInput.token,
-        amount: this.userInput.sendAmount,
-      }
-      // get transfer quote
-      await this.store.dispatch('getTransferQuote', swapData)
-    },
-    // use Nomad to bridge tokens
-    async bridgeTokens() {
-      const {
-        sendAmount,
-        token,
-        destinationAddress,
-        originNetwork,
-        destinationNetwork,
-      } = this.userInput
-
-      // validate inputs, return if invalid
-      const inputsValid = await this.v$.$validate()
-      if (!inputsValid) return
-
-      // set signer
-      this.store.dispatch('registerSigner', networks[originNetwork])
-
-      // set up for tx
-      const payload = {
-        isNative: isNativeToken(originNetwork, token),
-        originNetwork: getNetworkDomainIDByName(originNetwork),
-        destNetwork: getNetworkDomainIDByName(destinationNetwork!),
-        asset: token.tokenIdentifier,
-        amnt: utils.parseUnits(sendAmount.toString(), token.decimals),
-        recipient: destinationAddress,
-      }
-
-      // send tx
-      // null if not successful
-      const transferMessage = await this.store.dispatch('send', payload)
-
-      // handle tx success/error
-      if (transferMessage) {
-        console.log('transferMessage', transferMessage)
-        const txHash = transferMessage.receipt.transactionHash
-        this.$router.push(`/transaction/${originNetwork}/${txHash}`)
-        this.store.dispatch('clearInputs')
-      } else {
-        // TODO: better error
-        this.notification.warning({
-          title: 'Transaction send failed',
-          content:
-            'We encountered an error while dispatching your transaction.',
-        })
-      }
-    },
   },
 })
 </script>

@@ -1,46 +1,35 @@
 <template>
-  <n-modal :show="!!fee" class="bg-card" @maskClick="$emit('hide')">
-    <n-card class="w-11/12 max-w-xs">
-      <!-- header -->
-      <div class="mb-5">
-        <n-text class="block">Swap using Connext</n-text>
-      </div>
+  <div class="flex flex-row justify-between mt-4">
+    Fees:
+    <div v-if="!fee" class="flex flex-row">
+      <div class="mr-2">Calculating</div>
+      <loader-spin />
+    </div>
+    <div v-else>{{ fee.toString() }} {{ token }}</div>
+  </div>
 
-      <div>Fee: {{ fee.toString() }}</div>
-
-      <n-button
-        color="#fff"
-        text-color="#000"
-        class="w-full mt-3 uppercase"
-        @click="prepareTransfer"
-      >
-        Swap Tokens
-      </n-button>
-      <!-- TODO: support secondary nomad-button and use here -->
-      <n-button
-        color="#3B3B3B"
-        text-color="#fff"
-        class="w-full mt-3 uppercase"
-        @click="$emit('hide')"
-      >
-        Cancel
-      </n-button>
-    </n-card>
-  </n-modal>
+  <div class="flex flex-row justify-between mt-2">
+    Estimated Received:
+    <div class="flex flex-row">
+      <div v-if="total">{{ toal.toString() }}</div>
+      <loader-bounce v-else/>
+      <div>{{ token.symbol }}</div>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
-import { NModal, NCard, NText, NButton } from 'naive-ui'
 import { useStore } from '@/store'
 import { utils } from 'ethers'
 
+import LoaderSpin from '@/components/LoaderDots.vue'
+import LoaderBounce from '@/components/LoaderBounce.vue'
+
 export default defineComponent({
   components: {
-    NModal,
-    NCard,
-    NText,
-    NButton,
+    LoaderSpin,
+    LoaderBounce,
   },
 
   setup() {
@@ -51,6 +40,15 @@ export default defineComponent({
         return store.state.connext.fee ? utils.formatUnits(store.state.connext.fee.toString(), 18) : undefined
       }),
       prepared: computed(() => store.state.connext.prepared),
+      token: computed(() => store.state.userInput.token),
+      amount: computed(() => store.state.userInput.sendAmount),
+      total: computed(() => {
+        const { fee } = store.state.connext
+        const { sendAmount, token } = store.state.userInput
+        if (!fee || !sendAmount) return
+        const amountBN = utils.parseUnits(sendAmount.toString(), token.decimals)
+        return amountBN.add(fee)
+      }),
       store,
     }
   },

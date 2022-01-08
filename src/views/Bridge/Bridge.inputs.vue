@@ -133,6 +133,7 @@ import {
   getNetworkIcon,
   toDecimals,
   isValidAddress,
+  getOnlyOtherNetwork,
 } from '@/utils/index'
 import { NetworkMetadata } from '@/config/config.types'
 import { networks } from '@/config'
@@ -199,14 +200,31 @@ export default defineComponent({
     selectOriginNetwork(network: NetworkMetadata) {
       this.v$.originNetwork.$touch()
       this.store.dispatch('switchNetwork', network.name)
+
       if (network.name === this.destinationNetwork) {
-        this.store.dispatch('setDestinationNetwork', null)
+        // if there are only 2 networks, set the destination
+        // network since it's the only other network option
+        if (Object.keys(networks).length === 2) {
+          this.store.dispatch('setDestinationNetwork', getOnlyOtherNetwork(network.name))
+        } else {
+          this.store.dispatch('setDestinationNetwork', null)
+        }
       }
+
       this.showSelectOriginNetwork = false
     },
     selectDestinationNetwork(network: NetworkMetadata) {
       this.v$.destinationNetwork.$touch()
       this.store.dispatch('setDestinationNetwork', network.name)
+
+      // if there are *exactly* 2 networks
+      // set the origin network and switch to the other network
+      if (Object.keys(networks).length === 2) {
+        const otherNetwork = getOnlyOtherNetwork(network.name)
+        this.store.dispatch('setOriginNetwork', otherNetwork)
+        this.store.dispatch('switchNetwork', otherNetwork)
+      }
+
       this.showSelectDestinationNetwork = false
     },
     displayGasFee() {

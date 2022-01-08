@@ -7,7 +7,7 @@ import { RootState } from '@/store'
 import * as types from '@/store/mutation-types'
 import { networks } from '@/config/index'
 import * as mmUtils from '@/utils/metamask'
-import { getNetworkByChainID, nullToken } from '@/utils'
+import { getNetworkByChainID, getOnlyOtherNetwork, nullToken } from '@/utils'
 
 export interface WalletState {
   connected: boolean
@@ -81,6 +81,12 @@ const actions = <ActionTree<WalletState, RootState>>{
   // when user changes network in Metamask
   setWalletNetwork({ commit, dispatch, rootState }, networkName: string) {
     dispatch('setOriginNetwork', networkName)
+
+    // if there are exactly 2 networks, auto select the destination network
+    if (Object.keys(networks).length === 2) {
+      dispatch('setDestinationNetwork', getOnlyOtherNetwork(networkName))
+    }
+
     const { token } = rootState.userInput
 
     // if token has not been selected, no further action required

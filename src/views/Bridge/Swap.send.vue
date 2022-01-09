@@ -102,9 +102,7 @@ export default defineComponent({
       await this.store.dispatch('getTransferQuote', swapData)
     },
     async swap() {
-      const prepared = await this.store.dispatch('prepareTransfer')
-      console.log(prepared)
-      this.$router.push(`/tx/connext/${prepared.txData.transactionId}`)
+      await this.store.dispatch('prepareTransfer')
     }
   },
 })

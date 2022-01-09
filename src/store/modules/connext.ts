@@ -108,6 +108,8 @@ const actions = <ActionTree<ConnextState, RootState>>{
 
     // prepare transfer
     const transfer = await connextSDK.prepareTransfer(state.quote)
+    console.log('transfer', transfer.transactionId)
+    window.location.pathname = `/tx/connext/${transfer.transactionId}`
   
     // wait for receiver prepared event
     const prepared = await connextSDK.waitFor(

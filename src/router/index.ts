@@ -1,7 +1,8 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import Bridge from '@/views/Bridge/Bridge.main.vue'
-import Transaction from '@/views/Transaction.vue'
-import NomadTransaction from '@/views/Transaction/Transaction.main.vue'
+import TransactionSearch from '@/views/TransactionSearch.vue'
+import NomadTransaction from '@/views/Transaction/Nomad/Main.vue'
+import ConnextTransaction from '@/views/Transaction/Connext/Main.vue'
 import PageNotFound from '@/views/PageNotFound.vue'
 
 const routes: Array<RouteRecordRaw> = [
@@ -13,7 +14,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/tx',
     name: 'Transaction',
-    component: Transaction,
+    component: TransactionSearch,
   },
   {
     path: '/tx/nomad/:network/:id',
@@ -23,7 +24,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/tx/connext/:id',
     name: 'ConnextTransaction',
-    component: Transaction,
+    component: ConnextTransaction,
   },
   {
     path: '/:pathMatch(.*)*',

@@ -1,5 +1,5 @@
 import { MutationTree, ActionTree, GetterTree } from 'vuex'
-import { NxtpSdk, NxtpSdkEvents } from '@connext/nxtp-sdk'
+import { ActiveTransaction, NxtpSdk, NxtpSdkEvents } from '@connext/nxtp-sdk'
 import { BigNumber, utils } from 'ethers'
 // import { Logger } from '@connext/nxtp-utils'
 
@@ -87,6 +87,8 @@ const actions = <ActionTree<ConnextState, RootState>>{
       receivingAssetId: '0x8a1Cad3703E0beAe0e0237369B4fcD04228d1682',
       receivingAddress: data.destinationAddress,
       amount: amountBN.toString(),
+      // TODO: remove
+      preferredRouters: ['0x07bc512abcc89027c26c1891a9cbd24625e3f7aa']
     }
     console.log('Preparing for transfer quote: ', payload)
     const quote = await connextSDK.getTransferQuote(payload)
@@ -134,6 +136,38 @@ const actions = <ActionTree<ConnextState, RootState>>{
     commit(types.SET_PREPARED, undefined)
     commit(types.SET_FEE, undefined)
   },
+
+  async finishTransfer({ commit }, activeTransaction: ActiveTransaction) {
+    const { crosschainTx, status, bidSignature, encodedBid, encryptedCallData } = activeTransaction
+    const { receiving, invariant } = crosschainTx;
+    const receivingTxData =
+    typeof receiving === "object"
+    ? {
+      ...invariant,
+      ...receiving,
+    }
+    : undefined
+    
+    if (status === NxtpSdkEvents.ReceiverTransactionPrepared) {
+      if (!connextSDK) {
+        console.error('instantiate Connext SDK first')
+        return
+      }
+
+      const finish = await connextSDK.fulfillTransfer({ bidSignature, encodedBid, encryptedCallData, txData: receivingTxData! }, true)
+      console.log("finish: ", finish);
+    } else {
+      console.log('not ready to claim')
+    }
+    
+    // const variant = receiving ?? sending;
+    // const sendingTxData = {
+    //   ...invariant,
+    //   ...sending,
+    // }
+    // show cancel button if expired
+    // if (Date.now() / 1000 > variant.expiry) {
+  }
 }
 
 const getters = <GetterTree<ConnextState, RootState>>{
@@ -161,7 +195,7 @@ const getters = <GetterTree<ConnextState, RootState>>{
         action: tx,
       };
     })
-  }
+  },
 }
 
 export default {

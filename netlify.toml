@@ -6,7 +6,7 @@
   to = "/unavailable.html"
   status = 302
   force = true
-  conditions = {Country = ['US', 'BY', 'BA', 'BI', 'CF', 'CD', 'CU', 'IR', 'IQ', 'KP', 'XK', 'LB', 'LY', 'MK', 'NI', 'RU', 'SO', 'SS', 'SD', 'SY', 'UA', 'VE', 'YE', 'ZW']}
+  conditions = {Country = ['BY', 'BA', 'BI', 'CF', 'CD', 'CU', 'IR', 'IQ', 'KP', 'XK', 'LB', 'LY', 'MK', 'NI', 'RU', 'SO', 'SS', 'SD', 'SY', 'UA', 'VE', 'YE', 'ZW']}
 
 # The following redirect is intended for use with most SPAs that handle
 # routing internally.

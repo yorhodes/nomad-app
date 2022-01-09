@@ -1,10 +1,3 @@
-# The following redirect is intended for use with most SPAs that handle
-# routing internally.
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-
 # Custom redirects to block users from certain countries from using the app
 # The list of countries we've decided to block is the OFAC sanctioned countries
 # See full list of blocked countries: https://www.countryipblocks.net/ofac.php
@@ -13,6 +6,13 @@
   to = "/unavailable"
   status = 302
   conditions = {Country = ['US', 'BY', 'BA', 'BI', 'CF', 'CD', 'CU', 'IR', 'IQ', 'KP', 'XK', 'LB', 'LY', 'MK', 'NI', 'RU', 'SO', 'SS', 'SD', 'SY', 'UA', 'VE', 'YE', 'ZW']}
+
+# The following redirect is intended for use with most SPAs that handle
+# routing internally.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
 
 [[headers]]
   # Define which paths this specific [[headers]] block will cover.

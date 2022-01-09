@@ -3,7 +3,7 @@
 # See full list of blocked countries: https://www.countryipblocks.net/ofac.php
 [[redirects]]
   from = "/*"
-  to = "/unavailable"
+  to = "/unavailable.html"
   status = 302
   force = true
   conditions = {Country = ['US', 'BY', 'BA', 'BI', 'CF', 'CD', 'CU', 'IR', 'IQ', 'KP', 'XK', 'LB', 'LY', 'MK', 'NI', 'RU', 'SO', 'SS', 'SD', 'SY', 'UA', 'VE', 'YE', 'ZW']}

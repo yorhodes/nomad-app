@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import Bridge from '@/views/Bridge/Bridge.main.vue'
 import Transaction from '@/views/Transaction/Transaction.main.vue'
-import Unavailable from '@/views/Unavailable.vue'
 import PageNotFound from '@/views/PageNotFound.vue'
 
 const routes: Array<RouteRecordRaw> = [
@@ -14,11 +13,6 @@ const routes: Array<RouteRecordRaw> = [
     path: '/transaction/:network/:id',
     name: 'Transaction',
     component: Transaction,
-  },
-  {
-    path: '/unavailable',
-    name: 'Unavailable',
-    component: Unavailable,
   },
   {
     path: '/:pathMatch(.*)*',

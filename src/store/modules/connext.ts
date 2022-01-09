@@ -1,11 +1,10 @@
-import { MutationTree, ActionTree } from 'vuex'
+import { MutationTree, ActionTree, GetterTree } from 'vuex'
 import { NxtpSdk, NxtpSdkEvents } from '@connext/nxtp-sdk'
 import { BigNumber, utils } from 'ethers'
 // import { Logger } from '@connext/nxtp-utils'
 
 import { RootState } from '@/store'
 import * as types from '@/store/mutation-types'
-import { networks } from '@/config'
 import { MainnetNetwork, TestnetNetwork, TokenMetadata } from '@/config/config.types'
 import instantiateConnextSDK from '@/utils/connext'
 
@@ -134,6 +133,34 @@ const actions = <ActionTree<ConnextState, RootState>>{
     commit(types.SET_QUOTE, undefined)
     commit(types.SET_PREPARED, undefined)
     commit(types.SET_FEE, undefined)
+  },
+}
+
+const getters = <GetterTree<ConnextState, RootState>>{
+  getActiveConnextTxs: (state: ConnextState) => async () => {
+    // TODO: dispatch action instead
+    connextSDK = await instantiateConnextSDK()
+    const activeTxs = await connextSDK.getActiveTransactions();
+    return activeTxs.map((tx: any) => {
+      const variant = tx.crosschainTx.receiving ?? tx.crosschainTx.sending;
+      console.log('!!!!!!!!!!!!!!!', tx.crosschainTx)
+      return {
+        sentAmount: utils.formatEther(tx.crosschainTx.sending?.amount ?? "0"),
+        receivedAmount: utils.formatEther(tx.crosschainTx.receiving?.amount ?? "0"),
+        // gasAmount: gasAmount,
+        status: tx.status,
+        sendingChain: tx.crosschainTx.invariant.sendingChainId.toString(),
+        receivingChain: tx.crosschainTx.invariant.receivingChainId.toString(),
+        // asset: tx.crosschainTx,
+        key: tx.crosschainTx.invariant.transactionId,
+        preparedAt: tx.preparedTimestamp,
+        expires:
+          variant.expiry > Date.now() / 1000
+            ? `${((variant.expiry - Date.now() / 1000) / 3600).toFixed(2)} hours`
+            : "Expired",
+        action: tx,
+      };
+    })
   }
 }
 
@@ -141,4 +168,5 @@ export default {
   state,
   mutations,
   actions,
+  getters,
 }

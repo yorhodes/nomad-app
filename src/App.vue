@@ -1,7 +1,8 @@
 <template>
   <div class="app-container">
     <div class="header"><Nav /></div>
-    <div class="main flex flex-col items-center m-auto">
+    <div class="main flex flex-col items-center m-auto relative">
+      <active-connext-txs />
       <router-view></router-view>
     </div>
     <div class="footer"><Footer /></div>
@@ -17,12 +18,14 @@ import { getNetworkByChainID } from '@/utils'
 import { RouterView } from 'vue-router'
 import Nav from '@/components/Layout/Nav.vue'
 import Footer from '@/components/Layout/Footer.vue'
+import ActiveConnextTxs from '@/views/Bridge/Swap.active.vue'
 
 export default defineComponent({
   components: {
     RouterView,
     Nav,
     Footer,
+    ActiveConnextTxs,
   },
   async mounted() {
     const store = useStore()
@@ -82,6 +85,7 @@ export default defineComponent({
   .main
     grid-area main
     width 100vw
+    min-height 100%
     max-width 1200px
     padding 50px 20px
 

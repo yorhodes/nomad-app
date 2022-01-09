@@ -2,7 +2,7 @@
   <!-- ETA -->
   <div class="flex flex-row justify-between">
     <n-text class="opacity-50">Est. time to delivery</n-text>
-    <n-text v-if="destinationNetwork">{{ timeToDelivery }}</n-text>
+    <n-text v-if="userInput.destinationNetwork">{{ timeToDelivery }}</n-text>
     <n-text v-else>—</n-text>
   </div>
 
@@ -37,16 +37,21 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
-import { NText, useNotification } from 'naive-ui'
+import { NText, NDivider, useNotification } from 'naive-ui'
 import { utils } from 'ethers'
 import { networks } from '@/config'
 import { useStore } from '@/store'
 import { isNativeToken, getNetworkDomainIDByName } from '@/utils'
+import {
+  fromMinToHoursAndMin,
+  BUFFER_CONFIRMATION_TIME_IN_MINUTES,
+} from '@/utils/time'
 import NomadButton from '@/components/Button.vue'
 
 export default defineComponent({
   components: {
     NText,
+    NDivider,
     NomadButton,
   },
   setup: () => {
@@ -58,6 +63,12 @@ export default defineComponent({
       originAddress: computed(() => store.state.wallet.address),
       balance: computed(() => store.state.sdk.balance),
       sending: computed(() => store.state.sdk.sending),
+      timeToDelivery: computed(() => {
+        const n = networks[store.state.userInput.destinationNetwork]
+        return fromMinToHoursAndMin(
+          n?.confirmationTimeInMinutes + BUFFER_CONFIRMATION_TIME_IN_MINUTES
+        )
+      }),
       notification,
       store,
     }

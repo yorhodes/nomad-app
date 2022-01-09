@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-row justify-between mt-4">
+  <div class="flex flex-row justify-between mt-4 opacity-70">
     Fees:
     <div v-if="!fee" class="flex flex-row">
       <div class="mr-2">Calculating</div>
@@ -8,7 +8,7 @@
     <div v-else>{{ fee.toString() }} {{ token.symbol }}</div>
   </div>
 
-  <div class="flex flex-row justify-between mt-2 text-lg">
+  <div class="estimated flex flex-row justify-between mt-2">
     Estimated Received:
     <div class="flex flex-row">
       <div v-if="total">{{ total.toString() }}</div>
@@ -41,7 +41,6 @@ export default defineComponent({
         const { decimals } = store.state.userInput.token
         return store.state.connext.fee ? toDecimals(store.state.connext.fee, decimals, 6) : undefined
       }),
-      prepared: computed(() => store.state.connext.prepared),
       token: computed(() => store.state.userInput.token),
       amount: computed(() => store.state.userInput.sendAmount),
       total: computed(() => {
@@ -55,12 +54,10 @@ export default defineComponent({
       store,
     }
   },
-
-  methods: {
-    async prepareTransfer() {
-      await this.store.dispatch('prepareTransfer')
-      this.$router.push(`/tx/connext/${this.prepared.txData.transactionId}`)
-    },
-  },
 })
 </script>
+
+<style scoped lang="stylus">
+.estimated
+  font-size 16px
+</style>

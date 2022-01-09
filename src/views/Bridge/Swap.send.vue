@@ -30,6 +30,7 @@
   <nomad-button
     v-if="!quote"
     class="w-full uppercase mt-6 bg-white text-black h-11 flex justify-center"
+    :disabled="quoteInitiated"
     @click="quoteSwap"
   >
     Quote Swap
@@ -81,6 +82,7 @@ export default defineComponent({
 
   methods: {
     // use connext to swap tokens
+    // TODO: watch userInput and clear quote if anything changes
     async quoteSwap() {
       // TODO: validate inputs
       this.quoteInitiated = true
@@ -100,7 +102,9 @@ export default defineComponent({
       await this.store.dispatch('getTransferQuote', swapData)
     },
     async swap() {
-      console.log('swap')
+      const prepared = await this.store.dispatch('prepareTransfer')
+      console.log(prepared)
+      this.$router.push(`/tx/connext/${prepared.txData.transactionId}`)
     }
   },
 })

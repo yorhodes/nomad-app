@@ -30,7 +30,7 @@ export default defineComponent({})
   50% {
     margin 3px
   } 100% {
-    margin 0
+    margin 1px
   }
 }
 
@@ -39,6 +39,7 @@ export default defineComponent({})
   height 20px
 
 .shape
+  margin 1px
   animation gravity 1s infinite
   width 5px
   height 5px

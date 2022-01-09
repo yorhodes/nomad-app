@@ -1,6 +1,6 @@
 <template>
-  <div v-if="active.length" class="container">
-    <div class="text-right mb-3 uppercase">Active Connext Transactions</div>
+  <div v-if="active.length" class="container fade-in">
+    <div class="text-center mb-3 uppercase">Active Connext Transactions</div>
     <n-card
       v-for="tx in active"
       :key="tx.key"
@@ -50,6 +50,7 @@ export default defineComponent({
   },
 
   async mounted() {
+    await this.store.getters.getTransaction('0xf755d22b15a65e2d77d892d0153fae118303483e62e32e1ad9c593bf20a1327b')
     this.active = await this.store.getters.getActiveConnextTxs()
     console.log(this.active)
   },
@@ -71,7 +72,4 @@ export default defineComponent({
   width 250px
   overflow scroll
   margin 10px 20px
-
-.text-right
-  text-align right
 </style>

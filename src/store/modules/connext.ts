@@ -196,6 +196,61 @@ const getters = <GetterTree<ConnextState, RootState>>{
       };
     })
   },
+  getTransaction: (state: ConnextState) => async (txHash: string) => {
+    connextSDK = await instantiateConnextSDK()
+    const query = `
+      {
+        transactions(orderBy: preparedTimestamp, orderDirection: desc, where: { transactionId: "0x0f1bd29e62fb48b22f3e8285d780206ccdd2cbc575445bc289a5ff97e2099165" }) {
+          id
+          status
+          chainId
+          preparedTimestamp
+          receivingChainTxManagerAddress
+          user {
+            id
+          }
+          router {
+            id
+          }
+          initiator
+          sendingAssetId
+          receivingAssetId
+          sendingChainFallback
+          callTo
+          receivingAddress
+          callDataHash
+          transactionId
+          sendingChainId
+          receivingChainId
+          amount
+          expiry
+          preparedBlockNumber
+          encryptedCallData
+          prepareCaller
+          bidSignature
+          encodedBid
+          prepareTransactionHash
+          prepareMeta
+          relayerFee
+          signature
+          callData
+          externalCallSuccess
+          externalCallIsContract
+          externalCallReturnData
+          fulfillCaller
+          fulfillTransactionHash
+          fulfillMeta
+          cancelCaller
+          cancelTransactionHash
+          cancelMeta
+        }
+      }
+    `
+    let tx = await connextSDK.querySubgraph(5, query)
+    console.log('??????', tx)
+    tx = await connextSDK.querySubgraph(3, query)
+    console.log('??????', tx)
+  }
 }
 
 export default {

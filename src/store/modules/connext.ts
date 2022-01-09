@@ -139,14 +139,14 @@ const actions = <ActionTree<ConnextState, RootState>>{
 
   async finishTransfer({ commit }, activeTransaction: ActiveTransaction) {
     const { crosschainTx, status, bidSignature, encodedBid, encryptedCallData } = activeTransaction
-    const { receiving, invariant } = crosschainTx;
+    const { receiving, invariant } = crosschainTx!
     const receivingTxData =
-    typeof receiving === "object"
-    ? {
-      ...invariant,
-      ...receiving,
-    }
-    : undefined
+      typeof receiving === "object"
+      ? {
+        ...invariant,
+        ...receiving,
+      }
+      : undefined
     
     if (status === NxtpSdkEvents.ReceiverTransactionPrepared) {
       if (!connextSDK) {
@@ -200,7 +200,7 @@ const getters = <GetterTree<ConnextState, RootState>>{
     connextSDK = await instantiateConnextSDK()
     const query = `
       {
-        transactions(orderBy: preparedTimestamp, orderDirection: desc, where: { transactionId: "0x0f1bd29e62fb48b22f3e8285d780206ccdd2cbc575445bc289a5ff97e2099165" }) {
+        transactions(orderBy: preparedTimestamp, orderDirection: desc, where: { transactionId: "0xd3a053e2db95eb6ca25eeb02bd27ab99031e25800e4160b197304c2ba1957acf" }) {
           id
           status
           chainId
@@ -246,10 +246,10 @@ const getters = <GetterTree<ConnextState, RootState>>{
         }
       }
     `
-    let tx = await connextSDK.querySubgraph(5, query)
-    console.log('??????', tx)
-    tx = await connextSDK.querySubgraph(3, query)
-    console.log('??????', tx)
+    const tx1 = await connextSDK.querySubgraph(5, query)
+    console.log('??????', tx1)
+    const tx2 = await connextSDK.querySubgraph(4, query)
+    console.log('??????', tx2)
   }
 }
 

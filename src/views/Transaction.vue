@@ -14,9 +14,6 @@
       tab-style="min-width: 80px;"
       justify-content="space-evenly"
     >
-        <!-- v-for="panel in panels"
-        :key="panel"
-        :tab="panel.toString()" -->
       <n-tab-pane
         :name="panels[0]"
       >

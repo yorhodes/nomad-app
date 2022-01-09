@@ -8,7 +8,7 @@
     <div v-else>{{ fee.toString() }} {{ token.symbol }}</div>
   </div>
 
-  <div class="flex flex-row justify-between mt-2">
+  <div class="flex flex-row justify-between mt-2 text-lg">
     Estimated Received:
     <div class="flex flex-row">
       <div v-if="total">{{ total.toString() }}</div>

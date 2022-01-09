@@ -33,6 +33,7 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
+import { useVuelidate } from '@vuelidate/core'
 
 import { useStore } from '@/store'
 import { checkConnext } from '@/utils'
@@ -58,6 +59,12 @@ export default defineComponent({
 
   setup: () => {
     const store = useStore()
+
+    // contains validation scope, collects validations from children components but does not emit up to parent
+    const v$ = useVuelidate({
+      $scope: 'bridge',
+      $stopPropagation: true,
+    })
     
     return {
       sending: computed(() => store.state.sdk.sending),
@@ -68,6 +75,7 @@ export default defineComponent({
         const { token, destinationNetwork } = store.state.userInput
         return checkConnext(destinationNetwork, token.symbol)
       }),
+      v$,
     }
   },
 })

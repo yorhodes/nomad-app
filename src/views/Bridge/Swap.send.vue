@@ -51,7 +51,6 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
 import { NText, NDivider, useNotification } from 'naive-ui'
-import { useVuelidate } from '@vuelidate/core'
 import { useStore } from '@/store'
 import NomadButton from '@/components/Button.vue'
 import BridgeQuote from './Bridge.quote.vue'
@@ -71,24 +70,19 @@ export default defineComponent({
   setup: () => {
     const store = useStore()
     const notification = useNotification()
-    // contains validation scope, collects validations from children components but does not emit up to parent
-    const v$ = useVuelidate({
-      $scope: 'bridge',
-      $stopPropagation: true,
-    })
 
     return {
       userInput: computed(() => store.state.userInput),
       quote: computed(() => store.state.connext.quote),
       notification,
       store,
-      v$,
     }
   },
 
   methods: {
     // use connext to swap tokens
     async quoteSwap() {
+      // TODO: validate inputs
       this.quoteInitiated = true
       // instantiate connext
       await this.store.dispatch('instantiateConnext')

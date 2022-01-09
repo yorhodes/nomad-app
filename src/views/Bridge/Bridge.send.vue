@@ -39,7 +39,6 @@
 import { defineComponent, computed } from 'vue'
 import { NText, useNotification } from 'naive-ui'
 import { utils } from 'ethers'
-import { useVuelidate } from '@vuelidate/core'
 import { networks } from '@/config'
 import { useStore } from '@/store'
 import { isNativeToken, getNetworkDomainIDByName } from '@/utils'
@@ -54,11 +53,6 @@ export default defineComponent({
     const store = useStore()
     const notification = useNotification()
 
-    const v$ = useVuelidate({
-      $scope: 'bridge',
-      $stopPropagation: true,
-    })
-
     return {
       userInput: computed(() => store.state.userInput),
       originAddress: computed(() => store.state.wallet.address),
@@ -66,13 +60,13 @@ export default defineComponent({
       sending: computed(() => store.state.sdk.sending),
       notification,
       store,
-      v$,
     }
   },
 
   methods: {
     // use Nomad to bridge tokens
     async bridge() {
+      // TODO: validate inputs
       const {
         sendAmount,
         token,
@@ -80,10 +74,6 @@ export default defineComponent({
         originNetwork,
         destinationNetwork,
       } = this.userInput
-
-      // validate inputs, return if invalid
-      const inputsValid = await this.v$.$validate()
-      if (!inputsValid) return
 
       // set signer
       this.store.dispatch('registerSigner', networks[originNetwork])

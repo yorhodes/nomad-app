@@ -5,15 +5,15 @@
       <div class="mr-2">Calculating</div>
       <loader-spin />
     </div>
-    <div v-else>{{ fee.toString() }} {{ token }}</div>
+    <div v-else>{{ fee.toString() }} {{ token.symbol }}</div>
   </div>
 
   <div class="flex flex-row justify-between mt-2">
     Estimated Received:
     <div class="flex flex-row">
-      <div v-if="total">{{ toal.toString() }}</div>
+      <div v-if="total">{{ total.toString() }}</div>
       <loader-bounce v-else/>
-      <div>{{ token.symbol }}</div>
+      <div class="ml-1">{{ token.symbol }}</div>
     </div>
   </div>
 </template>
@@ -22,6 +22,7 @@
 import { computed, defineComponent } from 'vue'
 import { useStore } from '@/store'
 import { utils } from 'ethers'
+import { toDecimals } from '@/utils'
 
 import LoaderSpin from '@/components/LoaderDots.vue'
 import LoaderBounce from '@/components/LoaderBounce.vue'
@@ -37,7 +38,8 @@ export default defineComponent({
 
     return {
       fee: computed(() => {
-        return store.state.connext.fee ? utils.formatUnits(store.state.connext.fee.toString(), 18) : undefined
+        const { decimals } = store.state.userInput.token
+        return store.state.connext.fee ? toDecimals(store.state.connext.fee, decimals, 6) : undefined
       }),
       prepared: computed(() => store.state.connext.prepared),
       token: computed(() => store.state.userInput.token),
@@ -47,7 +49,8 @@ export default defineComponent({
         const { sendAmount, token } = store.state.userInput
         if (!fee || !sendAmount) return
         const amountBN = utils.parseUnits(sendAmount.toString(), token.decimals)
-        return amountBN.add(fee)
+        const totalBN = amountBN.sub(fee)
+        return toDecimals(totalBN, token.decimals, 6)
       }),
       store,
     }

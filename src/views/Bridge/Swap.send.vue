@@ -25,7 +25,7 @@
     </div>
   </div>
 
-  <bridge-quote />
+  <bridge-quote v-if="quoteInitiated" />
 
   <nomad-button
     v-if="!quote"
@@ -57,18 +57,16 @@ import NomadButton from '@/components/Button.vue'
 import BridgeQuote from './Bridge.quote.vue'
 
 export default defineComponent({
-  props: {
-    connextAvail: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  emits: ['send'],
   components: {
     NText,
     NDivider,
     NomadButton,
     BridgeQuote,
+  },
+  data () {
+    return {
+      quoteInitiated: false,
+    }
   },
   setup: () => {
     const store = useStore()
@@ -91,6 +89,7 @@ export default defineComponent({
   methods: {
     // use connext to swap tokens
     async quoteSwap() {
+      this.quoteInitiated = true
       // instantiate connext
       await this.store.dispatch('instantiateConnext')
 

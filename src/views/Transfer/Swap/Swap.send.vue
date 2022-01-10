@@ -111,13 +111,20 @@ export default defineComponent({
     }
   },
 
-  computed: {
-    sendAmount() {
-      return this.userInput.sendAmount;
-    }
-  },
-
   watch: {
+    userInput: {
+      async handler() {
+        // user should initiate the quote first by clicking quote swap first
+        if (!this.quoteInitiated) {
+          return
+        }
+
+        // reset and show user the quote swap button again
+        await this.store.dispatch('resetTransferQuote')
+        this.quoteInitiated = false
+      },
+      deep: true,
+    },
     async sendAmount(newAmt) {
       console.log('send amount changed!', newAmt);
       // user should initiate the quote first by clicking quote swap first
@@ -125,15 +132,9 @@ export default defineComponent({
         return
       }
 
-      if (!newAmt) {
-        // reset and show user the quote swap button again
-        await this.store.dispatch('resetTransferQuote')
-        this.quoteInitiated = false
-      }
-
-      // reset and fetch new quote
+      // reset and show user the quote swap button again
       await this.store.dispatch('resetTransferQuote')
-      await this.quoteSwap()
+      this.quoteInitiated = false
     }
   },
 })

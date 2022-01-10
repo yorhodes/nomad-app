@@ -95,7 +95,7 @@ export const networks: { [key: string]: NetworkMetadata } = {
     domainID: 3000,
     nativeToken: tokens.ETH,
     rpcUrl:
-      'https://eth-kovan.alchemyapi.io/v2/aJP38P1ZeHbXP3Td8vVh8vFmxkKT9pnR',
+      'https://eth-kovan.alchemyapi.io/v2/QKnfLTfe7CkGA80yAVsCdh8ZatQCsfHI',
     blockExplorer: 'https://kovan.etherscan.io/',
     icon: wETHIcon,
     confirmationTimeInMinutes: DEV_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
@@ -105,7 +105,7 @@ export const networks: { [key: string]: NetworkMetadata } = {
     chainID: 1287,
     domainID: 5000,
     nativeToken: tokens.DEV,
-    rpcUrl: 'https://rpc.api.moonbase.moonbeam.network',
+    rpcUrl: 'https://moonbeam-alpha.api.onfinality.io/rpc?apikey=44e80fe3-d9ce-40f2-8336-6089e751b625',
     blockExplorer: 'https://moonbase-blockscout.testnet.moonbeam.network/',
     icon: DEVIcon,
     confirmationTimeInMinutes: DEV_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,

@@ -14,13 +14,6 @@ import { defineComponent } from 'vue'
 import { NText, NSpin } from 'naive-ui'
 
 export default defineComponent({
-  props: {
-    connextAvail: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  emits: ['send'],
   components: {
     NText,
     NSpin,

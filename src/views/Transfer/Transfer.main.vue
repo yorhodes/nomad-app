@@ -15,8 +15,8 @@
     <!-- bottom drawer -->
     <div class="drawer pt-24 pb-5 px-8">
       <transfer-pending v-if="sending || preparingSwap" />
-      <bridge-send v-else-if="!connextAvail" />
-      <swap-send v-else />
+      <bridge-send v-else-if="!connextAvail" :v$="v$" />
+      <swap-send v-else :v$="v$"/>
     </div>
   </div>
 </template>

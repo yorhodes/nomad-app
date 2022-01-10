@@ -82,6 +82,7 @@ import {
   NIcon,
   NProgress,
   NCollapseTransition,
+  useNotification,
 } from 'naive-ui'
 import { ChevronDown } from '@vicons/ionicons5'
 import { BigNumber } from 'ethers'
@@ -119,11 +120,29 @@ export default defineComponent({
   }),
   setup: () => {
     const store = useStore()
-    return { store }
+    const notification = useNotification()
+
+    return {
+      store,
+      notification,
+    }
   },
   methods: {
-    process() {
-      this.store.dispatch('processTx', { origin: this.$route.params.network, hash: this.$route.params.id })
+    async process() {
+      try {
+        const receipt = await this.store.dispatch('processTx', { origin: this.$route.params.network, hash: this.$route.params.id })
+        console.log('!!!!!!!', receipt)
+        this.notification.success({
+          title: 'Success',
+          content: 'Transaction processed',
+          duration: 5000,
+        })
+      } catch(e: any) {
+        this.notification.warning({
+          title: 'Error Processing Transaction',
+          content: e.message,
+        })
+      }
     },
   },
   computed: {

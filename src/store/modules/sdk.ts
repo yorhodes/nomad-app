@@ -196,13 +196,14 @@ const actions = <ActionTree<SDKState, RootState>>{
     return null
   },
   async processTx ({ dispatch }, tx: any) {
-    await dispatch('switchNetwork', 'moonbasealpha')
-    // register signer
-    await dispatch('registerSigner', networks['moonbasealpha'])
-
     // get transfer message
     const { origin, hash } = tx
     const message = await TransferMessage.singleFromTransactionHash(nomad, origin, hash)
+
+    const destNetwork = getNetworkByDomainID(message.destination)
+    await dispatch('switchNetwork', destNetwork.name)
+    // register signer
+    await dispatch('registerSigner', destNetwork)
 
     // get proof
     const res = await fetch(`${s3URL}${origin}_${message.leafIndex.toString()}`)
@@ -214,13 +215,14 @@ const actions = <ActionTree<SDKState, RootState>>{
     const replica = core?.getReplica(message.origin)
 
     // connect signer
-    const signer = nomad.getSigner(5000)
+    const signer = nomad.getSigner(message.origin)
     replica!.connect(signer!)
 
     // prove and process
     try {
-      await replica!.proveAndProcess(data.message as BytesLike, data.proof.path, data.proof.index)
+      const receipt = await replica!.proveAndProcess(data.message as BytesLike, data.proof.path, data.proof.index)
       console.log('PROCESSED!!!!')
+      return receipt
     } catch(e) {
       console.log(e)
     }

@@ -85,15 +85,27 @@ export const tokens: { [key: string]: TokenMetadata } = {
     minAmt: 10,
   },
   // Only for use with connext in dev environment
-  TEST: {
+  kTEST: {
     nativeNetwork: 'kovan',
-    symbol: 'TEST',
-    name: 'Connext TEST',
+    symbol: 'kTEST',
+    name: 'Kovan TEST',
     icon: ConnextIcon,
     iconColors: ['#62BBEF', '#8470E2'],
     decimals: 18,
     coinGeckoId: 'dai',
-    tokenIdentifier: { domain: '', id: '' },
+    tokenIdentifier: { domain: 'kovan', id: '0xe71678794fff8846bff855f716b0ce9d9a78e844' },
+    nativeOnly: false,
+    minAmt: 10,
+  },
+  mbTEST: {
+    nativeNetwork: 'kovan',
+    symbol: 'mbTEST',
+    name: 'Moonbase TEST',
+    icon: ConnextIcon,
+    iconColors: ['#62BBEF', '#8470E2'],
+    decimals: 18,
+    coinGeckoId: 'dai',
+    tokenIdentifier: { domain: 'moonbasealpha', id: '0x4326c29a626d9a98464df8f53856887d43a11759' },
     nativeOnly: false,
     minAmt: 10,
   }
@@ -141,8 +153,8 @@ export const networks: { [key: string]: NetworkMetadata } = {
 export const representations = representationsDev
 
 export const connextPools: { [key: string]: string[] } = {
-  moonbasealpha: ['TEST'],
-  kovan: ['TEST'],
+  moonbasealpha: ['kTEST', 'mbTEST'],
+  kovan: ['kTEST', 'mbTEST'],
 }
 
 export const connextConfig: SdkBaseChainConfigParams = {

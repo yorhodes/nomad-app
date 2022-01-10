@@ -27,10 +27,18 @@ export default defineComponent({
   },
   computed: {
     originName() {
-      return getNetworkByChainID(this.originChainId) || this.originChainId
+      const network = getNetworkByChainID(this.originChainId)
+      if (network) {
+        return network.name
+      }
+      return this.originChainId
     },
     destinationName() {
-      return getNetworkByChainID(this.destinationChainId) || this.destinationChainId
+      const network = getNetworkByChainID(this.destinationChainId)
+      if (network) {
+        return network.name
+      }
+      return this.destinationChainId
     }
   }
 })

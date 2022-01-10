@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-row justify-end items-center translate-y-3">
+  <div class="flex flex-row justify-end items-center translate-y">
     <div class="shape shape1"></div>
     <div class="shape shape2"></div>
     <div class="shape shape3"></div>

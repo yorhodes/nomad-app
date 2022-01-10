@@ -70,26 +70,28 @@ const actions = <ActionTree<ConnextState, RootState>>{
     const sendingChainId = networks[origin].chainID
     const receivingChainId = networks[destination].chainID
     // get asset addresses
-    // TODO: set tokenIdentifier in config
     const sendingAssetId = token.tokenIdentifier.id
 
-    let receivingAssetId
-    if (token.symbol === 'TEST') {
-      receivingAssetId = ''
+    let receivingAssetId: string
+    console.log('token', token.symbol)
+    if (token.symbol === 'kTEST') {
+      receivingAssetId = '0x4326c29a626d9a98464df8f53856887d43a11759'
+    } else if (token.symbol === 'mbTEST') {
+      receivingAssetId = '0xe71678794fff8846bff855f716b0ce9d9a78e844'
     } else {
       // TODO: returns undefined
       receivingAssetId = await rootGetters.resolveRepresentation(destination, token.tokenIdentifier)
     }
     // get amount in decimals
     const amountBN = utils.parseUnits(amount.toString(), token.decimals)
-
     return {
       sendingChainId: sendingChainId as any,
       sendingAssetId: sendingAssetId as any,
       receivingChainId: receivingChainId as any,
-      receivingAssetId: receivingAssetId as any,
+      receivingAssetId: receivingAssetId,
       receivingAddress: destinationAddress,
-      amount: amountBN.toString()
+      amount: amountBN.toString(),
+      preferredRouters: !isProduction && ['0x087f402643731b20883fc5dba71b37f6f00e69b9']
     }
   },
   async checkTransferLiquidity({ dispatch }, data: SwapData): Promise<boolean> {

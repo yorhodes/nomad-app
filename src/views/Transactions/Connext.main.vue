@@ -15,7 +15,6 @@
 
 <script lang="ts">
 import { h, defineComponent } from 'vue'
-import { ActiveTransaction } from '@connext/nxtp-sdk'
 import { NDataTable, NText } from 'naive-ui'
 
 import { useStore } from '@/store'
@@ -24,7 +23,7 @@ import Networks from './columns/networks.vue'
 import Actions from './columns/actions.vue'
 // import Amount from './columns/amount.vue'
 
-const createColumns = ({ claim }: any) => {
+const createColumns = () => {
   return [
     {
       title: 'Transaction',
@@ -69,9 +68,10 @@ const createColumns = ({ claim }: any) => {
         return h(
           Actions,
           {
+            txAction: tx.action,
+            hash: tx.key,
             status: tx.status,
             expired: tx.expired,
-            onClick: () => claim(tx.action)
           },
         )
       }
@@ -98,11 +98,7 @@ export default defineComponent({
     const store = useStore()
     return {
       store,
-      columns: createColumns({
-        claim (tx: ActiveTransaction) {
-          store.dispatch('finishTransfer', tx)
-        }
-      }),
+      columns: createColumns(),
     }
   },
 

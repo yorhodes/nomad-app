@@ -4,6 +4,7 @@ import { BigNumber, utils } from 'ethers'
 // import { Logger } from '@connext/nxtp-utils'
 
 import { RootState } from '@/store'
+import { networks } from '@/config'
 import * as types from '@/store/mutation-types'
 import { MainnetNetwork, TestnetNetwork, TokenMetadata } from '@/config/config.types'
 import instantiateConnextSDK from '@/utils/connext'
@@ -63,43 +64,53 @@ const actions = <ActionTree<ConnextState, RootState>>{
       throw new Error('Couldn\'t setup Nomad')
     }
   },
-  async getTransferQuote({ commit, rootGetters }, data: SwapData) {
-    // TODO: comment in to use data from user input
-    // // get chain ids
-    // const sendingChainId = networks[data.origin].chainID
-    // const receivingChainId = networks[data.destination].chainID
-    // // get asset addresses
-    // const sendingAssetId = data.token.tokenIdentifier.id
-    // const domainName = await rootGetters.resolveDomainName(5000)
-    // console.log('domain name', domainName)
-    // // TODO: returns undefined
-    // const receivingAssetId = await rootGetters.resolveRepresentation(data.destination, data.token.tokenIdentifier)
-    // // get amount in decimals
-    // const amountBN = utils.parseUnits(data.amount.toString(), data.token.decimals)
-    // // TODO: better type conversion
-    // const payload = {
-    //   sendingChainId: sendingChainId as any,
-    //   sendingAssetId: sendingAssetId as any,
-    //   receivingChainId: receivingChainId as any,
-    //   receivingAssetId: receivingAssetId as any,
-    //   receivingAddress: data.destinationAddress,
-    //   amount: amountBN.toString()
-    // }
-    const amountBN = utils.parseUnits('10', 18)
-    const payload = {
-      sendingChainId: 4,
-      sendingAssetId: '0x9aC2c46d7AcC21c881154D57c0Dc1c55a3139198',
-      receivingChainId: 5,
-      receivingAssetId: '0x8a1Cad3703E0beAe0e0237369B4fcD04228d1682',
-      receivingAddress: data.destinationAddress,
-      amount: amountBN.toString(),
-      // TODO: remove
-      preferredRouters: ['0x07bc512abcc89027c26c1891a9cbd24625e3f7aa']
+  async formatDataForTransfer({ rootGetters }, data: SwapData) {
+    const { origin, destination, token, amount, destinationAddress } = data
+    // get chain ids
+    const sendingChainId = networks[origin].chainID
+    const receivingChainId = networks[destination].chainID
+    // get asset addresses
+    const sendingAssetId = token.tokenIdentifier.id
+
+    let receivingAssetId: string
+    console.log('token', token.symbol)
+    if (token.symbol === 'kTEST') {
+      receivingAssetId = '0x4326c29a626d9a98464df8f53856887d43a11759'
+    } else if (token.symbol === 'mbTEST') {
+      receivingAssetId = '0xe71678794fff8846bff855f716b0ce9d9a78e844'
+    } else {
+      // TODO: returns undefined
+      receivingAssetId = await rootGetters.resolveRepresentation(destination, token.tokenIdentifier)
     }
+    // get amount in decimals
+    const amountBN = utils.parseUnits(amount.toString(), token.decimals)
+    return {
+      sendingChainId: sendingChainId as any,
+      sendingAssetId: sendingAssetId as any,
+      receivingChainId: receivingChainId as any,
+      receivingAssetId: receivingAssetId,
+      receivingAddress: destinationAddress,
+      amount: amountBN.toString(),
+      preferredRouters: !isProduction && ['0x087f402643731b20883fc5dba71b37f6f00e69b9']
+    }
+  },
+  async checkTransferLiquidity({ dispatch }, data: SwapData): Promise<boolean> {
+    const payload = await dispatch('formatDataForTransfer', data)
+    console.log('Checking liquidity: ', payload)
+    try {
+      await connextSDK.getTransferQuote(payload)
+      return true
+    } catch(e) {
+      return false
+    }
+  },
+  async getTransferQuote({ commit, dispatch }, data: SwapData) {
+    const payload = await dispatch('formatDataForTransfer', data)
     console.log('Preparing for transfer quote: ', payload)
     const quote = await connextSDK.getTransferQuote(payload)
 
     // estimate fee
+    const amountBN = utils.parseUnits(data.amount.toString(), data.token.decimals)
     const feeEstimate = amountBN.sub(quote.bid.amountReceived)
 
     // set in store
@@ -107,7 +118,7 @@ const actions = <ActionTree<ConnextState, RootState>>{
     commit(types.SET_FEE, feeEstimate)
   },
 
-  async prepareTransfer({ state, commit, dispatch }) {
+  async prepareTransfer({ state, commit }) {
     if (!state.quote) {
       console.error('no quote')
       return

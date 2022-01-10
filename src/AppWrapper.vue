@@ -119,7 +119,6 @@ input[type=number]
   background transparent !important
   --n-merged-td-color transparent
   --n-merged-td-color-hover rgba(255, 255, 255, 0.02)
-  cursor pointer
 
 .n-data-table-thead
   display none

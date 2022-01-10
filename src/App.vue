@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="header"><Nav /></div>
-    <div class="main flex justify-center m-auto">
+    <div class="main flex flex-col items-center m-auto relative">
       <router-view></router-view>
     </div>
     <div class="footer"><Footer /></div>
@@ -44,7 +44,7 @@ export default defineComponent({
         try {
           // get name of network and set in store
           const id = BigNumber.from(chainId).toNumber()
-          const network = getNetworkByChainID(id).name
+          const network = getNetworkByChainID(id)!.name
           // network supported, setting wallet network
           await store.dispatch('setWalletNetwork', network)
         } catch (e) {
@@ -82,6 +82,7 @@ export default defineComponent({
   .main
     grid-area main
     width 100vw
+    min-height 100%
     max-width 1200px
     padding 50px 20px
 

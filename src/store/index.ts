@@ -16,10 +16,12 @@ import walletModule, { WalletState } from './modules/wallet'
 import sdkModule, { SDKState } from './modules/sdk'
 import userInputModule, { UserInputState } from './modules/userInput'
 import transactionsModule, { TransactionsState } from './modules/transactions'
+import connextModule, { ConnextState } from './modules/connext'
 
 export interface RootState {
   wallet: WalletState
   sdk: SDKState
+  connext: ConnextState
   userInput: UserInputState
   transactions: TransactionsState
 }
@@ -30,6 +32,7 @@ export const store = createStore({
   modules: {
     wallet: walletModule,
     sdk: sdkModule,
+    connext: connextModule,
     userInput: userInputModule,
     transactions: transactionsModule,
   },

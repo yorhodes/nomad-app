@@ -1,5 +1,5 @@
 <template>
-  <transaction-header :status="status" :time-remaining="timeRemaining" />
+  <status-header :status="status" :time-remaining="timeRemaining" />
   <div class="w-full mt-8">
     <div class="flex items-center justify-between mb-8">
       <copy-hash class="text-xl font-medium" :address="$route.params.id" />
@@ -54,9 +54,9 @@ import { TransferMessage } from '@nomad-xyz/sdk/nomad'
 import { useStore } from '@/store'
 import { truncateAddr, fromBytes32 } from '@/utils'
 import { networks } from '@/config'
-import Detail from '@/components/Detail.vue'
+import Detail from '@/views/Transaction/Detail.vue'
 import CopyHash from '@/components/CopyHash.vue'
-import TransactionHeader from './Transaction.header.vue'
+import StatusHeader from './Header.vue'
 import {
   minutesTilConfirmation,
   BUFFER_CONFIRMATION_TIME_IN_MINUTES,
@@ -78,7 +78,7 @@ interface ComponentData {
 
 export default defineComponent({
   components: {
-    TransactionHeader,
+    StatusHeader,
     Detail,
     NText,
     NDivider,
@@ -130,7 +130,9 @@ export default defineComponent({
     // amount as BN
     const amountBN = message.amount.toString()
     // amount divided by decimals
-    this.amount = await utils.formatUnits(amountBN, await token!.decimals())
+    // TODO: fix
+    // this.amount = await utils.formatUnits(amountBN, await token!.decimals())
+    this.amount = await utils.formatUnits(amountBN, 18)
     // status
     await this.getStatus(message)
 

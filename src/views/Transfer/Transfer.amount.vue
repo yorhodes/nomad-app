@@ -79,7 +79,7 @@ import { required, helpers } from '@vuelidate/validators'
 import { useStore } from '@/store'
 import { getMinAmount, toDecimals } from '@/utils'
 import { TokenMetadata } from '@/config/config.types'
-import TokenSelect from './Bridge.tokens.vue'
+import TokenSelect from './Transfer.tokens.vue'
 
 interface ComponentData {
   amt: number | null

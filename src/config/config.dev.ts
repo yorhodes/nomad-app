@@ -124,7 +124,7 @@ export const networks: { [key: string]: NetworkMetadata } = {
 export const representations = representationsDev
 
 export const connextPools: { [key: string]: string[] } = {
-  moonbasealpha: [],
+  moonbasealpha: ['WETH', 'USDC', 'USDT', 'DAI'],
   kovan: ['WETH', 'USDC', 'USDT', 'DAI'],
 }
 
@@ -146,6 +146,12 @@ export const connextConfig: SdkBaseChainConfigParams = {
     // rinkeby
     providers: [
       'https://eth-rinkeby.alchemyapi.io/v2/uOf-lO18qM7rAT6NOgMAZQoyuS__lhqN',
+    ],
+  },
+  5: {
+    // goerli
+    providers: [
+      'https://eth-goerli.alchemyapi.io/v2/imWPm8YYzUT-hocpV1Wtqu5HLgMHVpNU',
     ],
   },
 }

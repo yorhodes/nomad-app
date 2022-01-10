@@ -111,8 +111,12 @@ const actions = <ActionTree<UserInputState, RootState>>{
     commit(types.SET_DESTINATION_NETWORK, null)
   },
 
-  setToken({ commit, dispatch }, token: TokenMetadata) {
-    dispatch('switchNetwork', token.nativeNetwork)
+  async setToken({ commit, state, dispatch }, token: TokenMetadata) {
+    // switch network if token is not available on current network
+    if (token.nativeOnly && token.nativeNetwork !== state.originNetwork) {
+      await dispatch('switchNetwork', token.nativeNetwork)
+    }
+
     commit(types.SET_TOKEN, token)
     dispatch('getBalanceFromWallet')
   },

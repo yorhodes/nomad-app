@@ -52,19 +52,6 @@ export function toDecimals(
   return decimal.slice(0, end)
 }
 
-// loops over list of tokens to create select options
-export function generateTokenOptions(network: string): TokenMetadata[] {
-  const tokenValues = Object.values(tokens)
-
-  return Object.keys(networks).length === 2
-    ? tokenValues
-    : tokenValues.filter((token) => {
-      if (!token.nativeOnly || token.nativeNetwork === network) {
-        return token
-      }
-    })
-}
-
 // loops over list of networks to create select options (excluding fromNetwork)
 export function filterDestinationNetworks(
   options: { [key: string]: NetworkMetadata },

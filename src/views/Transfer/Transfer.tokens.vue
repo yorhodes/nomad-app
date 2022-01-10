@@ -39,11 +39,9 @@
 import { defineComponent, computed } from 'vue'
 import { NModal, NCard, NText, NButton } from 'naive-ui'
 
-import { networks } from '@/config/index'
+import { networks, tokens } from '@/config/index'
 import { TokenMetadata } from '@/config/config.types'
 import { useStore } from '@/store'
-
-import { generateTokenOptions } from '@/utils'
 
 export default defineComponent({
   emits: ['selectToken', 'hide'],
@@ -67,9 +65,7 @@ export default defineComponent({
 
     return {
       network: computed(() => networks[store.state.userInput.originNetwork]),
-      tokens: computed(() =>
-        generateTokenOptions(store.state.userInput.originNetwork)
-      ),
+      tokens: Object.values(tokens),
       store,
     }
   },

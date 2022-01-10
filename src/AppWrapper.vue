@@ -114,4 +114,14 @@ input[type=number]
 .n-notification
   width 90%
   max-width 350px !important
+
+.n-data-table
+  background transparent !important
+  --n-merged-td-color transparent
+  --n-merged-td-color-hover rgba(255, 255, 255, 0.02)
+  cursor pointer
+// .n-data-table-tr:hover
+//   background rgba(255, 255, 255, 0.9) !important
+.n-data-table-thead
+  display none
 </style>

@@ -28,6 +28,8 @@
         <swap-send v-else />
       </div>
     </div>
+
+    <connext-active />
   </div>
 </template>
 
@@ -45,6 +47,7 @@ import BridgeInputs from './Bridge.inputs.vue'
 import BridgePending from './Bridge.pending.vue'
 import BridgeSend from './Bridge.send.vue'
 import SwapSend from './Swap.send.vue'
+import ConnextActive from '@/views/Transactions/Connext.main.vue'
 
 export default defineComponent({
   components: {
@@ -55,6 +58,7 @@ export default defineComponent({
     BridgePending,
     BridgeSend,
     SwapSend,
+    ConnextActive,
   },
 
   setup: () => {

@@ -2,7 +2,6 @@
   <div class="app-container">
     <div class="header"><Nav /></div>
     <div class="main flex flex-col items-center m-auto relative">
-      <active-connext-txs />
       <router-view></router-view>
     </div>
     <div class="footer"><Footer /></div>
@@ -18,14 +17,12 @@ import { getNetworkByChainID } from '@/utils'
 import { RouterView } from 'vue-router'
 import Nav from '@/components/Layout/Nav.vue'
 import Footer from '@/components/Layout/Footer.vue'
-import ActiveConnextTxs from '@/views/Bridge/Swap.active.vue'
 
 export default defineComponent({
   components: {
     RouterView,
     Nav,
     Footer,
-    ActiveConnextTxs,
   },
   async mounted() {
     const store = useStore()
@@ -47,7 +44,7 @@ export default defineComponent({
         try {
           // get name of network and set in store
           const id = BigNumber.from(chainId).toNumber()
-          const network = getNetworkByChainID(id).name
+          const network = getNetworkByChainID(id)!.name
           // network supported, setting wallet network
           await store.dispatch('setWalletNetwork', network)
         } catch (e) {

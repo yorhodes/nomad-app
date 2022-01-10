@@ -106,14 +106,14 @@ export function generateNetworkOptions () {
 /**
  * Retrieves network config given a chain ID
  */
-export function getNetworkByChainID(chainID: number): NetworkMetadata {
+export function getNetworkByChainID(chainID: number): NetworkMetadata | undefined {
   for (const network in networks) {
     if (networks[network].chainID === chainID) {
       return networks[network]
     }
   }
   // unsupported network
-  throw new Error(`network not found: ${chainID}`)
+  console.error(`network not found: ${chainID}`)
 }
 
 /**

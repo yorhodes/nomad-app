@@ -9,7 +9,6 @@
       :columns="columns"
       :data="active"
       :pagination="pagination"
-      row-class-name="table"
     />
   </div>
 </template>

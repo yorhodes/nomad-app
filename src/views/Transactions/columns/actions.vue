@@ -33,5 +33,5 @@ export default defineComponent({
 <style scoped lang="stylus">
 .end
   display flex
-  justify-content end
+  justify-content flex-end
 </style>

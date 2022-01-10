@@ -8,11 +8,30 @@
       <n-spin stroke="#fff" class="mb-3" />
       <n-text class="uppercase opacity-60">Loading . . .</n-text>
     </span>
+    <!-- Manual process -->
+    <span
+      class="flex flex-col items-center max-w-xs" 
+      v-else-if="status === 2 && readyToManualProcess"
+    >
+      <n-text class="mb-2 opacity-80 text-center">Your transaction is ready to be processed. Please click below to pay the associated destination gas fees and complete your transfer.</n-text>
+      <n-text
+        @click="process"
+        class="flex flex-row items-center uppercase mt-1 cursor-pointer"
+      >
+        Process transfer
+        <img
+          src="@/assets/icons/arrow-right-up.svg"
+          alt="open"
+          class="ml-2 cursor-pointer"
+        />
+      </n-text>
+    </span>
     <!-- in progress -->
     <span class="flex flex-col items-center" v-else-if="status < 3">
-      <n-text class="text-4xl mb-2">{{ timeRemaining }}</n-text>
+      <n-text class="text-4xl mb-2">{{ minutesRemaining ? `${minutesRemaining} minutes` : '—' }}</n-text>
       <n-text class="uppercase opacity-60">Est. time remaining</n-text>
 
+      <!-- dropdown status stepper -->
       <n-icon
         size="16"
         class="mt-4 cursor-pointer"
@@ -25,11 +44,22 @@
       </n-icon>
       <div>
         <n-collapse-transition :show="showStatus">
-          <n-steps vertical :current="status + 1" size="small" class="mt-2">
+          <n-steps vertical :current="stepperStatus" size="small" class="mt-2">
             <n-step value="0" title="Dispatched" />
             <n-step value="1" title="Included" />
             <n-step value="2" title="Relayed" />
-            <n-step value="3" title="Processed" />
+            <n-step value="3" title="Confirmation Time" >
+              <div v-if="status === 2 && minutesRemaining" class="flex flex-row">
+                <n-progress
+                  type="line"
+                  color="#fff"
+                  rail-color="rgba(255, 255, 255, 0.5"
+                  :percentage="confirmationProgress"
+                  indicator-text-color="#fff"
+                />
+              </div>
+            </n-step>
+            <n-step value="4" title="Processed" />
           </n-steps>
         </n-collapse-transition>
       </div>
@@ -50,17 +80,29 @@ import {
   NSteps,
   NStep,
   NIcon,
+  NProgress,
   NCollapseTransition,
+  useNotification,
 } from 'naive-ui'
 import { ChevronDown } from '@vicons/ionicons5'
+import { BigNumber } from 'ethers'
+import { useStore } from '@/store'
+import { networks } from '@/config'
+import {
+  minutesTilConfirmation,
+  BUFFER_CONFIRMATION_TIME_IN_MINUTES,
+} from '@/utils/time'
 
 export default defineComponent({
   props: {
     status: {
       type: Number,
     },
-    timeRemaining: {
-      type: String,
+    confirmAt: {
+      type: BigNumber,
+    },
+    destinationNetwork: {
+      type: String
     },
   },
   components: {
@@ -69,12 +111,93 @@ export default defineComponent({
     NSteps,
     NStep,
     NIcon,
+    NProgress,
     NCollapseTransition,
     ChevronDown,
   },
   data: () => ({
     showStatus: false,
   }),
+  setup: () => {
+    const store = useStore()
+    const notification = useNotification()
+
+    return {
+      store,
+      notification,
+    }
+  },
+  methods: {
+    async process() {
+      try {
+        const receipt = await this.store.dispatch('processTx', { origin: this.$route.params.network, hash: this.$route.params.id })
+        console.log('!!!!!!!', receipt)
+        this.notification.success({
+          title: 'Success',
+          content: 'Transaction processed',
+          duration: 5000,
+        })
+      } catch(e: any) {
+        this.notification.warning({
+          title: 'Error Processing Transaction',
+          content: e.message,
+        })
+      }
+    },
+  },
+  computed: {
+    stepperStatus(): number {
+      if (this.status === 0) {
+        return 1
+      } else if (this.status === 1) {
+        return 2
+      } else if (this.status === 2) {
+        return 4
+      } else if (this.status === 3) {
+        return 5
+      }
+      return 1
+    },
+    confirmationTime(): number | undefined {
+      if (!this.destinationNetwork) return
+      return networks[this.destinationNetwork].confirmationTimeInMinutes
+    },
+    minutesRemaining(): number | undefined {
+      if (!this.confirmationTime) return
+      const bufferMinutes = BUFFER_CONFIRMATION_TIME_IN_MINUTES
+      // if status doesn't exist
+      if (!this.status && this.status !== 0) return
+      if (this.status < 2) {
+        return this.confirmationTime + bufferMinutes
+      } else if (this.status === 2 && this.confirmAt) {
+        const remaining = minutesTilConfirmation(this.confirmAt)
+        if (!remaining) {
+          return bufferMinutes
+        } else {
+          return remaining + bufferMinutes
+        }
+      }
+      return bufferMinutes
+    },
+    confirmationProgress(): number {
+      if (!this.confirmationTime) return 0
+      if (!this.confirmAt) return 0
+      const confirmationMinutesRemaining = minutesTilConfirmation(this.confirmAt!)
+      console.log(confirmationMinutesRemaining, ' minutes remaining')
+      const fraction = (this.confirmationTime - confirmationMinutesRemaining) / this.confirmationTime
+      return fraction * 100
+    },
+    readyToManualProcess(): boolean {
+      // networks not subsidized, TODO: put in config
+      const manualProcessNets = ['ethereum', 'kovan']
+      if (!this.confirmAt) return false
+      // get timestamp in seconds
+      const now = BigNumber.from(Date.now()).div(1000)
+      // check if confirmAt time has passed
+      // check if network is one that needs manual processing
+      return now.gt(this.confirmAt) && manualProcessNets.includes(this.destinationNetwork!)
+    },
+  }
 })
 </script>
 
@@ -82,7 +205,6 @@ export default defineComponent({
 .header
   @apply w-full rounded-xl flex flex-col justify-center items-center overflow-hidden
   min-height 140px
-
 .rotate
   transform rotateZ(180deg)
 </style>

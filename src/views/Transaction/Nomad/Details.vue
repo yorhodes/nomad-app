@@ -1,5 +1,5 @@
 <template>
-  <status-header :status="status" :time-remaining="timeRemaining" />
+  <status-header :status="status" :confirm-at="confirmAt" :destination-network="destNet" />
   <div class="w-full mt-8">
     <div class="flex items-center justify-between mb-8">
       <copy-hash class="text-xl font-medium" :address="$route.params.id" />
@@ -57,10 +57,6 @@ import { networks } from '@/config'
 import Detail from '@/views/Transaction/Detail.vue'
 import CopyHash from '@/components/CopyHash.vue'
 import StatusHeader from './Header.vue'
-import {
-  minutesTilConfirmation,
-  BUFFER_CONFIRMATION_TIME_IN_MINUTES,
-} from '@/utils/time'
 
 interface ComponentData {
   transferMessage: TransferMessage | null
@@ -157,29 +153,9 @@ export default defineComponent({
   },
 
   computed: {
-    explorerLink() {
+    explorerLink(): string {
       const n = networks[this.$route.params.network as string]
       return `${n.blockExplorer}/tx/${this.$route.params.id}`
-    },
-    timeRemaining() {
-      if (!this.destNet) return '—'
-      const confirmationMinutes =
-        networks[this.destNet].confirmationTimeInMinutes
-      const bufferMinutes = BUFFER_CONFIRMATION_TIME_IN_MINUTES
-
-      // if status doesn't exist
-      if (!this.status && this.status !== 0) return '—'
-      if (this.status < 2) {
-        return `${confirmationMinutes + bufferMinutes} minutes`
-      } else if (this.status === 2 && this.confirmAt) {
-        const remaining = minutesTilConfirmation(this.confirmAt)
-        if (!remaining) {
-          return `${bufferMinutes} minutes`
-        } else {
-          return `${remaining + bufferMinutes} minutes`
-        }
-      }
-      return `${bufferMinutes} minutes`
     },
   },
 })

@@ -85,6 +85,9 @@ export const tokens: { [key: string]: TokenMetadata } = {
   },
 }
 
+// default confirmation time for prod, set on each network below
+const PROD_DEFAULT_CONFIRMATION_TIME_IN_MINUTES = 30
+
 export const networks: { [key: string]: NetworkMetadata } = {
   celo: {
     name: 'celo',
@@ -94,7 +97,7 @@ export const networks: { [key: string]: NetworkMetadata } = {
     nativeToken: tokens.CELO,
     blockExplorer: 'https://explorer.celo.org/',
     icon: CeloIcon,
-    confirmationTimeInMinutes: 180,
+    confirmationTimeInMinutes: PROD_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
   },
   ethereum: {
     name: 'ethereum',
@@ -105,7 +108,7 @@ export const networks: { [key: string]: NetworkMetadata } = {
     nativeToken: tokens.ETH,
     blockExplorer: 'https://etherscan.io/',
     icon: wETHIcon,
-    confirmationTimeInMinutes: 180,
+    confirmationTimeInMinutes: PROD_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
   },
 }
 

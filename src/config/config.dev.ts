@@ -85,6 +85,9 @@ export const tokens: { [key: string]: TokenMetadata } = {
   },
 }
 
+// default confirmation time for dev, set on each network below
+const DEV_DEFAULT_CONFIRMATION_TIME_IN_MINUTES = 2
+
 export const networks: { [key: string]: NetworkMetadata } = {
   kovan: {
     name: 'kovan',
@@ -95,7 +98,7 @@ export const networks: { [key: string]: NetworkMetadata } = {
       'https://eth-kovan.alchemyapi.io/v2/aJP38P1ZeHbXP3Td8vVh8vFmxkKT9pnR',
     blockExplorer: 'https://kovan.etherscan.io/',
     icon: wETHIcon,
-    confirmationTimeInMinutes: 2,
+    confirmationTimeInMinutes: DEV_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
   },
   moonbasealpha: {
     name: 'moonbasealpha',
@@ -105,7 +108,7 @@ export const networks: { [key: string]: NetworkMetadata } = {
     rpcUrl: 'https://rpc.api.moonbase.moonbeam.network',
     blockExplorer: 'https://moonbase-blockscout.testnet.moonbeam.network/',
     icon: DEVIcon,
-    confirmationTimeInMinutes: 2,
+    confirmationTimeInMinutes: DEV_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
   },
   // TODO: re-add once evmos testnet has been added here (https://github.com/nomad-xyz/nomad-monorepo/blob/main/typescript/nomad-provider/src/nomad/domains/dev.ts)
   // Currently will error otherwise.

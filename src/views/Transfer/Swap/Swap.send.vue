@@ -54,7 +54,7 @@ import { defineComponent, computed } from 'vue'
 import { NText, NDivider, useNotification } from 'naive-ui'
 import { useStore } from '@/store'
 import NomadButton from '@/components/Button.vue'
-import BridgeQuote from './Bridge.quote.vue'
+import BridgeQuote from './Swap.quote.vue'
 
 export default defineComponent({
   components: {

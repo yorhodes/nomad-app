@@ -12,18 +12,17 @@
       <!-- color blur section -->
       <div class="bridge pt-8 pb-28 px-5 relative">
         <bg-blur class="absolute inset-0 w-full h-full z-negative" />
-        <h2 class="uppercase text-center mb-7">Bridge tokens</h2>
-        <bridge-amount ref="bridgeAmount" />
+        <transfer-amount ref="bridgeAmount" />
       </div>
 
       <!-- bridge inputs overlay -->
       <div class="bridge-inputs-container absolute w-full">
-        <bridge-inputs class="bridge-inputs mx-8" />
+        <transfer-inputs class="bridge-inputs mx-8" />
       </div>
 
       <!-- bottom drawer -->
       <div class="drawer pt-24 pb-5 px-8">
-        <bridge-pending v-if="sending" />
+        <transfer-pending v-if="sending || preparingSwap" />
         <bridge-send v-else-if="!connextAvail" />
         <swap-send v-else />
       </div>
@@ -41,21 +40,21 @@ import { useStore } from '@/store'
 import { checkConnext } from '@/utils'
 
 import CardAlert from '@/components/CardAlert.vue'
-import BgBlur from './Bridge.bgblur.vue'
-import BridgeAmount from './Bridge.amount.vue'
-import BridgeInputs from './Bridge.inputs.vue'
-import BridgePending from './Bridge.pending.vue'
-import BridgeSend from './Bridge.send.vue'
-import SwapSend from './Swap.send.vue'
+import BgBlur from './Transfer.bgblur.vue'
+import TransferAmount from './Transfer.amount.vue'
+import TransferInputs from './Transfer.inputs.vue'
+import TransferPending from './Transfer.pending.vue'
+import BridgeSend from './Bridge/Bridge.send.vue'
+import SwapSend from './Swap/Swap.send.vue'
 import ConnextActive from '@/views/Transactions/Connext.main.vue'
 
 export default defineComponent({
   components: {
     CardAlert,
-    BridgeAmount,
+    TransferAmount,
     BgBlur,
-    BridgeInputs,
-    BridgePending,
+    TransferInputs,
+    TransferPending,
     BridgeSend,
     SwapSend,
     ConnextActive,
@@ -72,6 +71,7 @@ export default defineComponent({
     
     return {
       sending: computed(() => store.state.sdk.sending),
+      preparingSwap: computed(() => store.state.connext.preparingSwap),
       connextAvail: computed(() => {
         // if connext is disabled, return false
         if (store.state.userInput.disableConnext) return false
@@ -96,7 +96,7 @@ export default defineComponent({
   overflow: hidden;
 
 .bridge-inputs-container
-  top: 41%
+  top: 230px
 
   .bridge-inputs
     backdrop-filter: blur(66px);

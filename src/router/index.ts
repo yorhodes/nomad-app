@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import Bridge from '@/views/Bridge/Bridge.main.vue'
+import Bridge from '@/views/Transfer/Transfer.main.vue'
 import TransactionSearch from '@/views/TransactionSearch.vue'
 import NomadTransaction from '@/views/Transaction/Nomad/Main.vue'
 import ConnextTransaction from '@/views/Transaction/Connext/Main.vue'

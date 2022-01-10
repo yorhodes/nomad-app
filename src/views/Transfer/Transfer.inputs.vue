@@ -137,8 +137,8 @@ import {
 } from '@/utils/index'
 import { NetworkMetadata } from '@/config/config.types'
 import { networks } from '@/config'
-import NetworkSelect from './Bridge.networks.vue'
-import EditRecipient from './Bridge.recipient.vue'
+import NetworkSelect from './Transfer.networks.vue'
+import EditRecipient from './Transfer.recipient.vue'
 
 interface ComponentData {
   showSelectOriginNetwork: boolean

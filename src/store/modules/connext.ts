@@ -21,18 +21,24 @@ export type SwapData = {
 }
 
 export interface ConnextState {
+  preparingSwap: boolean
   quote: any
   prepared: any
   fee: BigNumber | undefined
 }
 
 const state: ConnextState = {
+  preparingSwap: false,
   quote: undefined,
   prepared: undefined,
   fee: undefined,
 }
 
 const mutations = <MutationTree<ConnextState>>{
+  [types.SET_PREPARING_SWAP](state: ConnextState, preparing: boolean) {
+    console.log('{dispatch} preparing swap: ', preparing)
+    state.preparingSwap = preparing
+  },
   [types.SET_QUOTE](state: ConnextState, quote: any) {
     console.log('{dispatch} set quote: ', quote)
     state.quote = quote
@@ -101,11 +107,13 @@ const actions = <ActionTree<ConnextState, RootState>>{
     commit(types.SET_FEE, feeEstimate)
   },
 
-  async prepareTransfer({ state, commit }) {
+  async prepareTransfer({ state, commit, dispatch }) {
     if (!state.quote) {
       console.error('no quote')
       return
     }
+
+    commit(types.SET_PREPARING_SWAP, true)
 
     // prepare transfer
     const transfer = await connextSDK.prepareTransfer(state.quote)
@@ -120,6 +128,7 @@ const actions = <ActionTree<ConnextState, RootState>>{
     )
     console.log('prepared', prepared)
     commit(types.SET_PREPARED, prepared)
+    commit(types.SET_PREPARING_SWAP, false)
     return prepared
   },
 
@@ -159,14 +168,6 @@ const actions = <ActionTree<ConnextState, RootState>>{
     } else {
       console.log('not ready to claim')
     }
-    
-    // const variant = receiving ?? sending;
-    // const sendingTxData = {
-    //   ...invariant,
-    //   ...sending,
-    // }
-    // show cancel button if expired
-    // if (Date.now() / 1000 > variant.expiry) {
   }
 }
 

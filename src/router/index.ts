@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import Bridge from '@/views/Transfer/Transfer.main.vue'
+import Home from '@/views/Home.vue'
 import TransactionSearch from '@/views/TransactionSearch.vue'
 import NomadTransaction from '@/views/Transaction/Nomad/Main.vue'
 import ConnextTransaction from '@/views/Transaction/Connext/Main.vue'
@@ -9,7 +9,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'Bridge',
-    component: Bridge,
+    component: Home,
   },
   {
     path: '/tx',

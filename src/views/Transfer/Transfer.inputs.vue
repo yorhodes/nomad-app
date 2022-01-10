@@ -15,8 +15,8 @@
         class="flex flex-row items-center justify-between cursor-pointer"
         @click="this.showSelectOriginNetwork = true"
       >
-        <div class="flex flex-row items-center">
-          <img v-if="originNetwork" :src="originIcon" class="h-4 mr-1.5" />
+        <n-text class="opacity-50">Origin</n-text>
+        <div class="flex flex-row items-center max-w-[300]">
           <n-text class="font-bold text-base capitalize">
             {{ originNetwork || 'Select Network' }}
           </n-text>
@@ -61,8 +61,8 @@
         class="flex flex-row items-center justify-between cursor-pointer"
         @click="this.showSelectDestinationNetwork = true"
       >
-        <div class="flex flex-row items-center">
-          <img :src="destinationIcon" class="h-4 mr-1.5" />
+        <n-text class="opacity-50">Destination</n-text>
+        <div class="flex flex-row items-center max-w-[300]">
           <n-text class="font-bold text-base capitalize">
             {{ destinationNetwork || 'Select Network' }}
           </n-text>
@@ -130,7 +130,6 @@ import { required } from '@vuelidate/validators'
 import { useStore } from '@/store'
 import {
   truncateAddr,
-  getNetworkIcon,
   toDecimals,
   isValidAddress,
   getOnlyOtherNetwork,
@@ -172,15 +171,7 @@ export default defineComponent({
       destinationAddr: computed(() => store.state.userInput.destinationAddress),
       originGasFee: computed(() => store.state.userInput.gasEst),
       originNetwork: computed(() => store.state.userInput.originNetwork),
-      originIcon: computed(() =>
-        getNetworkIcon(store.state.userInput.originNetwork)
-      ),
-      destinationNetwork: computed(
-        () => store.state.userInput.destinationNetwork
-      ),
-      destinationIcon: computed(() =>
-        getNetworkIcon(store.state.userInput.destinationNetwork)
-      ),
+      destinationNetwork: computed(() => store.state.userInput.destinationNetwork),
       store,
       v$,
     }

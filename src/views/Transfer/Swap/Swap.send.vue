@@ -11,7 +11,7 @@
   <div class="flex flex-row items-center">
     <img src="@/assets/icons/connext.svg" class="h-9 mr-2" />
     <div class="flex flex-col">
-      <n-text>Good news! Your transfer will be filled by Connext.</n-text>
+      <n-text>Your transfer will be filled by Connext.</n-text>
       <n-text class="opacity-50">
         Connext will swap tokens for an ultra-fast cross-chain transfer.
         <a
@@ -43,10 +43,6 @@
   >
     Swap Tokens
   </nomad-button>
-
-  <p class="opacity-50 text-center mt-3">
-    You will continue to Metamask to approve transfer
-  </p>
 </template>
 
 <script lang="ts">

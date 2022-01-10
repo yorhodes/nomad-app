@@ -29,10 +29,6 @@
   >
     Bridge Tokens
   </nomad-button>
-
-  <p class="opacity-50 text-center mt-3">
-    You will continue to Metamask to approve transfer
-  </p>
 </template>
 
 <script lang="ts">

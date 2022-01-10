@@ -15,7 +15,7 @@
         :disabled="buttonDisabled"
         @click="showModal = true"
       >
-        <n-text class="mr-2 btn-connected-wallet-text"> WALLET </n-text>
+        <n-text class="mr-2 btn-connected-wallet-text">WALLET</n-text>
         <n-text>
           {{ truncatedAddress }}
         </n-text>
@@ -31,7 +31,7 @@
         @click="handleConnect"
         primary
       >
-        CONNECT TO WALLET
+        CONNECT WALLET
       </nomad-button>
     </div>
 
@@ -41,10 +41,10 @@
       <n-card style="width: 400px" title="Settings" :bordered="false">
         <div class="flex flex-row">
           <n-switch
-            :value="connextDisabled"
+            :value="!connextDisabled"
             @update:value="handleConnextSetting"
           />
-          <n-text class="ml-3">Disable Connext</n-text>
+          <n-text class="ml-3">Enable Connext</n-text>
         </div>
       </n-card>
     </n-modal>
@@ -94,7 +94,7 @@ export default defineComponent({
       }
     },
     handleConnextSetting(val: boolean) {
-      this.store.dispatch('setDisableConnext', val)
+      this.store.dispatch('setDisableConnext', !val)
     },
   },
   computed: {

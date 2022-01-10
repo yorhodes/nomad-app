@@ -170,7 +170,7 @@ export default defineComponent({
     },
     readyToManualProcess(): boolean {
       // networks not subsidized, TODO: put in config
-      const manualProcessNets = ['ethereum', 'rinkeby']
+      const manualProcessNets = ['ethereum', 'kovan']
       if (!this.confirmAt) return false
       // get timestamp in seconds
       const now = BigNumber.from(Date.now()).div(1000)

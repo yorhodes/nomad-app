@@ -196,8 +196,9 @@ const actions = <ActionTree<SDKState, RootState>>{
     return null
   },
   async processTx ({ dispatch }, tx: any) {
+    await dispatch('switchNetwork', 'moonbasealpha')
     // register signer
-    await dispatch('registerSigner', networks['kovan'])
+    await dispatch('registerSigner', networks['moonbasealpha'])
 
     // get transfer message
     const { origin, hash } = tx
@@ -209,20 +210,20 @@ const actions = <ActionTree<SDKState, RootState>>{
     console.log('proof: ', data)
 
     // get replica contract
-    // const core = nomad.getCore(message.origin)
-    // const replica = core?._replicas.get(message.destination)
+    const core = nomad.getCore(message.destination)
+    const replica = core?.getReplica(message.origin)
 
-    // // connect signer
-    // const signer = nomad.getSigner(3000)
-    // replica!.connect(signer!)
+    // connect signer
+    const signer = nomad.getSigner(5000)
+    replica!.connect(signer!)
 
-    // // prove and process
-    // try {
-    //   await replica!.proveAndProcess(data.message as BytesLike, data.proof.path, data.proof.index)
-    //   console.log('PROCESSED!!!!')
-    // } catch(e) {
-    //   console.log(e)
-    // }
+    // prove and process
+    try {
+      await replica!.proveAndProcess(data.message as BytesLike, data.proof.path, data.proof.index)
+      console.log('PROCESSED!!!!')
+    } catch(e) {
+      console.log(e)
+    }
   },
 }
 

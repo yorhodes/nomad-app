@@ -3,6 +3,7 @@ import wETHIcon from '@/assets/token-logos/WETH.png'
 import USDTIcon from '@/assets/token-logos/USDT.png'
 import USDCIcon from '@/assets/token-logos/USDC.png'
 import DAIIcon from '@/assets/token-logos/DAI.png'
+// import DEVIcon from '@/assets/token-logos/DEV.png'
 
 import { SdkBaseChainConfigParams } from '@connext/nxtp-sdk'
 
@@ -104,12 +105,22 @@ export const networks: { [key: string]: NetworkMetadata } = {
     chainID: 1,
     domainID: 6648936,
     rpcUrl:
-      'https://eth-mainnet.alchemyapi.io/v2/rud551ngiIel2fRYbWmsnhwAE1FGgCLG',
+      'https://eth-mainnet.alchemyapi.io/v2/giUxguFsfUQIJMYN86WVn5OQn1rIPQoY',
     nativeToken: tokens.ETH,
     blockExplorer: 'https://etherscan.io/',
     icon: wETHIcon,
     confirmationTimeInMinutes: PROD_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
   },
+  // moonbeam: {
+  //   name: 'moonbeam',
+  //   chainID: ,
+  //   domainID: ,
+  //   rpcURL: 'https://moonbeam.api.onfinality.io/rpc?apikey=499ab348-13c8-4f4e-bebd-ce2af1141d74',
+  //   nativeToken: tokens.GLMMR,
+  //   blockExplorer: '',
+  //   icon: DEVIcon,
+  //   confirmationTimeInMinutes: PROD_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
+  // },
 }
 
 export const representations = representationsMain

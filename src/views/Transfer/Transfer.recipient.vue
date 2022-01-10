@@ -2,7 +2,7 @@
   <n-modal :show="show" class="bg-card" @maskClick="this.$emit('hide')">
     <n-card class="w-11/12 max-w-sm">
       <!-- header -->
-      <n-text class="uppercase">Edit recipient</n-text>
+      <n-text class="uppercase">Edit destination address</n-text>
       <br />
       <n-text class="opacity-70 text-xs leading-3">
         Sending tokens to an incorrect address on the destination chain could

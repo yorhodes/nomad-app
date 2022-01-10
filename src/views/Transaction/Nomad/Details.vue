@@ -17,11 +17,11 @@
       <n-text v-if="amount">{{ amount }} {{ tokenSymbol }}</n-text>
       <n-text v-else>{{ nullVal }}</n-text>
     </detail>
-    <detail :title="`FROM (${$route.params.network.toUpperCase()})`">
+    <detail :title="`ORIGIN: ${$route.params.network.toUpperCase()}`">
       <copy-hash v-if="originAddr" :address="originAddr" />
       <n-text v-else>{{ nullVal }}</n-text>
     </detail>
-    <detail :title="`TO (${destNet.toUpperCase()})`">
+    <detail :title="`DESTINATION: ${destNet.toUpperCase()}`">
       <copy-hash v-if="destAddr" :address="destAddr" />
       <n-text v-else>{{ nullVal }}</n-text>
     </detail>

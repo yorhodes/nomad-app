@@ -2,15 +2,7 @@
   <n-modal :show="show" class="bg-card" @maskClick="this.$emit('hide')">
     <n-card class="w-11/12 max-w-xs">
       <!-- header -->
-      <div class="flex flex-row justify-between mb-5">
-        <n-text class="uppercase">SELECT TOKEN</n-text>
-        <div v-if="network" class="flex items-center">
-          <n-text class="text-sm font-medium capitalize pr-1">
-            {{ network.name }}
-          </n-text>
-          <img class="w-4 h-4" :src="network.icon" />
-        </div>
-      </div>
+      <div class="uppercase mb-5">SELECT TOKEN</div>
 
       <!-- search bar -->
       <!-- TODO: search by token symbol or address -->

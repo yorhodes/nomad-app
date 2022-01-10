@@ -13,12 +13,12 @@
       class="flex flex-col items-center max-w-xs" 
       v-else-if="status === 2 && readyToManualProcess"
     >
-      <n-text class="mb-2 opacity-80 text-center">Your transaction is ready to be processed. Please click below to pay the associated destination gas fees and complete your transfer.</n-text>
+      <n-text class="mb-2 opacity-80 text-center">Your funds have been bridged back to Ethereum! Please click below to submit a transaction to complete your transfer.</n-text>
       <n-text
         @click="process"
         class="flex flex-row items-center uppercase mt-1 cursor-pointer"
       >
-        Process transfer
+        Complete transfer
         <img
           src="@/assets/icons/arrow-right-up.svg"
           alt="open"
@@ -134,12 +134,12 @@ export default defineComponent({
         console.log('!!!!!!!', receipt)
         this.notification.success({
           title: 'Success',
-          content: 'Transaction processed',
+          content: 'Transaction dispatched',
           duration: 5000,
         })
       } catch(e: any) {
         this.notification.warning({
-          title: 'Error Processing Transaction',
+          title: 'Error Dispatching Transaction',
           content: e.message,
         })
       }

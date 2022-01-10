@@ -1,7 +1,7 @@
 <template>
   <div v-if="active.length" class="active-txs">
-    <div class="flex flex-row items-center p-2 justify-between">
-      <n-text class="uppercase text-lg font-semibold">Active Transactions</n-text>
+    <div class="flex flex-row items-center p-2 mb-3 justify-between">
+      <n-text class="uppercase text-lg font-semibold">Active Connext Transactions</n-text>
       <n-text class="opacity-70 text-lg">{{ active.length}}</n-text>
     </div>
     <n-data-table

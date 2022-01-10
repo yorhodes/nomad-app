@@ -18,15 +18,25 @@
       </div>
       <div class="ml-2">
         <div class="flex flex-row items-center h-3">
-          <n-text>{{ this.token.symbol || 'TOKEN' }}</n-text>
+          <n-text>{{ this.token.symbol || 'Select token' }}</n-text>
           <img src="@/assets/icons/select.svg" class="ml-1" />
         </div>
-        <n-text class="opacity-60 text-xs">
-          <!-- token not selected -->
-          <span v-if="!this.token.symbol">Select asset</span>
-          <!-- token selected -->
+        <!-- token balance, show if token selected -->
+        <n-text
+          v-if="this.token.symbol"
+          class="opacity-60 text-xs"
+        >
+          <span v-if="originNetwork">
+            Balance: {{ balance ? toDecimals(balance, token.decimals, 6) : 0 }}
+          </span>
           <span v-else>
-            {{ balance ? toDecimals(balance, token.decimals, 6) : 0 }} Avail.
+            Balance unavailable
+            <n-tooltip trigger="hover">
+              <template #trigger>
+                ?
+              </template>
+              Select origin network to view balance
+            </n-tooltip>
           </span>
         </n-text>
       </div>
@@ -71,7 +81,7 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
-import { NText } from 'naive-ui'
+import { NText, NTooltip } from 'naive-ui'
 import { ethers, BigNumber } from 'ethers'
 import useVuelidate from '@vuelidate/core'
 import { required, helpers } from '@vuelidate/validators'
@@ -95,6 +105,7 @@ interface ComponentData {
 export default defineComponent({
   components: {
     NText,
+    NTooltip,
     TokenSelect,
   },
   data() {
@@ -111,6 +122,7 @@ export default defineComponent({
 
     return {
       token: computed(() => store.state.userInput.token),
+      originNetwork: computed(() => store.state.userInput.originNetwork),
       balance: computed(() => store.state.sdk.balance),
       store,
       v$,

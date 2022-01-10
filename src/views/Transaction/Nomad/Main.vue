@@ -1,6 +1,6 @@
 <template>
   <div class="max-w-lg w-full relative">
-    <breadcrumb label="Transaction History" class="mb-10" />
+    <breadcrumb label="Bridge" class="mb-10" />
     <tx-details />
   </div>
 </template>

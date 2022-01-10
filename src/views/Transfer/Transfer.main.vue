@@ -4,7 +4,7 @@
     <!-- color blur section -->
     <div class="bridge pt-8 pb-28 px-5 relative">
       <bg-blur class="absolute inset-0 w-full h-full z-negative" />
-      <transfer-amount ref="bridgeAmount" />
+      <transfer-amount />
     </div>
 
     <!-- bridge inputs overlay -->
@@ -16,7 +16,7 @@
     <div class="drawer pt-24 pb-5 px-8">
       <transfer-pending v-if="sending || preparingSwap" />
       <bridge-send v-else-if="!connextAvail" :v$="v$" />
-      <swap-send v-else :v$="v$"/>
+      <swap-send v-else :v$="v$" />
     </div>
   </div>
 </template>

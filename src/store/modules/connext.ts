@@ -64,6 +64,7 @@ const actions = <ActionTree<ConnextState, RootState>>{
       throw new Error('Couldn\'t setup Nomad')
     }
   },
+
   async formatDataForTransfer({ rootGetters }, data: SwapData) {
     const { origin, destination, token, amount, destinationAddress } = data
     // get chain ids
@@ -94,6 +95,12 @@ const actions = <ActionTree<ConnextState, RootState>>{
       preferredRouters: !isProduction && ['0x087f402643731b20883fc5dba71b37f6f00e69b9']
     }
   },
+
+  resetTransferQuote({ commit }) {
+    commit(types.SET_QUOTE, undefined)
+    commit(types.SET_FEE, undefined)
+  },
+
   async checkTransferLiquidity({ dispatch }, data: SwapData): Promise<boolean> {
     const payload = await dispatch('formatDataForTransfer', data)
     console.log('Checking liquidity: ', payload)
@@ -104,6 +111,7 @@ const actions = <ActionTree<ConnextState, RootState>>{
       return false
     }
   },
+
   async getTransferQuote({ commit, dispatch }, data: SwapData) {
     const payload = await dispatch('formatDataForTransfer', data)
     console.log('Preparing for transfer quote: ', payload)

@@ -1,5 +1,5 @@
 <template>
-  <status-header :status="status" :minutes-remaining="minutesRemaining" />
+  <status-header :status="status" :confirm-at="confirmAt" :destination-network="destNet" />
   <div class="w-full mt-8">
     <div class="flex items-center justify-between mb-8">
       <copy-hash class="text-xl font-medium" :address="$route.params.id" />

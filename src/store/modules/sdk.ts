@@ -209,20 +209,20 @@ const actions = <ActionTree<SDKState, RootState>>{
     console.log('proof: ', data)
 
     // get replica contract
-    const core = nomad.getCore(message.origin)
-    const replica = core?.replicas.get(message.destination)!.contract
+    // const core = nomad.getCore(message.origin)
+    // const replica = core?._replicas.get(message.destination)
 
-    // connect signer
-    const signer = nomad.getSigner(3000)
-    replica!.connect(signer!)
+    // // connect signer
+    // const signer = nomad.getSigner(3000)
+    // replica!.connect(signer!)
 
-    // prove and process
-    try {
-      await replica!.proveAndProcess(data.message as BytesLike, data.proof.path, data.proof.index)
-      console.log('PROCESSED!!!!')
-    } catch(e) {
-      console.log(e)
-    }
+    // // prove and process
+    // try {
+    //   await replica!.proveAndProcess(data.message as BytesLike, data.proof.path, data.proof.index)
+    //   console.log('PROCESSED!!!!')
+    // } catch(e) {
+    //   console.log(e)
+    // }
   },
 }
 

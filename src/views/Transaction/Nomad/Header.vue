@@ -80,12 +80,11 @@ import {
   NSteps,
   NStep,
   NIcon,
-  NCollapseTransition,
   NProgress,
+  NCollapseTransition,
 } from 'naive-ui'
 import { ChevronDown } from '@vicons/ionicons5'
 import { BigNumber } from 'ethers'
-
 import { useStore } from '@/store'
 import { networks } from '@/config'
 import {
@@ -103,7 +102,7 @@ export default defineComponent({
     },
     destinationNetwork: {
       type: String
-    }
+    },
   },
   components: {
     NText,
@@ -111,8 +110,8 @@ export default defineComponent({
     NSteps,
     NStep,
     NIcon,
-    NCollapseTransition,
     NProgress,
+    NCollapseTransition,
     ChevronDown,
   },
   data: () => ({
@@ -147,7 +146,6 @@ export default defineComponent({
     minutesRemaining(): number | undefined {
       if (!this.confirmationTime) return
       const bufferMinutes = BUFFER_CONFIRMATION_TIME_IN_MINUTES
-
       // if status doesn't exist
       if (!this.status && this.status !== 0) return
       if (this.status < 2) {
@@ -188,7 +186,6 @@ export default defineComponent({
 .header
   @apply w-full rounded-xl flex flex-col justify-center items-center overflow-hidden
   min-height 140px
-
 .rotate
   transform rotateZ(180deg)
 </style>

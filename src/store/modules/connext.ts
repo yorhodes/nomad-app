@@ -188,10 +188,7 @@ const getters = <GetterTree<ConnextState, RootState>>{
         // asset: tx.crosschainTx,
         key: tx.crosschainTx.invariant.transactionId,
         preparedAt: tx.preparedTimestamp,
-        expires:
-          variant.expiry > Date.now() / 1000
-            ? `${((variant.expiry - Date.now() / 1000) / 3600).toFixed(2)} hours`
-            : "Expired",
+        expired: Date.now() / 1000 > variant.expiry,
         action: tx,
       };
     })

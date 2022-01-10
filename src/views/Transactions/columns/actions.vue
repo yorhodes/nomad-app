@@ -1,6 +1,7 @@
 <template>
   <div class="end w-full">
-    <nomad-button primary v-if="ready">Claim</nomad-button>
+    <nomad-button primary v-if="expired">Cancel</nomad-button>
+    <nomad-button primary v-else-if="ready">Claim</nomad-button>
   </div>
 </template>
 
@@ -14,6 +15,9 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    expired: {
+      type: Boolean,
+    }
   },
   components: {
     NomadButton,

@@ -36,6 +36,7 @@ const createColumns = ({ claim }: any) => {
           {
             status: tx.status,
             hash: tx.key,
+            expired: tx.expired,
           }
         )
       }
@@ -70,6 +71,7 @@ const createColumns = ({ claim }: any) => {
           Actions,
           {
             status: tx.status,
+            expired: tx.expired,
             onClick: () => claim(tx.action)
           },
         )

@@ -3,6 +3,7 @@ import USDTIcon from '@/assets/token-logos/USDT.png'
 import USDCIcon from '@/assets/token-logos/USDC.png'
 import DAIIcon from '@/assets/token-logos/DAI.png'
 import DEVIcon from '@/assets/token-logos/DEV.png'
+import ConnextIcon from '@/assets/icons/connext.svg'
 
 import { SdkBaseChainConfigParams } from '@connext/nxtp-sdk'
 
@@ -83,6 +84,19 @@ export const tokens: { [key: string]: TokenMetadata } = {
     nativeOnly: true,
     minAmt: 10,
   },
+  // Only for use with connext in dev environment
+  TEST: {
+    nativeNetwork: 'kovan',
+    symbol: 'TEST',
+    name: 'Connext TEST',
+    icon: ConnextIcon,
+    iconColors: ['#62BBEF', '#8470E2'],
+    decimals: 18,
+    coinGeckoId: 'dai',
+    tokenIdentifier: { domain: '', id: '' },
+    nativeOnly: false,
+    minAmt: 10,
+  }
 }
 
 // default confirmation time for dev, set on each network below
@@ -127,8 +141,8 @@ export const networks: { [key: string]: NetworkMetadata } = {
 export const representations = representationsDev
 
 export const connextPools: { [key: string]: string[] } = {
-  moonbasealpha: ['WETH', 'USDC', 'USDT', 'DAI'],
-  kovan: ['WETH', 'USDC', 'USDT', 'DAI'],
+  moonbasealpha: ['TEST'],
+  kovan: ['TEST'],
 }
 
 export const connextConfig: SdkBaseChainConfigParams = {
@@ -142,19 +156,13 @@ export const connextConfig: SdkBaseChainConfigParams = {
   42: {
     // kovan
     providers: [
-      'https://eth-kovan.alchemyapi.io/v2/aJP38P1ZeHbXP3Td8vVh8vFmxkKT9pnR',
+      'https://eth-kovan.alchemyapi.io/v2/QKnfLTfe7CkGA80yAVsCdh8ZatQCsfHI',
     ],
   },
-  4: {
-    // rinkeby
+  1287: {
+    // moonbasealpha
     providers: [
-      'https://eth-rinkeby.alchemyapi.io/v2/uOf-lO18qM7rAT6NOgMAZQoyuS__lhqN',
-    ],
-  },
-  5: {
-    // goerli
-    providers: [
-      'https://eth-goerli.alchemyapi.io/v2/imWPm8YYzUT-hocpV1Wtqu5HLgMHVpNU',
-    ],
+      'https://moonbeam-alpha.api.onfinality.io/rpc?apikey=44e80fe3-d9ce-40f2-8336-6089e751b625',
+    ]
   },
 }

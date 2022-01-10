@@ -54,6 +54,12 @@ export default defineComponent({
     NDivider,
     NomadButton,
   },
+  props: {
+    v$: {
+      type: Object,
+      required: true,
+    },
+  },
   setup: () => {
     const store = useStore()
     const notification = useNotification()
@@ -77,7 +83,10 @@ export default defineComponent({
   methods: {
     // use Nomad to bridge tokens
     async bridge() {
-      // TODO: validate inputs
+      // validate inputs, return if invalid
+      const inputsValid = await this.v$.$validate()
+      if (!inputsValid) return
+
       const {
         sendAmount,
         token,

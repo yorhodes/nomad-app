@@ -10,7 +10,7 @@ module.exports = {
   }),
   // options...
   devServer: {
-    proxy: 'https://localhost:8080/',
+    proxy: 'http://localhost:8080/',
   },
   transpileDependencies: [
     '@sinclair/typebox',

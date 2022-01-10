@@ -29,7 +29,7 @@
 
   <nomad-button
     v-if="!quote"
-    class="w-full uppercase mt-6 bg-white text-black h-11 flex justify-center"
+    class="w-full uppercase mt-6 bg-white text-black h-11 flex justify-center disabled:opacity-30"
     :disabled="quoteInitiated"
     @click="quoteSwap"
   >
@@ -63,6 +63,12 @@ export default defineComponent({
     NomadButton,
     BridgeQuote,
   },
+  props: {
+    v$: {
+      type: Object,
+      required: true,
+    },
+  },
   data () {
     return {
       quoteInitiated: false,
@@ -84,7 +90,10 @@ export default defineComponent({
     // use connext to swap tokens
     // TODO: watch userInput and clear quote if anything changes
     async quoteSwap() {
-      // TODO: validate inputs
+      // validate inputs, return if invalid
+      const inputsValid = await this.v$.$validate()
+      if (!inputsValid) return
+
       this.quoteInitiated = true
       // instantiate connext
       await this.store.dispatch('instantiateConnext')

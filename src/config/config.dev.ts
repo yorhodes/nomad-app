@@ -93,22 +93,22 @@ export const tokens: { [key: string]: TokenMetadata } = {
     iconColors: ['#62BBEF', '#8470E2'],
     decimals: 18,
     coinGeckoId: 'dai',
-    tokenIdentifier: { domain: 'kovan', id: '0xe71678794fff8846bff855f716b0ce9d9a78e844' },
+    tokenIdentifier: testnetTokens.TEST,
     nativeOnly: false,
     minAmt: 10,
   },
-  mbTEST: {
-    nativeNetwork: 'kovan',
-    symbol: 'mbTEST',
-    name: 'Moonbase TEST',
-    icon: ConnextIcon,
-    iconColors: ['#62BBEF', '#8470E2'],
-    decimals: 18,
-    coinGeckoId: 'dai',
-    tokenIdentifier: { domain: 'moonbasealpha', id: '0x4326c29a626d9a98464df8f53856887d43a11759' },
-    nativeOnly: false,
-    minAmt: 10,
-  }
+  // mbTEST: {
+  //   nativeNetwork: 'kovan',
+  //   symbol: 'mbTEST',
+  //   name: 'Moonbase TEST',
+  //   icon: ConnextIcon,
+  //   iconColors: ['#62BBEF', '#8470E2'],
+  //   decimals: 18,
+  //   coinGeckoId: 'dai',
+  //   tokenIdentifier: { domain: 'moonbasealpha', id: '0x4326c29a626d9a98464df8f53856887d43a11759' },
+  //   nativeOnly: false,
+  //   minAmt: 10,
+  // }
 }
 
 // default confirmation time for dev, set on each network below

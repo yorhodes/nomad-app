@@ -79,7 +79,7 @@ export const tokens: { [key: string]: TokenMetadata } = {
     icon: DEVIcon,
     iconColors: ['#53CBC8', '#e84195'],
     decimals: 18,
-    coinGeckoId: '',
+    coinGeckoId: 'moonbeam',
     tokenIdentifier: mainnetTokens.GLMR,
     nativeOnly: true,
     minAmt: 10,

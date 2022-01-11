@@ -28,20 +28,20 @@
   <bridge-quote v-if="quoteInitiated" />
 
   <nomad-button
-    v-if="!quote"
-    class="w-full uppercase mt-6 bg-white text-black h-11 flex justify-center disabled:opacity-30"
-    :disabled="quoteInitiated"
+    v-if="!quoteInitiated"
+    class="w-full uppercase mt-6 bg-white text-black h-11 flex justify-center"
     @click="quoteSwap"
   >
-    Quote Swap
+    Preview Send
   </nomad-button>
 
   <nomad-button
     v-else
-    class="w-full uppercase mt-6 bg-white text-black h-11 flex justify-center"
+    class="w-full uppercase mt-6 bg-white text-black h-11 flex justify-center disabled:opacity-30"
+    @disabled="!quote"
     @click="swap"
   >
-    Swap Tokens
+    Send Tokens
   </nomad-button>
 </template>
 
@@ -108,6 +108,33 @@ export default defineComponent({
     },
     async swap() {
       await this.store.dispatch('prepareTransfer')
+    }
+  },
+
+  watch: {
+    userInput: {
+      async handler() {
+        // user should initiate the quote first by clicking quote swap first
+        if (!this.quoteInitiated) {
+          return
+        }
+
+        // reset and show user the quote swap button again
+        await this.store.dispatch('resetTransferQuote')
+        this.quoteInitiated = false
+      },
+      deep: true,
+    },
+    async sendAmount(newAmt) {
+      console.log('send amount changed!', newAmt);
+      // user should initiate the quote first by clicking quote swap first
+      if (!this.quoteInitiated) {
+        return
+      }
+
+      // reset and show user the quote swap button again
+      await this.store.dispatch('resetTransferQuote')
+      this.quoteInitiated = false
     }
   },
 })

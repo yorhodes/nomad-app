@@ -32,7 +32,7 @@
     class="w-full uppercase mt-6 bg-white text-black h-11 flex justify-center"
     @click="quoteSwap"
   >
-    Quote Swap
+    Preview Send
   </nomad-button>
 
   <nomad-button
@@ -41,7 +41,7 @@
     @disabled="!quote"
     @click="swap"
   >
-    Swap Tokens
+    Send Tokens
   </nomad-button>
 </template>
 

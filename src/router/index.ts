@@ -21,11 +21,11 @@ const routes: Array<RouteRecordRaw> = [
     name: 'NomadTransaction',
     component: NomadTransaction,
   },
-  {
-    path: '/tx/connext/:id',
-    name: 'ConnextTransaction',
-    component: ConnextTransaction,
-  },
+  // {
+  //   path: '/tx/connext/:id',
+  //   name: 'ConnextTransaction',
+  //   component: ConnextTransaction,
+  // },
   {
     path: '/:pathMatch(.*)*',
     name: 'not-found',

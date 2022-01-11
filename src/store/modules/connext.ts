@@ -25,15 +25,15 @@ export type SwapData = {
 export interface ConnextState {
   preparingSwap: boolean
   quote: any
-  prepared: any
   fee: BigNumber | undefined
+  prepared: any
 }
 
 const state: ConnextState = {
   preparingSwap: false,
   quote: undefined,
-  prepared: undefined,
   fee: undefined,
+  prepared: undefined,
 }
 
 const mutations = <MutationTree<ConnextState>>{
@@ -137,18 +137,19 @@ const actions = <ActionTree<ConnextState, RootState>>{
     // prepare transfer
     const transfer = await connextSDK.prepareTransfer(state.quote)
     console.log('transfer', transfer.transactionId)
-    window.location.pathname = `/tx/connext/${transfer.transactionId}`
-  
-    // wait for receiver prepared event
-    const prepared = await connextSDK.waitFor(
-      NxtpSdkEvents.ReceiverTransactionPrepared,
-      100_000,
-      (data) => data.txData.transactionId === transfer.transactionId // filter function
-    )
-    console.log('prepared', prepared)
-    commit(types.SET_PREPARED, prepared)
+    // TODO emit alert
     commit(types.SET_PREPARING_SWAP, false)
-    return prepared
+
+    // // wait for receiver prepared event
+    // const prepared = await connextSDK.waitFor(
+    //   NxtpSdkEvents.ReceiverTransactionPrepared,
+    //   100_000,
+    //   (data) => data.txData.transactionId === transfer.transactionId // filter function
+    // )
+    // console.log('prepared', prepared)
+    // commit(types.SET_PREPARED, prepared)
+    // commit(types.SET_PREPARING_SWAP, false)
+    // return prepared
   },
 
   async fulfillTransfer({ state, commit }) {
@@ -207,7 +208,6 @@ const getters = <GetterTree<ConnextState, RootState>>{
     const activeTxs = await connextSDK.getActiveTransactions();
     return activeTxs.map((tx: any) => {
       const variant = tx.crosschainTx.receiving ?? tx.crosschainTx.sending;
-      console.log('!!!!!!!!!!!!!!!', tx.crosschainTx)
       return {
         sentAmount: utils.formatEther(tx.crosschainTx.sending?.amount ?? "0"),
         receivedAmount: utils.formatEther(tx.crosschainTx.receiving?.amount ?? "0"),

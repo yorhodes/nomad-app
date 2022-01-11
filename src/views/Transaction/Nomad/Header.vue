@@ -131,11 +131,9 @@ export default defineComponent({
     async process() {
       try {
         const receipt = await this.store.dispatch('processTx', { origin: this.$route.params.network, hash: this.$route.params.id })
-        console.log('!!!!!!!', receipt)
         this.notification.success({
           title: 'Success',
           content: 'Transaction dispatched',
-          duration: 5000,
         })
       } catch(e: any) {
         this.notification.warning({

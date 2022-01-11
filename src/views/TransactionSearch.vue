@@ -74,6 +74,7 @@
 import { defineComponent } from 'vue'
 import { NCard, NPopselect, NTabs, NTabPane, useNotification } from 'naive-ui'
 import NomadButton from '@/components/Button.vue'
+import { connextScanURL } from '@/config'
 import { generateNetworkOptions } from '@/utils'
 
 export default defineComponent({
@@ -101,7 +102,8 @@ export default defineComponent({
   methods: {
     goConnext() {
       if (this.txHash.length === 66) {
-        this.$router.push(`/tx/connext/${this.txHash}`)
+        // this.$router.push(`/tx/connext/${this.txHash}`)
+        window.open(`${connextScanURL}tx/${this.txHash}`, '_blank');
       } else {
         this.notification.warning({
           title: 'Invalid Input',

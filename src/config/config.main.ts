@@ -1,4 +1,3 @@
-import CeloIcon from '@/assets/token-logos/CELO.png'
 import wETHIcon from '@/assets/token-logos/WETH.png'
 import USDTIcon from '@/assets/token-logos/USDT.png'
 import USDCIcon from '@/assets/token-logos/USDC.png'

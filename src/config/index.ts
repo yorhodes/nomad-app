@@ -11,6 +11,8 @@ export const networks = chooseConfig(environment).networks
 export const representations = chooseConfig(environment).representations
 export const connextConfig = chooseConfig(environment).connextConfig
 export const connextPools = chooseConfig(environment).connextPools
+export const s3URL = environment === 'development' ? 'https://nomadxyz-development-proofs.s3.us-west-2.amazonaws.com/' : 'https://nomadxyz-production-proofs.s3.us-west-2.amazonaws.com/'
+export const connextScanURL = environment === 'development' ? 'https://testnet.connextscan.io/' : 'https://connextscan.io/'
 
 function chooseConfig(environment: string | undefined): {
   tokens: { [key: string]: TokenMetadata }

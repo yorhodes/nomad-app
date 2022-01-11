@@ -47,6 +47,7 @@
 import { defineComponent } from 'vue'
 import { NText, NDivider } from 'naive-ui'
 
+import { connextScanURL } from '@/config'
 // import Detail from '@/views/Transaction/Detail.vue'
 import CopyHash from '@/components/CopyHash.vue'
 import StatusHeader from './Header.vue'
@@ -62,7 +63,7 @@ export default defineComponent({
 
   computed: {
     explorerLink() {
-      return `https://testnet.connextscan.io/tx/${this.$route.params.id}`
+      return `${connextScanURL}tx/${this.$route.params.id}`
     },
   },
 })

@@ -7,13 +7,12 @@ import { TokenIdentifier } from '@nomad-xyz/sdk/nomad'
 import { TXData } from './transactions'
 import { RootState } from '@/store'
 import * as types from '@/store/mutation-types'
-import { networks } from '@/config/index'
+import { networks, s3URL } from '@/config/index'
 import { getBalance, getNativeBalance, getERC20Balance } from '@/utils/balance'
 import { isNativeToken, getNetworkByDomainID } from '@/utils/index'
 import { NetworkMetadata } from '@/config/config.types'
 
 const isProduction = process.env.VUE_APP_NOMAD_ENVIRONMENT === 'production'
-const s3URL = 'https://nomadxyz-development-proofs.s3.us-west-2.amazonaws.com/'
 
 function _instantiateNomad(isProduction: boolean): NomadContext {
   // configure for mainnet/testnet

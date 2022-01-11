@@ -5,7 +5,7 @@
     <a
       v-else
       class="flex flex-row items-center justify-center cursor-pointer"
-      :href="`https://testnet.connextscan.io/tx/${hash}`"
+      :href="explorerLink"
       target="_blank"
     >
       View
@@ -20,6 +20,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { connextScanURL } from '@/config'
 import { useStore } from '@/store'
 import NomadButton from '@/components/Button.vue'
 
@@ -48,8 +49,9 @@ export default defineComponent({
     }
   },
   methods: {
-    claim () {
-      this.store.dispatch('finishTransfer', this.txAction)
+    async claim() {
+      console.log('claim', this.txAction)
+      await this.store.dispatch('finishTransfer', this.txAction)
     },
   },
   components: {
@@ -59,6 +61,9 @@ export default defineComponent({
     ready() {
       return this.status === 'ReceiverTransactionPrepared'
     },
+    explorerLink() {
+      return `${connextScanURL}tx/${this.hash}`
+    }
   }
 })
 </script>

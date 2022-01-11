@@ -107,7 +107,7 @@ export default defineComponent({
     this.getActive()
     setInterval(async () => {
       this.getActive()
-    }, 30000)
+    }, 15000)
   },
 
   methods: {

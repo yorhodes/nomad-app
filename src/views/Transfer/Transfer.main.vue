@@ -57,15 +57,35 @@ export default defineComponent({
     return {
       sending: computed(() => store.state.sdk.sending),
       preparingSwap: computed(() => store.state.connext.preparingSwap),
-      connextAvail: computed(() => {
-        // if connext is disabled, return false
-        if (store.state.userInput.disableConnext) return false
-        // check config for available pairs
-        const { token, originNetwork } = store.state.userInput
-        return checkConnext(originNetwork, token.symbol)
-      }),
+      userInput: computed(() => store.state.userInput),
+      // connextAvail: computed(() => {
+      //   // if connext is disabled, return false
+      //   if (store.state.userInput.disableConnext) return false
+      //   // check config for available pairs
+      //   const { token, destinationNetwork } = store.state.userInput
+      //   return checkConnext(destinationNetwork, token.symbol)
+      // }),
+      store,
       v$,
     }
+  },
+
+  data() {
+    return {
+      connextAvail: false
+    }
+  },
+
+  watch: {
+    userInput: {
+      async handler() {
+        const valid = !this.v$.$invalid
+        if (!valid) return
+
+        this.connextAvail = await this.store.dispatch('checkTransferLiquidity')
+      },
+      deep: true,
+    },
   },
 })
 </script>

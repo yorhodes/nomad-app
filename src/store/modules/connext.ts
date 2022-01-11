@@ -8,7 +8,6 @@ import { networks } from '@/config'
 import * as types from '@/store/mutation-types'
 import { MainnetNetwork, TestnetNetwork, TokenMetadata } from '@/config/config.types'
 import instantiateConnextSDK from '@/utils/connext'
-import { getNetworkByChainID } from '@/utils'
 
 const isProduction = process.env.VUE_APP_NOMAD_ENVIRONMENT === 'production'
 
@@ -62,7 +61,8 @@ const actions = <ActionTree<ConnextState, RootState>>{
       connextSDK = await instantiateConnextSDK()
       console.log('connext after instantiating', connextSDK)
     } catch (e) {
-      throw new Error('Couldn\'t setup Nomad')
+      console.error(e)
+      throw new Error('Couldn\'t setup Connext')
     }
   },
 
@@ -204,7 +204,8 @@ const getters = <GetterTree<ConnextState, RootState>>{
         connextSDK = await instantiateConnextSDK()
         console.log('connext after instantiating', connextSDK)
       } catch (e) {
-        throw new Error('Couldn\'t setup Nomad')
+        console.error(e)
+        throw new Error('Couldn\'t setup Connext')
       }
     }
 

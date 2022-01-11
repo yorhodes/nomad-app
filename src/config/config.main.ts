@@ -1,9 +1,8 @@
-import CeloIcon from '@/assets/token-logos/CELO.png'
 import wETHIcon from '@/assets/token-logos/WETH.png'
 import USDTIcon from '@/assets/token-logos/USDT.png'
 import USDCIcon from '@/assets/token-logos/USDC.png'
 import DAIIcon from '@/assets/token-logos/DAI.png'
-// import DEVIcon from '@/assets/token-logos/DEV.png'
+import DEVIcon from '@/assets/token-logos/DEV.png'
 
 import { SdkBaseChainConfigParams } from '@connext/nxtp-sdk'
 
@@ -12,18 +11,6 @@ import { TokenMetadata, NetworkMetadata } from './config.types'
 import representationsMain from './representations.main'
 
 export const tokens: { [key: string]: TokenMetadata } = {
-  CELO: {
-    nativeNetwork: 'celo',
-    symbol: 'CELO',
-    name: 'CELO',
-    icon: CeloIcon,
-    iconColors: ['#EBC05A', '#41C976'],
-    decimals: 18,
-    coinGeckoId: 'celo',
-    tokenIdentifier: mainnetTokens.CELO,
-    nativeOnly: false,
-    minAmt: 1.8,
-  },
   WETH: {
     nativeNetwork: 'ethereum',
     symbol: 'WETH',
@@ -84,22 +71,24 @@ export const tokens: { [key: string]: TokenMetadata } = {
     nativeOnly: false,
     minAmt: 10,
   },
+  GLMR: {
+    nativeNetwork: 'moonbeam',
+    symbol: 'GLMR',
+    name: 'GLMR',
+    icon: DEVIcon,
+    iconColors: ['#53CBC8', '#e84195'],
+    decimals: 18,
+    coinGeckoId: 'moonbeam',
+    tokenIdentifier: mainnetTokens.GLMR,
+    nativeOnly: true,
+    minAmt: 10,
+  }
 }
 
 // default confirmation time for prod, set on each network below
 const PROD_DEFAULT_CONFIRMATION_TIME_IN_MINUTES = 30
 
 export const networks: { [key: string]: NetworkMetadata } = {
-  celo: {
-    name: 'celo',
-    chainID: 42220,
-    domainID: 1667591279,
-    rpcUrl: 'https://forno.celo.org',
-    nativeToken: tokens.CELO,
-    blockExplorer: 'https://explorer.celo.org/',
-    icon: CeloIcon,
-    confirmationTimeInMinutes: PROD_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
-  },
   ethereum: {
     name: 'ethereum',
     chainID: 1,
@@ -111,16 +100,16 @@ export const networks: { [key: string]: NetworkMetadata } = {
     icon: wETHIcon,
     confirmationTimeInMinutes: PROD_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
   },
-  // moonbeam: {
-  //   name: 'moonbeam',
-  //   chainID: ,
-  //   domainID: ,
-  //   rpcURL: 'https://moonbeam.api.onfinality.io/rpc?apikey=499ab348-13c8-4f4e-bebd-ce2af1141d74',
-  //   nativeToken: tokens.GLMMR,
-  //   blockExplorer: '',
-  //   icon: DEVIcon,
-  //   confirmationTimeInMinutes: PROD_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
-  // },
+  moonbeam: {
+    name: 'moonbeam',
+    chainID: 1284,
+    domainID: 1650811245,
+    rpcUrl: 'https://moonbeam.api.onfinality.io/rpc?apikey=499ab348-13c8-4f4e-bebd-ce2af1141d74',
+    nativeToken: tokens.GLMR,
+    blockExplorer: 'https://blockscout.moonbeam.network/',
+    icon: DEVIcon,
+    confirmationTimeInMinutes: PROD_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
+  },
 }
 
 export const representations = representationsMain
@@ -137,8 +126,12 @@ export const connextConfig: SdkBaseChainConfigParams = {
       'https://eth-mainnet.alchemyapi.io/v2/rud551ngiIel2fRYbWmsnhwAE1FGgCLG',
     ],
   },
-  42220: {
-    // celo
-    providers: ['https://forno.celo.org'],
+  1284: {
+    // moonbeam mainnet
+    providers: [
+      'https://moonbeam.api.onfinality.io/rpc?apikey=499ab348-13c8-4f4e-bebd-ce2af1141d74',
+      'https://moonbeam.api.onfinality.io/public',
+      'https://rpc.api.moonbeam.network'
+    ],
   },
 }

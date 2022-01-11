@@ -104,8 +104,17 @@ export default defineComponent({
 
   async mounted() {
     // await this.store.getters.getTransaction()
-    this.active = await this.store.getters.getActiveConnextTxs()
-    console.log(this.active)
+    this.getActive()
+    setInterval(async () => {
+      this.getActive()
+    }, 30000)
+  },
+
+  methods: {
+    async getActive() {
+      this.active = await this.store.getters.getActiveConnextTxs()
+      console.log(this.active)
+    },
   },
 })
 </script>

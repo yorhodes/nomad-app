@@ -62,7 +62,7 @@ const actions = <ActionTree<ConnextState, RootState>>{
       connextSDK = await instantiateConnextSDK()
       console.log('connext after instantiating', connextSDK)
     } catch (e) {
-      throw new Error('Couldn\'t setup Nomad')
+      throw new Error('Couldn\'t setup Connext')
     }
   },
 
@@ -204,7 +204,7 @@ const getters = <GetterTree<ConnextState, RootState>>{
         connextSDK = await instantiateConnextSDK()
         console.log('connext after instantiating', connextSDK)
       } catch (e) {
-        throw new Error('Couldn\'t setup Nomad')
+        throw new Error('Couldn\'t setup Connext')
       }
     }
 

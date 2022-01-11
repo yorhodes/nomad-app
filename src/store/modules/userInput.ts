@@ -71,7 +71,7 @@ const mutations = <MutationTree<UserInputState>>{
     state.token = token
   },
   [types.SET_GAS_EST](state: UserInputState, priceEst: BigNumber) {
-    console.log('{dispatch} estimating gas price: ', priceEst.toString())
+    console.log('{dispatch} estimating gas price: ', priceEst?.toString())
     state.gasEst = priceEst
   },
 }

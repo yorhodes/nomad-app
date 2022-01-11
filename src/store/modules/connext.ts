@@ -84,14 +84,14 @@ const actions = <ActionTree<ConnextState, RootState>>{
       return
     }
     // get amount in decimals
-    const amountBN = utils.parseUnits(amount.toString(), token.decimals)
+    const amountBN = utils.parseUnits(amount?.toString(), token.decimals)
     return {
       sendingChainId: sendingChainId as any,
       sendingAssetId: sendingAsset.address,
       receivingChainId: receivingChainId as any,
       receivingAssetId: receivingAsset.address,
       receivingAddress: destinationAddress,
-      amount: amountBN.toString(),
+      amount: amountBN?.toString(),
       preferredRouters: !isProduction && ['0x087f402643731b20883fc5dba71b37f6f00e69b9']
     }
   },
@@ -174,13 +174,13 @@ const actions = <ActionTree<ConnextState, RootState>>{
     const { crosschainTx, status, bidSignature, encodedBid, encryptedCallData } = activeTransaction
     const { receiving, invariant } = crosschainTx!
     const receivingTxData =
-      typeof receiving === "object"
+      typeof receiving === 'object'
       ? {
         ...invariant,
         ...receiving,
       }
       : undefined
-    
+
     if (status === NxtpSdkEvents.ReceiverTransactionPrepared) {
       if (!connextSDK) {
         await dispatch('instantiateConnext')
@@ -190,7 +190,7 @@ const actions = <ActionTree<ConnextState, RootState>>{
       }
 
       const finish = await connextSDK.fulfillTransfer({ bidSignature, encodedBid, encryptedCallData, txData: receivingTxData! }, true)
-      console.log("finish: ", finish);
+      console.log('finish: ', finish);
     } else {
       console.log('not ready to claim')
     }
@@ -213,8 +213,8 @@ const getters = <GetterTree<ConnextState, RootState>>{
     return activeTxs.map((tx: any) => {
       const variant = tx.crosschainTx.receiving ?? tx.crosschainTx.sending;
       return {
-        sentAmount: utils.formatEther(tx.crosschainTx.sending?.amount ?? "0"),
-        receivedAmount: utils.formatEther(tx.crosschainTx.receiving?.amount ?? "0"),
+        sentAmount: utils.formatEther(tx.crosschainTx.sending?.amount ?? '0'),
+        receivedAmount: utils.formatEther(tx.crosschainTx.receiving?.amount ?? '0'),
         // gasAmount: gasAmount,
         status: tx.status,
         sendingChain: parseInt(tx.crosschainTx.invariant.sendingChainId.toString()),
@@ -224,14 +224,14 @@ const getters = <GetterTree<ConnextState, RootState>>{
         preparedAt: tx.preparedTimestamp,
         expired: Date.now() / 1000 > variant.expiry,
         action: tx,
-      };
+      }
     })
   },
   getTransaction: (state: ConnextState) => async (txHash: string) => {
     connextSDK = await instantiateConnextSDK()
     const query = `
       {
-        transactions(orderBy: preparedTimestamp, orderDirection: desc, where: { transactionId: "0xd3a053e2db95eb6ca25eeb02bd27ab99031e25800e4160b197304c2ba1957acf" }) {
+        transactions(orderBy: preparedTimestamp, orderDirection: desc, where: { transactionId: '0xd3a053e2db95eb6ca25eeb02bd27ab99031e25800e4160b197304c2ba1957acf' }) {
           id
           status
           chainId

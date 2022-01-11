@@ -188,10 +188,6 @@ const actions = <ActionTree<ConnextState, RootState>>{
       if (!rootState.wallet.connected) {
         await dispatch('connectWallet')
       }
-      const claimDestination = getNetworkByChainID(crosschainTx.invariant.receivingChainId)!.name
-      if (rootState.userInput.originNetwork !== claimDestination) {
-        await dispatch('switchNetwork', claimDestination)
-      }
 
       const finish = await connextSDK.fulfillTransfer({ bidSignature, encodedBid, encryptedCallData, txData: receivingTxData! }, true)
       console.log("finish: ", finish);

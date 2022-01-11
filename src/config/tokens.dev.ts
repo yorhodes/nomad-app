@@ -1,4 +1,5 @@
 import { TokenIdentifier } from '@nomad-xyz/sdk/nomad'
+import { TokenMetadata } from './config.types'
 
 // IMPORTANT make name same as tokens[token].symbol value
 
@@ -32,6 +33,11 @@ const DEV: TokenIdentifier = {
   id: '0x0000000000000000000000000000000000000802',
 }
 
+const TEST: TokenIdentifier = {
+  domain: 'kovan',
+  id: '0xe71678794fff8846bff855f716b0ce9d9a78e844',
+}
+
 export default {
   WETH,
   WBTC,
@@ -39,4 +45,5 @@ export default {
   USDT,
   DAI,
   DEV,
+  TEST,
 }

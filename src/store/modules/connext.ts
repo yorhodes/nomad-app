@@ -74,15 +74,10 @@ const actions = <ActionTree<ConnextState, RootState>>{
     // get asset addresses
     const sendingAssetId = token.tokenIdentifier.id
 
-    let receivingAssetId: string
-    console.log('token', token.symbol)
-    if (token.symbol === 'kTEST') {
-      receivingAssetId = '0x4326c29a626d9a98464df8f53856887d43a11759'
-    } else if (token.symbol === 'mbTEST') {
-      receivingAssetId = '0xe71678794fff8846bff855f716b0ce9d9a78e844'
-    } else {
-      // TODO: returns undefined
-      receivingAssetId = await rootGetters.resolveRepresentation(destination, token.tokenIdentifier)
+    const receivingAsset = (await rootGetters.resolveRepresentation(destination, token.tokenIdentifier))
+    if (!receivingAsset) {
+      console.error('No asset deployed for ', destination, token.tokenIdentifier)
+      return
     }
     // get amount in decimals
     const amountBN = utils.parseUnits(amount.toString(), token.decimals)
@@ -90,7 +85,7 @@ const actions = <ActionTree<ConnextState, RootState>>{
       sendingChainId: sendingChainId as any,
       sendingAssetId: sendingAssetId as any,
       receivingChainId: receivingChainId as any,
-      receivingAssetId: receivingAssetId,
+      receivingAssetId: receivingAsset.address,
       receivingAddress: destinationAddress,
       amount: amountBN.toString(),
       preferredRouters: !isProduction && ['0x087f402643731b20883fc5dba71b37f6f00e69b9']

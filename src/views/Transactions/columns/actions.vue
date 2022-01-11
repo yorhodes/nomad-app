@@ -1,7 +1,15 @@
 <template>
   <div class="end w-full">
-    <nomad-button primary v-if="expired">Cancel</nomad-button>
-    <nomad-button primary v-else-if="ready" @click="claim">Claim</nomad-button>
+    <nomad-button v-if="expired" primary>Cancel</nomad-button>
+    <nomad-button
+      v-else-if="ready"
+      primary
+      class="disabled:opacity-30"
+      @disabled="disabled"
+      @click="claim"
+    >
+      Claim
+    </nomad-button>
     <a
       v-else
       class="flex flex-row items-center justify-center cursor-pointer"
@@ -42,6 +50,11 @@ export default defineComponent({
       type: Boolean,
     },
   },
+  data() {
+    return {
+      disabled: false
+    }
+  },
   setup: () => {
     const store = useStore()
     return {
@@ -51,7 +64,9 @@ export default defineComponent({
   methods: {
     async claim() {
       console.log('claim', this.txAction)
+      this.disabled = true
       await this.store.dispatch('finishTransfer', this.txAction)
+      this.disabled = false
     },
   },
   components: {

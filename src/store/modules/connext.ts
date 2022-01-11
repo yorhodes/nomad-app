@@ -8,6 +8,7 @@ import { networks } from '@/config'
 import * as types from '@/store/mutation-types'
 import { MainnetNetwork, TestnetNetwork, TokenMetadata } from '@/config/config.types'
 import instantiateConnextSDK from '@/utils/connext'
+import { getNetworkByChainID } from '@/utils'
 
 const isProduction = process.env.VUE_APP_NOMAD_ENVIRONMENT === 'production'
 
@@ -156,6 +157,10 @@ const actions = <ActionTree<ConnextState, RootState>>{
       console.error('not prepared')
       return
     }
+    if (!connextSDK) {
+      connextSDK = await instantiateConnextSDK()
+    }
+
     await connextSDK.fulfillTransfer(state.prepared)
     console.log('DONE!!!')
 
@@ -165,7 +170,7 @@ const actions = <ActionTree<ConnextState, RootState>>{
     commit(types.SET_FEE, undefined)
   },
 
-  async finishTransfer({ commit }, activeTransaction: ActiveTransaction) {
+  async finishTransfer({ dispatch, rootState }, activeTransaction: ActiveTransaction) {
     const { crosschainTx, status, bidSignature, encodedBid, encryptedCallData } = activeTransaction
     const { receiving, invariant } = crosschainTx!
     const receivingTxData =
@@ -178,8 +183,14 @@ const actions = <ActionTree<ConnextState, RootState>>{
     
     if (status === NxtpSdkEvents.ReceiverTransactionPrepared) {
       if (!connextSDK) {
-        console.error('instantiate Connext SDK first')
-        return
+        connextSDK = await instantiateConnextSDK()
+      }
+      if (!rootState.wallet.connected) {
+        await dispatch('connectWallet')
+      }
+      const claimDestination = getNetworkByChainID(crosschainTx.invariant.receivingChainId)!.name
+      if (rootState.userInput.originNetwork !== claimDestination) {
+        await dispatch('switchNetwork', claimDestination)
       }
 
       const finish = await connextSDK.fulfillTransfer({ bidSignature, encodedBid, encryptedCallData, txData: receivingTxData! }, true)

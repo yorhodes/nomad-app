@@ -72,9 +72,13 @@ const actions = <ActionTree<ConnextState, RootState>>{
     const sendingChainId = networks[origin].chainID
     const receivingChainId = networks[destination].chainID
     // get asset addresses
-    const sendingAssetId = token.tokenIdentifier.id
+    const sendingAsset = await rootGetters.resolveRepresentation(origin, token.tokenIdentifier)
+    if (!sendingAsset) {
+      console.error('No asset deployed for ', origin, token.tokenIdentifier)
+      return
+    }
 
-    const receivingAsset = (await rootGetters.resolveRepresentation(destination, token.tokenIdentifier))
+    const receivingAsset = await rootGetters.resolveRepresentation(destination, token.tokenIdentifier)
     if (!receivingAsset) {
       console.error('No asset deployed for ', destination, token.tokenIdentifier)
       return
@@ -83,7 +87,7 @@ const actions = <ActionTree<ConnextState, RootState>>{
     const amountBN = utils.parseUnits(amount.toString(), token.decimals)
     return {
       sendingChainId: sendingChainId as any,
-      sendingAssetId: sendingAssetId as any,
+      sendingAssetId: sendingAsset.address,
       receivingChainId: receivingChainId as any,
       receivingAssetId: receivingAsset.address,
       receivingAddress: destinationAddress,

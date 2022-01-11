@@ -113,7 +113,7 @@ export default defineComponent({
   methods: {
     async getActive() {
       this.active = await this.store.getters.getActiveConnextTxs()
-      console.log(this.active)
+      console.log("Active Connext Txs: ", this.active)
     },
   },
 })

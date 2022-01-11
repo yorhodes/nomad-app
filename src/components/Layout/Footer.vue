@@ -70,11 +70,6 @@ export default defineComponent({
       },
       {
         icon: shallowRef(LogoMedium),
-        href: 'https://t.me/nomadxyz',
-        alt: 'telegram'
-      },
-      {
-        icon: shallowRef(LogoMedium),
         href: 'https://blog.nomad.xyz/',
         alt: 'medium',
       },

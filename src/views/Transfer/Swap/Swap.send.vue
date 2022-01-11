@@ -108,7 +108,11 @@ export default defineComponent({
     },
     async swap() {
       await this.store.dispatch('prepareTransfer')
-    }
+      this.notification.success({
+        title: 'Success',
+        content: 'Transaction dispatched'
+      })
+    },
   },
 
   watch: {
@@ -135,7 +139,7 @@ export default defineComponent({
       // reset and show user the quote swap button again
       await this.store.dispatch('resetTransferQuote')
       this.quoteInitiated = false
-    }
+    },
   },
 })
 </script>

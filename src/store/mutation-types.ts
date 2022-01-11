@@ -24,5 +24,6 @@ export const REMOVE_TRANSACTION = 'transactions/REMOVE_TRANSACTION'
 // connext
 export const SET_PREPARING_SWAP = 'connext/SET_PREPARING_SWAP'
 export const SET_QUOTE = 'connext/SET_QUOTE'
-export const SET_PREPARED = 'connext/SET_PREPARED'
 export const SET_FEE = 'connext/SET_FEE'
+export const SET_TRANSFER = 'connext/SET_TRANSFER'
+export const SET_PREPARED = 'connext/SET_PREPARED'

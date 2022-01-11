@@ -79,8 +79,20 @@ export const tokens: { [key: string]: TokenMetadata } = {
     iconColors: ['#53CBC8', '#e84195'],
     decimals: 18,
     coinGeckoId: 'moonbeam',
-    tokenIdentifier: mainnetTokens.GLMR,
+    tokenIdentifier: mainnetTokens.WGLMR,
     nativeOnly: true,
+    minAmt: 10,
+  },
+  WGLMR: {
+    nativeNetwork: 'moonbeam',
+    symbol: 'WGLMR',
+    name: 'WGLMR',
+    icon: DEVIcon,
+    iconColors: ['#53CBC8', '#e84195'],
+    decimals: 18,
+    coinGeckoId: 'moonbeam',
+    tokenIdentifier: mainnetTokens.WGLMR,
+    nativeOnly: false,
     minAmt: 10,
   }
 }

@@ -29,9 +29,9 @@
       </ul>
       <ul>
         <li v-for="l in legals" :key="l.href" class="pb-2 last:pb-0 opacity-60">
-          <a href="{{l.href}}" class="hover:underline" target="_blank">
+          <router-link :to="l.href" class="hover:underline" target="_blank">
             {{ l.label }}
-          </a>
+          </router-link>
         </li>
         <li>
           <n-text class="opacity-40 text-xs">
@@ -90,11 +90,11 @@ export default defineComponent({
     ],
     legals: [
       {
-        href: '', // TODO: add link to t&c
+        href: '/terms',
         label: 'Terms & Conditions',
       },
       {
-        href: '', // TODO: add link to privacy policy (not sure if we need this)
+        href: '/privacy-policy',
         label: 'Privacy Policy',
       },
     ],

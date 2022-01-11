@@ -8,9 +8,18 @@
 
     <!-- right side of nav -->
     <div class="flex items-center">
-      <!-- wallet is connected button -->
+      <!-- metamask not installed -->
       <nomad-button
-        v-if="walletConnected"
+        v-if="!metamaskInstalled"
+        class="uppercase"
+        primary
+        @click="installMetamask"
+      >
+        Install Metamask
+      </nomad-button>
+      <!-- connected -->
+      <nomad-button
+        v-else-if="walletConnected"
         class="btn-wallet-connected"
         :disabled="buttonDisabled"
         @click="showModal = true"
@@ -27,11 +36,12 @@
       <!-- connect to wallet button -->
       <nomad-button
         v-else
+        class="uppercase"
         :disabled="buttonDisabled"
-        @click="handleConnect"
         primary
+        @click="handleConnect"
       >
-        CONNECT WALLET
+        Connect Wallet
       </nomad-button>
     </div>
 
@@ -96,6 +106,9 @@ export default defineComponent({
     handleConnextSetting(val: boolean) {
       this.store.dispatch('setDisableConnext', !val)
     },
+    installMetamask() {
+      window.open('https://metamask.io/download.html', '_blank')
+    }
   },
   computed: {
     truncatedAddress(): string {

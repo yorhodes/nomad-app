@@ -31,32 +31,34 @@ export default defineComponent({
     // instantiate Nomad
     await store.dispatch('instantiateNomad')
 
-    // check if user is connected
-    const connected = ethereum.isConnected()
-    if (connected) {
-      // TODO: fix connect wallet button flicker
-      await store.dispatch('connectWallet')
-    }
+    if (ethereum && ethereum.isMetamask) {
+      // check if user is connected
+      const connected = ethereum.isConnected()
+      if (connected) {
+        // TODO: fix connect wallet button flicker
+        await store.dispatch('connectWallet')
+      }
 
-    if (ethereum) {
-      ethereum.on('chainChanged', async (chainId: number) => {
-        console.log('network change')
-        try {
-          // get name of network and set in store
-          const id = BigNumber.from(chainId).toNumber()
-          const network = getNetworkByChainID(id)!.name
-          // network supported, setting wallet network
-          await store.dispatch('setWalletNetwork', network)
-        } catch (e) {
-          // network not supported, clearing network
-          await store.dispatch('setWalletNetwork', '')
-        }
-        // TODO: update token? balance, etc
-      })
-      ethereum.on('accountsChanged', () => {
-        // everything changes, easiest to reload
-        location.reload()
-      })
+      if (ethereum) {
+        ethereum.on('chainChanged', async (chainId: number) => {
+          console.log('network change')
+          try {
+            // get name of network and set in store
+            const id = BigNumber.from(chainId).toNumber()
+            const network = getNetworkByChainID(id)!.name
+            // network supported, setting wallet network
+            await store.dispatch('setWalletNetwork', network)
+          } catch (e) {
+            // network not supported, clearing network
+            await store.dispatch('setWalletNetwork', '')
+          }
+          // TODO: update token? balance, etc
+        })
+        ethereum.on('accountsChanged', () => {
+          // everything changes, easiest to reload
+          location.reload()
+        })
+      }
     }
   },
 })

@@ -103,7 +103,7 @@ export default defineComponent({
     goConnext() {
       if (this.txHash.length === 66) {
         // this.$router.push(`/tx/connext/${this.txHash}`)
-        window.open(`${connextScanURL}tx/${this.txHash}`, '_blank');
+        window.open(`${connextScanURL}tx/${this.txHash}`, '_blank')
       } else {
         this.notification.warning({
           title: 'Invalid Input',

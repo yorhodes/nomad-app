@@ -125,8 +125,8 @@ export const networks: { [key: string]: NetworkMetadata } = {
 };
 
 export const connextPools: { [key: string]: string[] } = {
-  moonbeam: ['WETH', 'USDC', 'USDT', 'DAI', 'GLMR'],
-  ethereum: ['WETH', 'USDC', 'USDT', 'DAI', 'GLMR'],
+  moonbeam: ['WETH', 'USDC', 'USDT', 'DAI'],
+  ethereum: ['ETH', 'USDC', 'USDT', 'DAI'],
 };
 
 export const connextConfig: SdkBaseChainConfigParams = {

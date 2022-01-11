@@ -26,7 +26,7 @@ const DAI: TokenIdentifier = {
   id: '0x6b175474e89094c44da98b954eedeac495271d0f',
 }
 
-const GLMMR: TokenIdentifier = {
+const GLMR: TokenIdentifier = {
   domain: 'moonbeam',
   id: '0xf50225a84382c74CbdeA10b0c176f71fc3DE0C4d'
 }
@@ -37,5 +37,5 @@ export default {
   USDC,
   USDT,
   DAI,
-  GLMMR,
+  GLMR,
 }

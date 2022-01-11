@@ -130,7 +130,7 @@ export function getNetworkDomainIDByName(networkName: string) {
 // TOKEN
 
 export const nullToken: TokenMetadata = {
-  nativeNetwork: 'celo',
+  nativeNetwork: 'ethereum',
   symbol: '',
   name: '',
   icon: '',

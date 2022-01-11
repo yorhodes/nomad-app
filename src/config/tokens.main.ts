@@ -1,11 +1,6 @@
 import { TokenIdentifier } from '@nomad-xyz/sdk/nomad'
 
 // IMPORTANT make name same as tokens[token].symbol value
-const CELO: TokenIdentifier = {
-  domain: 'celo',
-  id: '0x471EcE3750Da237f93B8E339c536989b8978a438',
-}
-
 const WETH: TokenIdentifier = {
   domain: 'ethereum',
   id: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
@@ -31,11 +26,16 @@ const DAI: TokenIdentifier = {
   id: '0x6b175474e89094c44da98b954eedeac495271d0f',
 }
 
+const GLMR: TokenIdentifier = {
+  domain: 'moonbeam',
+  id: '0xf50225a84382c74CbdeA10b0c176f71fc3DE0C4d'
+}
+
 export default {
   WETH,
   WBTC,
   USDC,
   USDT,
   DAI,
-  CELO,
+  GLMR,
 }

@@ -67,7 +67,8 @@ export default async function instantiateConnextSDK(): Promise<NxtpSdk> {
 
     return sdk
   } catch (e) {
-    throw new Error('Could\'t setup connext')
+    console.error(e)
+    throw new Error('Couldn\'t setup connext')
   }
 }
 

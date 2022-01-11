@@ -67,6 +67,7 @@ const actions = <ActionTree<SDKState, RootState>>{
       nomad = _instantiateNomad(isProduction)
       console.log('nomad after instantiating', nomad)
     } catch (e) {
+      console.error(e)
       throw new Error('Couldn\'t setup Nomad')
     }
   },

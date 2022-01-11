@@ -3,7 +3,7 @@ import { BigNumber } from '@ethersproject/bignumber'
 import { NomadContext } from '@nomad-xyz/sdk'
 import { TokenIdentifier } from '@nomad-xyz/sdk/nomad'
 import { Address } from '@nomad-xyz/sdk/utils'
-import { ERC20__factory } from '@nomad-xyz/contract-interfaces/dist/bridge'
+import { ERC20__factory } from '@nomad-xyz/contract-interfaces/bridge'
 
 export async function getBalances(
   context: NomadContext,

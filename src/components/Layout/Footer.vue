@@ -8,8 +8,8 @@
       <img src="@/assets/connext-logo.png" class="logo mb-5" />
 
       <div class="flex items-center justify-between">
-        <a v-for="s in socials" :key="s.href" href="{{s.href}}" target="_blank">
-          <n-icon size="18" color="rgba(255, 255, 255, 0.6)">
+        <a v-for="s in socials" :key="s.href" :href="s.href" target="_blank">
+          <n-icon size="18" color="rgba(255, 255, 255imti/footer-links, 0.6)">
             <component :is="s.icon"></component>
           </n-icon>
         </a>
@@ -22,7 +22,7 @@
           :key="p.href"
           class="pb-2 last:pb-0 opacity-60"
         >
-          <a href="{{p.href}}" class="hover:underline" target="_blank">
+          <a :href="p.href" class="hover:underline" target="_blank">
             {{ p.label }}
           </a>
         </li>
@@ -46,7 +46,7 @@
 <script lang="ts">
 import { defineComponent, shallowRef } from 'vue'
 import { NText, NIcon } from 'naive-ui'
-import { LogoTwitter, LogoGithub, LogoMedium } from '@vicons/ionicons5'
+import { LogoTwitter, LogoMedium, LogoDiscord } from '@vicons/ionicons5'
 
 export default defineComponent({
   components: {
@@ -60,31 +60,27 @@ export default defineComponent({
     socials: [
       {
         icon: shallowRef(LogoTwitter),
-        href: 'https://www.twitter.com', // TODO: add link to our twitter
-        alt: 'twitter logo',
+        href: 'https://www.twitter.com/nomadxyz_',
+        alt: 'twitter',
+      },
+      {
+        icon: shallowRef(LogoDiscord),
+        href: 'https://discord.gg/RurtmJApqm',
+        alt: 'discord'
       },
       {
         icon: shallowRef(LogoMedium),
-        href: 'https://www.medium.com', // TODO: add link to our medium
-        alt: 'medium logo',
-      },
-      {
-        icon: shallowRef(LogoGithub),
-        href: 'https://github.com/nomad-xyz',
-        alt: 'github logo',
+        href: 'https://blog.nomad.xyz/',
+        alt: 'medium',
       },
     ],
     products: [
-      {
-        href: 'https://www.app.nomad.xyz',
-        label: 'Product',
-      },
       {
         href: 'https://www.docs.nomad.xyz',
         label: 'Docs',
       },
       {
-        href: 'https://github.com/nomad-xyz',
+        href: 'https://github.com/nomad-xyz/nomad-monorepo',
         label: 'Github',
       },
     ],

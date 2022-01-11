@@ -74,6 +74,10 @@ const actions = <ActionTree<SDKState, RootState>>{
 
   async getBalanceFromWallet({ rootState, commit }) {
     console.log('gettingbalanceFromwallet')
+
+    // if not on supported network, don't get balance
+    if (!rootState.userInput.originNetwork) return
+
     // get current network domain
     const networkName = rootState.userInput.originNetwork
     const network = networks[networkName]

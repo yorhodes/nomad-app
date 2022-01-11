@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col">
-    <h1 class="text-3xl mb-6 object-center">
+    <h1 class="text-2xl mb-6 object-center">
       Nomad/Illusory Systems Privacy Policy
     </h1>
 

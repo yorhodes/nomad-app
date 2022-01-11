@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col">
-    <b class="mb-6">Nomad/Illusory Systems Terms of Use</b>
+    <b class="text-2xl mb-6 object-center">Nomad/Illusory Systems Terms of Use</b>
 
     <p>Last updated: January 10, 2022 </p>
     <br>

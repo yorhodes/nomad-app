@@ -152,13 +152,13 @@ const actions = <ActionTree<ConnextState, RootState>>{
     // return prepared
   },
 
-  async fulfillTransfer({ state, commit }) {
+  async fulfillTransfer({ state, commit, dispatch }) {
     if (!state.prepared) {
       console.error('not prepared')
       return
     }
     if (!connextSDK) {
-      connextSDK = await instantiateConnextSDK()
+      await dispatch('instantiateConnext')
     }
 
     await connextSDK.fulfillTransfer(state.prepared)
@@ -183,7 +183,7 @@ const actions = <ActionTree<ConnextState, RootState>>{
     
     if (status === NxtpSdkEvents.ReceiverTransactionPrepared) {
       if (!connextSDK) {
-        connextSDK = await instantiateConnextSDK()
+        await dispatch('instantiateConnext')
       }
       if (!rootState.wallet.connected) {
         await dispatch('connectWallet')
@@ -199,8 +199,15 @@ const actions = <ActionTree<ConnextState, RootState>>{
 
 const getters = <GetterTree<ConnextState, RootState>>{
   getActiveConnextTxs: (state: ConnextState) => async () => {
-    // TODO: dispatch action instead
-    connextSDK = await instantiateConnextSDK()
+    if (!connextSDK) {
+      try {
+        connextSDK = await instantiateConnextSDK()
+        console.log('connext after instantiating', connextSDK)
+      } catch (e) {
+        throw new Error('Couldn\'t setup Nomad')
+      }
+    }
+
     const activeTxs = await connextSDK.getActiveTransactions();
     return activeTxs.map((tx: any) => {
       const variant = tx.crosschainTx.receiving ?? tx.crosschainTx.sending;

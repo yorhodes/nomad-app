@@ -78,7 +78,13 @@ const actions = <ActionTree<ConnextState, RootState>>{
       return
     }
 
-    const receivingAsset = await rootGetters.resolveRepresentation(destination, token.tokenIdentifier)
+    let receivingAsset
+    if (origin === 'ethereum' && token.symbol === 'WETH') {
+      // if sending WETH to Ethereum, get ETH
+      receivingAsset = '0x0000000000000000000000000000000000000000'
+    } else {
+      receivingAsset = await rootGetters.resolveRepresentation(destination, token.tokenIdentifier)
+    }
     if (!receivingAsset) {
       console.error('No asset deployed for ', destination, token.tokenIdentifier)
       return

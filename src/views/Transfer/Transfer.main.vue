@@ -61,8 +61,8 @@ export default defineComponent({
         // if connext is disabled, return false
         if (store.state.userInput.disableConnext) return false
         // check config for available pairs
-        const { token, destinationNetwork } = store.state.userInput
-        return checkConnext(destinationNetwork, token.symbol)
+        const { token, originNetwork } = store.state.userInput
+        return checkConnext(originNetwork, token.symbol)
       }),
       v$,
     }

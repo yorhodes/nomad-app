@@ -198,8 +198,8 @@ export function getNetworkIcon(network: string): string {
 }
 
 // connext
-export function checkConnext(network: string, token: string) {
-  if (!network) return
+export function checkConnext(network: string, token: string): boolean {
+  if (!network || !token) return false
   // TODO: create dev/mainnet configs for these
   const availableTokens = connextPools[network]
   if (availableTokens.length) {

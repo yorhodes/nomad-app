@@ -24,6 +24,15 @@
   </div> -->
 
   <nomad-button
+    v-if="checkingLiquidity"
+    class="w-full uppercase mt-6 bg-white text-black h-11 flex flex-row justify-center opacity-70 cursor-default"
+  >
+    Checking availability
+    <loader-bounce color="black" class="ml-1" />
+  </nomad-button>
+
+  <nomad-button
+    v-else
     class="w-full uppercase mt-6 bg-white text-black h-11 flex justify-center"
     @click="bridge"
   >
@@ -43,12 +52,14 @@ import {
   BUFFER_CONFIRMATION_TIME_IN_MINUTES,
 } from '@/utils/time'
 import NomadButton from '@/components/Button.vue'
+import LoaderBounce from '@/components/LoaderBounce.vue'
 
 export default defineComponent({
   components: {
     NText,
     NDivider,
     NomadButton,
+    LoaderBounce,
   },
   props: {
     v$: {
@@ -62,6 +73,7 @@ export default defineComponent({
 
     return {
       userInput: computed(() => store.state.userInput),
+      checkingLiquidity: computed(() => store.state.connext.checkingLiquidity),
       originAddress: computed(() => store.state.wallet.address),
       balance: computed(() => store.state.sdk.balance),
       sending: computed(() => store.state.sdk.sending),

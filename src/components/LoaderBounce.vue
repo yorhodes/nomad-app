@@ -1,25 +1,36 @@
 <template>
-  <div class="flex flex-row justify-end items-center translate-y">
-    <div class="shape shape1"></div>
-    <div class="shape shape2"></div>
-    <div class="shape shape3"></div>
+  <div class="dots-container">
+    <div class="shape shape1" :style="`background-color: ${color || 'white'}`"></div>
+    <div class="shape shape2" :style="`background-color: ${color || 'white'}`"></div>
+    <div class="shape shape3" :style="`background-color: ${color || 'white'}`"></div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
 
-export default defineComponent({})
+export default defineComponent({
+  props: {
+    color: String
+  },
+})
 </script>
 
 <style scoped lang="stylus">
 @keyframes bounce {
   40% {
-    transform translateY(-3px)
+    transform translateY(-2px)
   } 70% {
     transform translateY(0)
   }
 }
+
+.dots-container
+  display flex
+  flex-direction row
+  align-items flex-end
+  justify-content center
+  padding-bottom 3px
 
 .shape
   animation gravity 1s infinite

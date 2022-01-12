@@ -22,6 +22,7 @@ export type SwapData = {
 }
 
 export interface ConnextState {
+  checkingLiquidity: boolean
   preparingSwap: boolean
   quote: any
   fee: BigNumber | undefined
@@ -29,6 +30,7 @@ export interface ConnextState {
 }
 
 const state: ConnextState = {
+  checkingLiquidity: false,
   preparingSwap: false,
   quote: undefined,
   fee: undefined,
@@ -36,6 +38,10 @@ const state: ConnextState = {
 }
 
 const mutations = <MutationTree<ConnextState>>{
+  [types.SET_CHECKING_LIQUIDITY](state: ConnextState, checking: boolean) {
+    console.log('{dispatch} checking liquidity: ', checking)
+    state.checkingLiquidity = checking
+  },
   [types.SET_PREPARING_SWAP](state: ConnextState, preparing: boolean) {
     console.log('{dispatch} preparing swap: ', preparing)
     state.preparingSwap = preparing
@@ -66,42 +72,49 @@ const actions = <ActionTree<ConnextState, RootState>>{
     }
   },
 
-  async formatDataForTransfer({ rootGetters }, data: SwapData) {
-    const { origin, destination, token, amount, destinationAddress } = data
+  async formatDataForTransfer({ rootState, rootGetters }) {
+    const {
+      originNetwork,
+      destinationNetwork,
+      destinationAddress,
+      token,
+      sendAmount,
+    } = rootState.userInput
+
     // get chain ids
-    const sendingChainId = networks[origin].chainID
-    const receivingChainId = networks[destination].chainID
+    const sendingChainId = networks[originNetwork].chainID
+    const receivingChainId = networks[destinationNetwork].chainID
 
     // get sending asset address
     let sendingAsset
-    console.log(origin, token.symbol)
-    if (origin === 'ethereum' && token.symbol === 'ETH') {
+    console.log(originNetwork, token.symbol)
+    if (originNetwork === 'ethereum' && token.symbol === 'ETH') {
       // if sending ETH from Ethereum, get ETH as send asset
       sendingAsset = '0x0000000000000000000000000000000000000000'
     } else {
-      const contract = await rootGetters.resolveRepresentation(origin, token.tokenIdentifier)
+      const contract = await rootGetters.resolveRepresentation(originNetwork, token.tokenIdentifier)
       sendingAsset = contract.address
     }
     if (!sendingAsset) {
-      console.error('No asset deployed for ', origin, token.tokenIdentifier)
+      console.error('No asset deployed for ', originNetwork, token.tokenIdentifier)
       return
     }
 
     // get receiving asset address
     let receivingAsset
-    if (destination === 'ethereum' && token.symbol === 'WETH') {
+    if (destinationNetwork === 'ethereum' && token.symbol === 'WETH') {
       // if sending WETH to Ethereum, get ETH as receiving asset
       receivingAsset = '0x0000000000000000000000000000000000000000'
     } else {
-      const contract = await rootGetters.resolveRepresentation(destination, token.tokenIdentifier)
+      const contract = await rootGetters.resolveRepresentation(destinationNetwork, token.tokenIdentifier)
       receivingAsset = contract.address
     }
     if (!receivingAsset) {
-      console.error('No asset deployed for ', destination, token.tokenIdentifier)
+      console.error('No asset deployed for ', destinationNetwork, token.tokenIdentifier)
       return
     }
     // get amount in decimals
-    const amountBN = utils.parseUnits(amount?.toString(), token.decimals)
+    const amountBN = utils.parseUnits(sendAmount?.toString(), token.decimals)
     return {
       sendingChainId: sendingChainId as any,
       sendingAssetId: sendingAsset,
@@ -118,24 +131,30 @@ const actions = <ActionTree<ConnextState, RootState>>{
     commit(types.SET_FEE, undefined)
   },
 
-  async checkTransferLiquidity({ dispatch }, data: SwapData): Promise<boolean> {
-    const payload = await dispatch('formatDataForTransfer', data)
+  async checkTransferLiquidity({ dispatch, commit }): Promise<boolean> {
+    commit(types.SET_CHECKING_LIQUIDITY, true)
+    const payload = await dispatch('formatDataForTransfer')
+    payload.dryRun = true
     console.log('Checking liquidity: ', payload)
     try {
       await connextSDK.getTransferQuote(payload)
-      return true
-    } catch(e) {
-      return false
+    } catch(e: any) {
+      commit(types.SET_CHECKING_LIQUIDITY, false)
+      const noLiquidity = e.message.includes('Error validating or retrieving bids') || e.message.includes('No bids received')
+      return !noLiquidity
     }
+    commit(types.SET_CHECKING_LIQUIDITY, false)
+    return true
   },
 
-  async getTransferQuote({ commit, dispatch }, data: SwapData) {
-    const payload = await dispatch('formatDataForTransfer', data)
+  async getTransferQuote({ rootState, commit, dispatch }) {
+    const payload = await dispatch('formatDataForTransfer')
     console.log('Preparing for transfer quote: ', payload)
     const quote = await connextSDK.getTransferQuote(payload)
 
+    const { sendAmount, token } = rootState.userInput
     // estimate fee
-    const amountBN = utils.parseUnits(data.amount.toString(), data.token.decimals)
+    const amountBN = utils.parseUnits(sendAmount.toString(), token.decimals)
     const feeEstimate = amountBN.sub(quote.bid.amountReceived)
 
     // set in store

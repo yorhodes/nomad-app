@@ -28,7 +28,15 @@
   <bridge-quote v-if="quoteInitiated" />
 
   <nomad-button
-    v-if="!quoteInitiated"
+    v-if="checkingLiquidity"
+    class="w-full uppercase mt-6 bg-white text-black h-11 flex flex-row justify-center opacity-70 cursor-default"
+  >
+    Checking availability
+    <loader-bounce color="black" class="ml-1" />
+  </nomad-button>
+
+  <nomad-button
+    v-else-if="!quoteInitiated"
     class="w-full uppercase mt-6 bg-white text-black h-11 flex justify-center"
     @click="quoteSwap"
   >
@@ -51,6 +59,7 @@ import { NText, NDivider, useNotification } from 'naive-ui'
 import { useStore } from '@/store'
 import NomadButton from '@/components/Button.vue'
 import BridgeQuote from './Swap.quote.vue'
+import LoaderBounce from '@/components/LoaderBounce.vue'
 
 export default defineComponent({
   components: {
@@ -58,6 +67,7 @@ export default defineComponent({
     NDivider,
     NomadButton,
     BridgeQuote,
+    LoaderBounce,
   },
   props: {
     v$: {
@@ -77,6 +87,7 @@ export default defineComponent({
     return {
       userInput: computed(() => store.state.userInput),
       quote: computed(() => store.state.connext.quote),
+      checkingLiquidity: computed(() => store.state.connext.checkingLiquidity),
       notification,
       store,
     }
@@ -101,23 +112,15 @@ export default defineComponent({
       // instantiate connext
       await this.store.dispatch('instantiateConnext')
 
-      // format data
-      // TODO: pass in amount as BN
-      const swapData = {
-        origin: this.userInput.originNetwork,
-        destination: this.userInput.destinationNetwork,
-        destinationAddress: this.userInput.destinationAddress,
-        token: this.userInput.token,
-        amount: this.userInput.sendAmount,
-      }
       // get transfer quote
       try {
-        await this.store.dispatch('getTransferQuote', swapData)
+        await this.store.dispatch('getTransferQuote')
       } catch(e: any) {
         this.notification.info({
           title: 'Error preparing transfer',
           content: e.message
         })
+        this.quoteInitiated = false
       }
     },
     async swap() {

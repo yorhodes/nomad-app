@@ -4,7 +4,9 @@
   >
     <!-- left side of nav -->
     <!-- company wordmark -->
-    <img src="@/assets/wordmark.svg" class="logo flex items-center" />
+    <router-link to="/">
+      <img src="@/assets/wordmark.svg" class="logo flex items-center" />
+    </router-link>
 
     <!-- right side of nav -->
     <div class="flex items-center">

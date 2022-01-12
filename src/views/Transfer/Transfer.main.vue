@@ -73,15 +73,21 @@ export default defineComponent({
     userInput: {
       async handler() {
         // if connext is disabled, return false
-        if (this.store.state.userInput.disableConnext) return false
+        if (this.store.state.userInput.disableConnext) {
+          this.connextAvail = false
+        }
 
         // if input is not valid, return false
-        const valid = !this.v$.$invalid
-        if (!valid) return false
+        const invalid = this.v$.$invalid
+        if (invalid) {
+          this.connextAvail = false
+        }
 
         // if asset not supported, return false
         const { token, destinationNetwork } = this.store.state.userInput
-        if(!checkConnext(destinationNetwork, token.symbol)) return false
+        if(!checkConnext(destinationNetwork, token.symbol)) {
+          this.connextAvail = false
+        }
 
         // if none of the above conditions return, check liquidity
         this.connextAvail = await this.store.dispatch('checkTransferLiquidity')

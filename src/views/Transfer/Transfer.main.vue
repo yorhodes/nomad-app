@@ -58,13 +58,6 @@ export default defineComponent({
       sending: computed(() => store.state.sdk.sending),
       preparingSwap: computed(() => store.state.connext.preparingSwap),
       userInput: computed(() => store.state.userInput),
-      // connextAvail: computed(() => {
-      //   // if connext is disabled, return false
-      //   if (store.state.userInput.disableConnext) return false
-      //   // check config for available pairs
-      //   const { token, destinationNetwork } = store.state.userInput
-      //   return checkConnext(destinationNetwork, token.symbol)
-      // }),
       store,
       v$,
     }
@@ -79,9 +72,18 @@ export default defineComponent({
   watch: {
     userInput: {
       async handler() {
-        const valid = !this.v$.$invalid
-        if (!valid) return
+        // if connext is disabled, return false
+        if (this.store.state.userInput.disableConnext) return false
 
+        // if input is not valid, return false
+        const valid = !this.v$.$invalid
+        if (!valid) return false
+
+        // if asset not supported, return false
+        const { token, destinationNetwork } = this.store.state.userInput
+        if(!checkConnext(destinationNetwork, token.symbol)) return false
+
+        // if none of the above conditions return, check liquidity
         this.connextAvail = await this.store.dispatch('checkTransferLiquidity')
       },
       deep: true,

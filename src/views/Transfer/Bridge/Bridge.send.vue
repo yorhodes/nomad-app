@@ -24,6 +24,15 @@
   </div> -->
 
   <nomad-button
+    v-if="checkingLiquidity"
+    class="w-full uppercase mt-6 bg-white text-black h-11 flex justify-center disabled:opacity-30"
+    @disabled="true"
+  >
+    Checking availability...
+  </nomad-button>
+
+  <nomad-button
+    v-else
     class="w-full uppercase mt-6 bg-white text-black h-11 flex justify-center"
     @click="bridge"
   >
@@ -62,6 +71,7 @@ export default defineComponent({
 
     return {
       userInput: computed(() => store.state.userInput),
+      checkingLiquidity: computed(() => store.state.connext.checkingLiquidity),
       originAddress: computed(() => store.state.wallet.address),
       balance: computed(() => store.state.sdk.balance),
       sending: computed(() => store.state.sdk.sending),

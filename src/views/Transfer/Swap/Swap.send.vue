@@ -28,7 +28,15 @@
   <bridge-quote v-if="quoteInitiated" />
 
   <nomad-button
-    v-if="!quoteInitiated"
+    v-if="checkingLiquidity"
+    class="w-full uppercase mt-6 bg-white text-black h-11 flex justify-center opacity-30"
+    @disabled="true"
+  >
+    Checking availability...
+  </nomad-button>
+
+  <nomad-button
+    v-else-if="!quoteInitiated"
     class="w-full uppercase mt-6 bg-white text-black h-11 flex justify-center"
     @click="quoteSwap"
   >
@@ -77,6 +85,7 @@ export default defineComponent({
     return {
       userInput: computed(() => store.state.userInput),
       quote: computed(() => store.state.connext.quote),
+      checkingLiquidity: computed(() => store.state.connext.checkingLiquidity),
       notification,
       store,
     }
@@ -101,18 +110,9 @@ export default defineComponent({
       // instantiate connext
       await this.store.dispatch('instantiateConnext')
 
-      // format data
-      // TODO: pass in amount as BN
-      const swapData = {
-        origin: this.userInput.originNetwork,
-        destination: this.userInput.destinationNetwork,
-        destinationAddress: this.userInput.destinationAddress,
-        token: this.userInput.token,
-        amount: this.userInput.sendAmount,
-      }
       // get transfer quote
       try {
-        await this.store.dispatch('getTransferQuote', swapData)
+        await this.store.dispatch('getTransferQuote')
       } catch(e: any) {
         this.notification.info({
           title: 'Error preparing transfer',

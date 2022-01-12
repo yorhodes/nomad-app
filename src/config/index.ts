@@ -31,7 +31,7 @@ function chooseConfig(environment: string | undefined): {
       return dev
 
     case 'staging':
-      return main
+      return dev
 
     case 'production':
       return main

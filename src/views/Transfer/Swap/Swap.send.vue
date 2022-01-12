@@ -111,7 +111,14 @@ export default defineComponent({
         amount: this.userInput.sendAmount,
       }
       // get transfer quote
-      await this.store.dispatch('getTransferQuote', swapData)
+      try {
+        await this.store.dispatch('getTransferQuote', swapData)
+      } catch(e: any) {
+        this.notification.info({
+          title: 'Error preparing transfer',
+          content: e.message
+        })
+      }
     },
     async swap() {
       await this.store.dispatch('prepareTransfer')

@@ -25,10 +25,10 @@
 
   <nomad-button
     v-if="checkingLiquidity"
-    class="w-full uppercase mt-6 bg-white text-black h-11 flex justify-center disabled:opacity-30"
-    @disabled="true"
+    class="w-full uppercase mt-6 bg-white text-black h-11 flex flex-row justify-center opacity-70 cursor-default"
   >
-    Checking availability...
+    Checking availability
+    <loader-bounce color="black" class="ml-1" />
   </nomad-button>
 
   <nomad-button
@@ -52,12 +52,14 @@ import {
   BUFFER_CONFIRMATION_TIME_IN_MINUTES,
 } from '@/utils/time'
 import NomadButton from '@/components/Button.vue'
+import LoaderBounce from '@/components/LoaderBounce.vue'
 
 export default defineComponent({
   components: {
     NText,
     NDivider,
     NomadButton,
+    LoaderBounce,
   },
   props: {
     v$: {

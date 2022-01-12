@@ -29,10 +29,10 @@
 
   <nomad-button
     v-if="checkingLiquidity"
-    class="w-full uppercase mt-6 bg-white text-black h-11 flex justify-center opacity-30"
-    @disabled="true"
+    class="w-full uppercase mt-6 bg-white text-black h-11 flex flex-row justify-center opacity-70 cursor-default"
   >
-    Checking availability...
+    Checking availability
+    <loader-bounce color="black" class="ml-1" />
   </nomad-button>
 
   <nomad-button
@@ -59,6 +59,7 @@ import { NText, NDivider, useNotification } from 'naive-ui'
 import { useStore } from '@/store'
 import NomadButton from '@/components/Button.vue'
 import BridgeQuote from './Swap.quote.vue'
+import LoaderBounce from '@/components/LoaderBounce.vue'
 
 export default defineComponent({
   components: {
@@ -66,6 +67,7 @@ export default defineComponent({
     NDivider,
     NomadButton,
     BridgeQuote,
+    LoaderBounce,
   },
   props: {
     v$: {
@@ -118,6 +120,7 @@ export default defineComponent({
           title: 'Error preparing transfer',
           content: e.message
         })
+        this.quoteInitiated = false
       }
     },
     async swap() {

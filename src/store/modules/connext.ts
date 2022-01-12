@@ -39,7 +39,7 @@ const state: ConnextState = {
 
 const mutations = <MutationTree<ConnextState>>{
   [types.SET_CHECKING_LIQUIDITY](state: ConnextState, checking: boolean) {
-    console.log('{dispatch} set prepared: ', checking)
+    console.log('{dispatch} checking liquidity: ', checking)
     state.checkingLiquidity = checking
   },
   [types.SET_PREPARING_SWAP](state: ConnextState, preparing: boolean) {
@@ -139,6 +139,7 @@ const actions = <ActionTree<ConnextState, RootState>>{
     try {
       await connextSDK.getTransferQuote(payload)
     } catch(e: any) {
+      commit(types.SET_CHECKING_LIQUIDITY, false)
       const noLiquidity = e.message.includes('Error validating or retrieving bids') || e.message.includes('No bids received')
       return !noLiquidity
     }

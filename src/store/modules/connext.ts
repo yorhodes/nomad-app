@@ -71,19 +71,30 @@ const actions = <ActionTree<ConnextState, RootState>>{
     // get chain ids
     const sendingChainId = networks[origin].chainID
     const receivingChainId = networks[destination].chainID
-    // get asset addresses
-    const sendingAsset = await rootGetters.resolveRepresentation(origin, token.tokenIdentifier)
+
+    // get sending asset address
+    let sendingAsset
+    console.log(origin, token.symbol)
+    if (origin === 'ethereum' && token.symbol === 'ETH') {
+      // if sending ETH from Ethereum, get ETH as send asset
+      sendingAsset = '0x0000000000000000000000000000000000000000'
+    } else {
+      const contract = await rootGetters.resolveRepresentation(origin, token.tokenIdentifier)
+      sendingAsset = contract.address
+    }
     if (!sendingAsset) {
       console.error('No asset deployed for ', origin, token.tokenIdentifier)
       return
     }
 
+    // get receiving asset address
     let receivingAsset
-    if (origin === 'ethereum' && token.symbol === 'WETH') {
-      // if sending WETH to Ethereum, get ETH
+    if (destination === 'ethereum' && token.symbol === 'WETH') {
+      // if sending WETH to Ethereum, get ETH as receiving asset
       receivingAsset = '0x0000000000000000000000000000000000000000'
     } else {
-      receivingAsset = await rootGetters.resolveRepresentation(destination, token.tokenIdentifier)
+      const contract = await rootGetters.resolveRepresentation(destination, token.tokenIdentifier)
+      receivingAsset = contract.address
     }
     if (!receivingAsset) {
       console.error('No asset deployed for ', destination, token.tokenIdentifier)
@@ -93,12 +104,12 @@ const actions = <ActionTree<ConnextState, RootState>>{
     const amountBN = utils.parseUnits(amount?.toString(), token.decimals)
     return {
       sendingChainId: sendingChainId as any,
-      sendingAssetId: sendingAsset.address,
+      sendingAssetId: sendingAsset,
       receivingChainId: receivingChainId as any,
-      receivingAssetId: receivingAsset.address,
+      receivingAssetId: receivingAsset,
       receivingAddress: destinationAddress,
       amount: amountBN?.toString(),
-      preferredRouters: !isProduction && ['0x087f402643731b20883fc5dba71b37f6f00e69b9']
+      preferredRouters: isProduction ? [] : ['0x087f402643731b20883fc5dba71b37f6f00e69b9']
     }
   },
 

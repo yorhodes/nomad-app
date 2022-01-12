@@ -22,14 +22,17 @@
     Access-Control-Allow-Origin = "*"
 
 # Production context:
-# All deploys from the main repository branch
-# will inherit these settings. This branch is "main"
 [context.production]
   command = "npm run build-prod"
   # Deploys from main branch run this plugin in the build.
   # Plugins context requires double brackets.
   [[context.production.plugins]]
     package = "@netlify/plugin-sitemap"
+
+# Test production context:
+# testprod branch is a replication of main before being pushed out
+[context.testprod]
+  command = "npm run build-prod"
 
 # Deploy Preview context:
 # All deploys generated from a pull/merge request
@@ -43,10 +46,8 @@
 # [context.branch-deploy]
 #   command = "npm run build-dev"
 
-# Specific branch context:
-# Deploys from this branch will take these settings
-# and override their current ones.
-# Staging branch is a replication of main before being pushed out
+# Staging context:
+# Branch for testing staging contracts (testnet)
 [context.staging]
   command = "npm run build-staging"
 

@@ -17,11 +17,15 @@ export default async function instantiateConnextSDK(): Promise<NxtpSdk> {
   // Get signer from metamask
   const { ethereum } = window
 
+  if (!ethereum) {
+    throw new Error('Metamask not installed')
+  }
+
   try {
     await ethereum.request({ method: 'eth_requestAccounts' })
   } catch (e) {
     console.error(e)
-    throw new Error('Couldn\'t connect to metamask')
+    throw new Error('Couldn\'t request wallet accounts')
   }
 
   const provider = new providers.Web3Provider(ethereum)

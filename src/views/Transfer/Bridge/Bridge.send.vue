@@ -18,7 +18,7 @@
         <a
           href="https://docs.nomad.xyz/bridge/nomad-gui.html"
           target="_blank"
-          class="text-white hover:underline"
+          class="text-white underline cursor-pointer"
         >
           Learn more
         </a>

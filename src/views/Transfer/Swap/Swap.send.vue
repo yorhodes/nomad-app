@@ -20,7 +20,7 @@
         <a
           href="https://docs.connext.network/Integration/SystemOverview/howitworks"
           target="_blank"
-          class="text-white hover:underline"
+          class="text-white underline cursor-pointer"
         >
           Learn more
         </a>

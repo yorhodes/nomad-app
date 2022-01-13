@@ -46,11 +46,9 @@
           style="min-width: 200px;"
           class="pb-2"
         >
-          <n-text class="text-lg uppercase">Settings</n-text>
-          <n-divider />
-          <router-link to="/tx">Search Transaction</router-link>
-          <n-divider />
-          <div class="flex flex-row justify-between w-full">
+          <router-link to="/tx" class="nav-link rounded-lg hover:bg-white hover:bg-opacity-5 px-2">Search Transaction</router-link>
+          <n-divider class="divider" />
+          <div class="flex flex-row justify-between w-full p-2">
             <n-text>Enable Connext</n-text>
             <n-switch
               :value="!connextDisabled"
@@ -149,4 +147,13 @@ export default defineComponent({
 
 .logo
   height 30px
+
+.divider
+  margin 0
+.nav-link
+  display flex
+  align-items center
+  height 40px
+.n-popover
+  --n-color #2f2f2f !important
 </style>

@@ -28,7 +28,11 @@
     </span>
     <!-- in progress -->
     <span class="flex flex-col items-center" v-else-if="status < 3">
-      <n-text class="text-4xl mb-2">{{ minutesRemaining ? `${minutesRemaining} minutes` : '—' }}</n-text>
+      <n-text class="text-4xl mb-2">
+        <span v-if="!minutesRemaining">—</span>
+        <span v-else-if="minutesRemaining <= 10">Less than 10 minutes</span>
+        <span v-else>{{ minutesRemaining }} minutes</span>
+      </n-text>
       <n-text class="uppercase opacity-60">Est. time remaining</n-text>
 
       <!-- dropdown status stepper -->
@@ -87,11 +91,8 @@ import {
 import { ChevronDown } from '@vicons/ionicons5'
 import { BigNumber } from 'ethers'
 import { useStore } from '@/store'
-import { networks } from '@/config'
-import {
-  minutesTilConfirmation,
-  BUFFER_CONFIRMATION_TIME_IN_MINUTES,
-} from '@/utils/time'
+import { networks, BUFFER_CONFIRMATION_TIME_IN_MINUTES } from '@/config'
+import { minutesTilConfirmation } from '@/utils/time'
 
 export default defineComponent({
   props: {
@@ -163,6 +164,7 @@ export default defineComponent({
     minutesRemaining(): number | undefined {
       if (!this.confirmationTime) return
       const bufferMinutes = BUFFER_CONFIRMATION_TIME_IN_MINUTES
+      const processingTime = 10
       // if status doesn't exist
       if (!this.status && this.status !== 0) return
       if (this.status < 2) {
@@ -170,9 +172,9 @@ export default defineComponent({
       } else if (this.status === 2 && this.confirmAt) {
         const remaining = minutesTilConfirmation(this.confirmAt)
         if (!remaining) {
-          return bufferMinutes
+          return processingTime
         } else {
-          return remaining + bufferMinutes
+          return remaining + processingTime
         }
       }
       return bufferMinutes

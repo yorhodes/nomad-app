@@ -1,9 +1,6 @@
 import { BigNumber } from 'ethers'
 import { formatDuration } from 'date-fns'
 
-// buffer time added to confirmation time
-export const BUFFER_CONFIRMATION_TIME_IN_MINUTES = 5
-
 /**
  * @param timestamp Given a timestamp, calculate how many hours ago
  * @returns string - x hours ago

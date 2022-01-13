@@ -8,6 +8,24 @@
 
   <n-divider />
 
+  <!-- nomad -->
+  <div class="flex flex-row items-center">
+    <img src="@/assets/icons/nomad.svg" class="h-9 mr-2 rounded-md" />
+    <div class="flex flex-col">
+      <n-text>Send via the Nomad bridge</n-text>
+      <n-text class="opacity-50">
+        Nomad is a secure, cost-efficent cross-chain protocol
+        <a
+          href="https://docs.nomad.xyz/bridge/nomad-gui.html"
+          target="_blank"
+          class="text-white underline cursor-pointer"
+        >
+          Learn more
+        </a>
+      </n-text>
+    </div>
+  </div>
+
   <!-- Fast Liquidity -->
   <!-- Not supported currently, will be optional setting in the future -->
   <!-- <div v-else class="flex flex-row items-center">
@@ -44,13 +62,9 @@
 import { defineComponent, computed } from 'vue'
 import { NText, NDivider, useNotification } from 'naive-ui'
 import { utils } from 'ethers'
-import { networks } from '@/config'
+import { networks, BUFFER_CONFIRMATION_TIME_IN_MINUTES } from '@/config'
 import { useStore } from '@/store'
 import { isNativeToken, getNetworkDomainIDByName } from '@/utils'
-import {
-  fromMinToHoursAndMin,
-  BUFFER_CONFIRMATION_TIME_IN_MINUTES,
-} from '@/utils/time'
 import NomadButton from '@/components/Button.vue'
 import LoaderBounce from '@/components/LoaderBounce.vue'
 
@@ -79,9 +93,9 @@ export default defineComponent({
       sending: computed(() => store.state.sdk.sending),
       timeToDelivery: computed(() => {
         const n = networks[store.state.userInput.destinationNetwork]
-        return fromMinToHoursAndMin(
-          n?.confirmationTimeInMinutes + BUFFER_CONFIRMATION_TIME_IN_MINUTES
-        )
+        const min = n?.confirmationTimeInMinutes + 5
+        const max = min + BUFFER_CONFIRMATION_TIME_IN_MINUTES
+        return `${min} - ${max} minutes`
       }),
       notification,
       store,

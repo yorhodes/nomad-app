@@ -11,13 +11,16 @@
   <div class="flex flex-row items-center">
     <img src="@/assets/icons/connext.svg" class="h-9 mr-2" />
     <div class="flex flex-col">
-      <n-text>Your transfer will be filled by Connext.</n-text>
+      <div class="flex flex-row justify-between">
+        <n-text>Your transfer will be filled by Connext.</n-text>
+        <nomad-button primary class="small" @click="useNomad">Use Nomad</nomad-button>
+      </div>
       <n-text class="opacity-50">
-        Connext will swap tokens for an ultra-fast cross-chain transfer.
+        For an additional fee, Connext will swap tokens for an ultra-fast cross-chain transfer.
         <a
           href="https://docs.connext.network/Integration/SystemOverview/howitworks"
           target="_blank"
-          class="text-white hover:underline"
+          class="text-white underline cursor-pointer"
         >
           Learn more
         </a>
@@ -94,8 +97,10 @@ export default defineComponent({
   },
 
   methods: {
+    useNomad() {
+      this.store.dispatch('overrideConnext')
+    },
     // use connext to swap tokens
-    // TODO: watch userInput and clear quote if anything changes
     async quoteSwap() {
       if (!this.metamaskInstalled) {
         this.notification.info({
@@ -168,3 +173,9 @@ export default defineComponent({
   },
 })
 </script>
+
+<style scoped lang="stylus">
+.small
+  padding 1px 10px
+  font-size 13px
+</style>

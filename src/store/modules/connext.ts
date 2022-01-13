@@ -8,7 +8,6 @@ import { networks } from '@/config'
 import * as types from '@/store/mutation-types'
 import { MainnetNetwork, TestnetNetwork, TokenMetadata } from '@/config/config.types'
 import instantiateConnextSDK from '@/utils/connext'
-import sdk from './sdk'
 
 const isProduction = process.env.VUE_APP_NOMAD_ENVIRONMENT === 'production'
 

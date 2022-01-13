@@ -107,7 +107,7 @@ export const networks: { [key: string]: NetworkMetadata } = {
     rpcUrl:
       'https://eth-mainnet.alchemyapi.io/v2/giUxguFsfUQIJMYN86WVn5OQn1rIPQoY',
     nativeToken: tokens.ETH,
-    blockExplorer: 'https://etherscan.io/',
+    blockExplorer: 'https://etherscan.io',
     icon: wETHIcon,
     confirmationTimeInMinutes: PROD_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
   },
@@ -118,7 +118,7 @@ export const networks: { [key: string]: NetworkMetadata } = {
     rpcUrl:
       'https://moonbeam-api.us-east-1.bwarelabs.com/5dc337ad-29bc-4ccc-be11-c505107d2838',
     nativeToken: tokens.WGLMR,
-    blockExplorer: 'https://blockscout.moonbeam.network/',
+    blockExplorer: 'https://blockscout.moonbeam.network',
     icon: DEVIcon,
     confirmationTimeInMinutes: PROD_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
   },

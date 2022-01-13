@@ -44,7 +44,7 @@
       </n-icon>
       <div>
         <n-collapse-transition :show="showStatus">
-          <n-steps vertical :current="stepperStatus" size="small" class="mt-2">
+          <n-steps vertical :current="stepperStatus" size="small" class="mt-2 px-1">
             <n-step value="0" title="Dispatched" />
             <n-step value="1" title="Included" />
             <n-step value="2" title="Relayed" />
@@ -183,7 +183,7 @@ export default defineComponent({
       const confirmationMinutesRemaining = minutesTilConfirmation(this.confirmAt!)
       console.log(confirmationMinutesRemaining, ' minutes remaining')
       const fraction = (this.confirmationTime - confirmationMinutesRemaining) / this.confirmationTime
-      return fraction * 100
+      return Math.floor(fraction * 100)
     },
     readyToManualProcess(): boolean {
       // networks not subsidized, TODO: put in config

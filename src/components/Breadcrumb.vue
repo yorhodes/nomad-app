@@ -2,7 +2,7 @@
   <div class="relative">
     <router-link
       :to="href"
-      class="flex items-center opacity-60 hover:underline"
+      class="inline-flex items-center opacity-60 hover:underline"
     >
       <n-icon size="15" class="absolute left-[-20px]">
         <chevron-back />

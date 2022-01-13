@@ -74,21 +74,22 @@ export default defineComponent({
   grid-template-rows auto 1fr auto
   grid-template-areas 'header' 'main' 'footer'
 
-  .header
+  > .header
     grid-area header
     width 100vw
     position -webkit-sticky
     position sticky
     top 0px
+    z-index 999
 
-  .main
+  > .main
     grid-area main
     width 100vw
     min-height 100%
     max-width 1200px
     padding 50px 20px
 
-  .footer
+  > .footer
     grid-area footer
     width 100vw
 </style>

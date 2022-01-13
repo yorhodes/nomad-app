@@ -11,3 +11,4 @@ Unreleased
 - adjusts time remaining logic
 - style footer logos
 - show more useful error when entering an amount without an asset selected
+- split up `Couldn't setup connext` errors to better debug

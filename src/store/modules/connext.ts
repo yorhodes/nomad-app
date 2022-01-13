@@ -63,13 +63,8 @@ const mutations = <MutationTree<ConnextState>>{
 const actions = <ActionTree<ConnextState, RootState>>{
   async instantiateConnext() {
     console.log('called on mount, production = ', isProduction)
-    try {
-      connextSDK = await instantiateConnextSDK()
-      console.log('connext after instantiating', connextSDK)
-    } catch (e) {
-      console.error(e)
-      throw new Error('Couldn\'t setup Connext')
-    }
+    connextSDK = await instantiateConnextSDK()
+    console.log('connext after instantiating', connextSDK)
   },
 
   async formatDataForTransfer({ rootState, rootGetters }) {
@@ -236,13 +231,8 @@ const actions = <ActionTree<ConnextState, RootState>>{
 const getters = <GetterTree<ConnextState, RootState>>{
   getActiveConnextTxs: (state: ConnextState) => async () => {
     if (!connextSDK) {
-      try {
-        connextSDK = await instantiateConnextSDK()
-        console.log('connext after instantiating', connextSDK)
-      } catch (e) {
-        console.error(e)
-        throw new Error('Couldn\'t setup Connext')
-      }
+      connextSDK = await instantiateConnextSDK()
+      console.log('connext after instantiating', connextSDK)
     }
 
     const activeTxs = await connextSDK.getActiveTransactions();

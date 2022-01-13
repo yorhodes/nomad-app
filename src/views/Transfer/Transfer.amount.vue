@@ -134,12 +134,16 @@ export default defineComponent({
         required: helpers.withMessage('Enter an amount to bridge', required),
         noToken: helpers.withMessage(
           'No token selected',
-          () => !this.token.symbol
+          () => !!this.token.symbol
         ),
         noFunds: helpers.withMessage(
           'No funds',
           // if token and balance exist and balance is equal to zero
-          () => !!this.token.symbol && !!this.balance && !this.balance!.isZero()
+          () => {
+            if (!this.token.symbol) return true
+            if (!this.balance) return true
+            return !this.balance!.isZero()
+          }
         ),
         sufficientFunds: helpers.withMessage(
           'Amount exceeds balance',

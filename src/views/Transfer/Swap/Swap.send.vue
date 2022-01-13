@@ -13,7 +13,7 @@
     <div class="flex flex-col">
       <n-text>Your transfer will be filled by Connext.</n-text>
       <n-text class="opacity-50">
-        Connext will swap tokens for an ultra-fast cross-chain transfer.
+        For an additional fee, Connext will swap tokens for an ultra-fast cross-chain transfer.
         <a
           href="https://docs.connext.network/Integration/SystemOverview/howitworks"
           target="_blank"

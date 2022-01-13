@@ -18,6 +18,7 @@ export const s3URL = environment === 'development'
 export const connextScanURL = environment === 'development'
   ? 'https://testnet.connextscan.io/'
   : 'https://connextscan.io/'
+export const BUFFER_CONFIRMATION_TIME_IN_MINUTES = environment === 'development' ? 5 : 25
 
 function chooseConfig(environment: string | undefined): {
   tokens: { [key: string]: TokenMetadata }

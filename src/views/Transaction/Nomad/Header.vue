@@ -183,7 +183,7 @@ export default defineComponent({
       const confirmationMinutesRemaining = minutesTilConfirmation(this.confirmAt!)
       console.log(confirmationMinutesRemaining, ' minutes remaining')
       const fraction = (this.confirmationTime - confirmationMinutesRemaining) / this.confirmationTime
-      return fraction * 100
+      return Math.floor(fraction * 100)
     },
     readyToManualProcess(): boolean {
       // networks not subsidized, TODO: put in config

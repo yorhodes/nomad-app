@@ -124,7 +124,6 @@ export default defineComponent({
       token: computed(() => store.state.userInput.token),
       originNetwork: computed(() => store.state.userInput.originNetwork),
       balance: computed(() => store.state.sdk.balance),
-      assetSelected: computed(() => !!store.state.userInput.token.symbol),
       store,
       v$,
     }
@@ -132,11 +131,15 @@ export default defineComponent({
   validations() {
     return {
       amt: {
-        required: helpers.withMessage('Enter an amount to bridge', () => !this.assetSelected || !!this.amt),
-        noAssetSelected: helpers.withMessage('No asset selected', () => this.assetSelected),
+        required: helpers.withMessage('Enter an amount to bridge', required),
+        noToken: helpers.withMessage(
+          'No token selected',
+          () => !this.token.symbol
+        ),
         noFunds: helpers.withMessage(
           'No funds',
-          () => !this.assetSelected || !!this.balance && !this.balance!.isZero()
+          // if token and balance exist and balance is equal to zero
+          () => !!this.token.symbol && !!this.balance && !this.balance!.isZero()
         ),
         sufficientFunds: helpers.withMessage(
           'Amount exceeds balance',

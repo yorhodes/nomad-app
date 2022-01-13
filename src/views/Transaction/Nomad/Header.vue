@@ -44,7 +44,7 @@
       </n-icon>
       <div>
         <n-collapse-transition :show="showStatus">
-          <n-steps vertical :current="stepperStatus" size="small" class="mt-2">
+          <n-steps vertical :current="stepperStatus" size="small" class="mt-2 px-1">
             <n-step value="0" title="Dispatched" />
             <n-step value="1" title="Included" />
             <n-step value="2" title="Relayed" />

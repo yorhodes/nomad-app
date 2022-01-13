@@ -1,6 +1,6 @@
 <template>
   <div class="end w-full">
-    <nomad-button
+    <!-- <nomad-button
       v-if="expired"
       primary
       class="action"
@@ -9,9 +9,9 @@
       @click="cancel"
     >
       Cancel
-    </nomad-button>
+    </nomad-button> -->
     <nomad-button
-      v-else-if="ready"
+      v-if="ready"
       primary
       class="action"
       :class="{ disabled: disabled }"

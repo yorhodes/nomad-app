@@ -45,6 +45,11 @@ const mutations = <MutationTree<UserInputState>>{
     localStorage.setItem('disable_connext', `${disable}`)
   },
 
+  [types.OVERRIDE_CONNEXT](state: UserInputState) {
+    console.log('temp disable connext')
+    state.disableConnext = true
+  },
+
   [types.SET_DESTINATION_ADDRESS](state: UserInputState, address: string) {
     console.log('{dispatch} set destination address: ', address)
     state.destinationAddress = address
@@ -83,6 +88,10 @@ const actions = <ActionTree<UserInputState, RootState>>{
 
   setDisableConnext({ commit }, disable) {
     commit(types.SET_DISABLE_CONNEXT, disable)
+  },
+
+  overrideConnext({ commit }) {
+    commit(types.OVERRIDE_CONNEXT)
   },
 
   async setDestinationAddress({ commit }, address: string) {

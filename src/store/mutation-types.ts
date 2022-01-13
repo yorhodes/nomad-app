@@ -5,6 +5,7 @@ export const SET_WALLET_ADDRESS = 'wallet/SET_WALLET_ADDRESS'
 // userInput
 export const SET_DISMISS_DISCLAIMER = 'userInput/SET_DISMISS_DISCLAIMER'
 export const SET_DISABLE_CONNEXT = 'userInput/SET_DISABLE_CONNEXT'
+export const OVERRIDE_CONNEXT = 'userInput/OVERRIDE_CONNEXT'
 export const SET_DESTINATION_ADDRESS = 'userInput/SET_DESTINATION_ADDRESS'
 export const SET_SEND_AMOUNT = 'userInput/SET_SEND_AMOUNT'
 export const SET_ORIGIN_NETWORK = 'userInput/SET_ORIGIN_NETWORK'

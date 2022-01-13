@@ -3,16 +3,20 @@
     class="flex items-center justify-between flex-wrap max-w-screen-xl mx-auto p-6 pb-18"
   >
     <div class="pb-5 md:pb-0">
-      <n-text class="opacity-70 ml text-xs">Powered by</n-text>
-      <img src="@/assets/wordmark.svg" class="logo" />
-      <img src="@/assets/connext-logo.png" class="logo mb-5" />
-
-      <div class="flex items-center justify-between">
-        <a v-for="s in socials" :key="s.href" :href="s.href" target="_blank">
+      <div class="flex items-center opacity-70 mb-2">
+        <a v-for="s in socials" :key="s.href" :href="s.href" target="_blank" class="mr-4">
           <n-icon size="18" color="rgba(255, 255, 255imti/footer-links, 0.6)">
             <component :is="s.icon"></component>
           </n-icon>
         </a>
+      </div>
+
+      <!-- Nomad + Connext -->
+      <div class="flex flex-row items-center">
+        <n-text class="opacity-70 ml mr-1 text-xs">Powered by</n-text>
+        <img src="@/assets/wordmark.svg" class="logo" />
+        <n-text class="px-1">+</n-text>
+        <img src="@/assets/connext-logo.png" class="logo" />
       </div>
     </div>
     <div class="flex justify-between w-full sm:w-1/3">
@@ -100,5 +104,5 @@ export default defineComponent({
 
 <style lang="stylus">
 .logo
-  height 30px
+  height 20px
 </style>

@@ -9,3 +9,4 @@ Unreleased
 - bunch of small tx details UI fixes
 - adds Nomad section on Bridge UI, updates Connext copy
 - adjusts time remaining logic
+- style footer logos

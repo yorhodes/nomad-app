@@ -122,4 +122,7 @@ input[type=number]
 
 .n-data-table-thead
   display none
+
+.n-steps .n-step-indicator .n-step-indicator-slot .n-step-indicator-slot__index
+  top -1px
 </style>

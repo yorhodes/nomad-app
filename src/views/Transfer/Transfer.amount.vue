@@ -124,6 +124,7 @@ export default defineComponent({
       token: computed(() => store.state.userInput.token),
       originNetwork: computed(() => store.state.userInput.originNetwork),
       balance: computed(() => store.state.sdk.balance),
+      assetSelected: computed(() => !!store.state.userInput.token.symbol),
       store,
       v$,
     }
@@ -131,15 +132,17 @@ export default defineComponent({
   validations() {
     return {
       amt: {
-        required: helpers.withMessage('Enter an amount to bridge', required),
+        required: helpers.withMessage('Enter an amount to bridge', () => !this.assetSelected || !!this.amt),
+        noAssetSelected: helpers.withMessage('No asset selected', () => this.assetSelected),
         noFunds: helpers.withMessage(
           'No funds',
-          () => !!this.balance && !this.balance!.isZero()
+          () => !this.assetSelected || !!this.balance && !this.balance!.isZero()
         ),
         sufficientFunds: helpers.withMessage(
           'Amount exceeds balance',
           (value: number) => {
-            if (this.balance && this.amt && this.token.symbol) {
+            // only show this error if the balance is not zero since we'll already show the no funds message
+            if (this.balance && !this.balance.isZero() && this.amt && this.token.symbol) {
               const amtBN = ethers.utils.parseUnits(
                 value.toString(),
                 this.token.decimals
@@ -161,6 +164,9 @@ export default defineComponent({
       this.store.dispatch('setToken', token)
       this.showTokenSelect = false
       this.updateAmtInUSD(token.coinGeckoId, this.amt)
+
+      // reset form errors after selecting a new token
+      this.v$.$reset()
     },
     async updateAmtInUSD(coinGeckoId: string, amt: number | null) {
       if (!this.amt) {

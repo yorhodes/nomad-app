@@ -19,21 +19,46 @@
       >
         Install Metamask
       </nomad-button>
+
       <!-- connected -->
-      <nomad-button
+      <n-tooltip
         v-else-if="walletConnected"
-        class="btn-wallet-connected"
-        :disabled="buttonDisabled"
-        @click="showModal = true"
+        placement="bottom-end"
+        :show-arrow="false"
+        trigger="click"
       >
-        <n-text class="mr-2 btn-connected-wallet-text">WALLET</n-text>
-        <n-text>
-          {{ truncatedAddress }}
-        </n-text>
-        <n-icon size="12" class="ml-2 pt-0.5">
-          <ChevronDown />
-        </n-icon>
-      </nomad-button>
+        <template #trigger>
+          <nomad-button
+            class="btn-wallet-connected"
+            :disabled="buttonDisabled"
+          >
+            <n-text class="mr-2 btn-connected-wallet-text uppercase">Wallet</n-text>
+            <n-text>
+              {{ truncatedAddress }}
+            </n-text>
+            <n-icon size="12" class="ml-2 pt-0.5">
+              <ChevronDown />
+            </n-icon>
+          </nomad-button>
+        </template>
+        <!-- user settings -->
+        <div
+          style="min-width: 200px;"
+          class="pb-2"
+        >
+          <n-text class="text-lg uppercase">Settings</n-text>
+          <n-divider />
+          <router-link to="/tx">Search Transaction</router-link>
+          <n-divider />
+          <div class="flex flex-row justify-between w-full">
+            <n-text>Enable Connext</n-text>
+            <n-switch
+              :value="!connextDisabled"
+              @update:value="handleConnextSetting"
+            />
+          </div>
+        </div>
+      </n-tooltip>
 
       <!-- connect to wallet button -->
       <nomad-button
@@ -46,27 +71,13 @@
         Connect Wallet
       </nomad-button>
     </div>
-
-    <!-- user settings modal -->
-    <!-- TODO: create dropdown? -->
-    <n-modal v-model:show="showModal">
-      <n-card style="width: 400px" title="Settings" :bordered="false">
-        <div class="flex flex-row">
-          <n-switch
-            :value="!connextDisabled"
-            @update:value="handleConnextSetting"
-          />
-          <n-text class="ml-3">Enable Connext</n-text>
-        </div>
-      </n-card>
-    </n-modal>
   </nav>
 </template>
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
 import { truncateAddr } from '@/utils'
-import { NText, NIcon, NModal, NCard, NSwitch } from 'naive-ui'
+import { NText, NIcon, NTooltip, NSwitch, NDivider } from 'naive-ui'
 import { ChevronDown } from '@vicons/ionicons5'
 import NomadButton from '@/components/Button.vue'
 import { useStore } from '@/store'
@@ -75,15 +86,14 @@ export default defineComponent({
   components: {
     NText,
     NIcon,
-    NModal,
-    NCard,
+    NTooltip,
     NSwitch,
+    NDivider,
     ChevronDown,
     NomadButton,
   },
   data: () => ({
     buttonDisabled: false,
-    showModal: false,
   }),
   setup: () => {
     const store = useStore()

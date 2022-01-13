@@ -8,6 +8,7 @@ import { networks } from '@/config'
 import * as types from '@/store/mutation-types'
 import { MainnetNetwork, TestnetNetwork, TokenMetadata } from '@/config/config.types'
 import instantiateConnextSDK from '@/utils/connext'
+import sdk from './sdk'
 
 const isProduction = process.env.VUE_APP_NOMAD_ENVIRONMENT === 'production'
 
@@ -225,7 +226,27 @@ const actions = <ActionTree<ConnextState, RootState>>{
     } else {
       console.log('not ready to claim')
     }
-  }
+  },
+
+  async cancelTransfer({ dispatch, rootState }, activeTransaction: ActiveTransaction) {
+    const { sending, invariant } = activeTransaction.crosschainTx;
+    const sendingTxData = {
+      ...invariant,
+      ...sending,
+    }
+
+    if (!connextSDK) {
+      await dispatch('instantiateConnext')
+    }
+    if (!rootState.wallet.connected) {
+      await dispatch('connectWallet')
+    }
+
+    await connextSDK.cancel(
+      { signature: "0x", txData: sendingTxData },
+      activeTransaction.crosschainTx.invariant.sendingChainId
+    )
+  },
 }
 
 const getters = <GetterTree<ConnextState, RootState>>{

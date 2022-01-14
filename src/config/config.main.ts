@@ -3,6 +3,7 @@ import USDTIcon from '@/assets/token-logos/USDT.png';
 import USDCIcon from '@/assets/token-logos/USDC.png';
 import DAIIcon from '@/assets/token-logos/DAI.png';
 import DEVIcon from '@/assets/token-logos/DEV.png';
+import WBTCIcon from '@/assets/token-logos/WBTC.png';
 
 import { SdkBaseChainConfigParams } from '@connext/nxtp-sdk';
 
@@ -10,6 +11,18 @@ import mainnetTokens from './tokens.main';
 import { TokenMetadata, NetworkMetadata } from './config.types';
 
 export const tokens: { [key: string]: TokenMetadata } = {
+  WBTC: {
+    nativeNetwork: 'ethereum',
+    symbol: 'WBTC',
+    name: 'WBTC',
+    icon: WBTCIcon,
+    iconColors: ['#fff', '#f5a13b'],
+    decimals: 8,
+    coinGeckoId: 'wrapped-bitcoin',
+    tokenIdentifier: mainnetTokens.WBTC,
+    nativeOnly: false,
+    minAmt: 10
+  },
   WETH: {
     nativeNetwork: 'ethereum',
     symbol: 'WETH',

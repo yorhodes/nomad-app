@@ -3,7 +3,7 @@ Changelog
 
 This change log is manually updated at the moment.
 
-Unreleased
+Released
 --------------------------------
 - adds basic changelog
 - bunch of small tx details UI fixes
@@ -15,3 +15,7 @@ Unreleased
 - split up `Couldn't setup connext` errors to better debug
 - changes settings to dropdown, adds "Search transaction" link
 - removes "Cancel" button for Connext transactions, expired txs can be handled in Connextscan
+- add FRAX and WBTC
+
+Unreleased
+--------------------------------

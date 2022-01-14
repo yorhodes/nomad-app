@@ -1,134 +1,134 @@
-import wETHIcon from "@/assets/token-logos/WETH.png";
-import USDTIcon from "@/assets/token-logos/USDT.png";
-import USDCIcon from "@/assets/token-logos/USDC.png";
-import DAIIcon from "@/assets/token-logos/DAI.png";
-import DEVIcon from "@/assets/token-logos/DEV.png";
-import WBTCIcon from "@/assets/token-logos/WBTC.png";
-import FRAXIcon from "@/assets/token-logos/FRAX.png";
-import FXSIcon from "@/assets/token-logos/FXS.png";
+import wETHIcon from '@/assets/token-logos/WETH.png';
+import USDTIcon from '@/assets/token-logos/USDT.png';
+import USDCIcon from '@/assets/token-logos/USDC.png';
+import DAIIcon from '@/assets/token-logos/DAI.png';
+import DEVIcon from '@/assets/token-logos/DEV.png';
+import WBTCIcon from '@/assets/token-logos/WBTC.png';
+import FRAXIcon from '@/assets/token-logos/FRAX.png';
+import FXSIcon from '@/assets/token-logos/FXS.png';
 
-import { SdkBaseChainConfigParams } from "@connext/nxtp-sdk";
+import { SdkBaseChainConfigParams } from '@connext/nxtp-sdk';
 
-import mainnetTokens from "./tokens.main";
-import { TokenMetadata, NetworkMetadata } from "./config.types";
+import mainnetTokens from './tokens.main';
+import { TokenMetadata, NetworkMetadata } from './config.types';
 
 export const tokens: { [key: string]: TokenMetadata } = {
   WBTC: {
-    nativeNetwork: "ethereum",
-    symbol: "WBTC",
-    name: "WBTC",
+    nativeNetwork: 'ethereum',
+    symbol: 'WBTC',
+    name: 'WBTC',
     icon: WBTCIcon,
-    iconColors: ["#fff", "#f5a13b"],
+    iconColors: ['#fff', '#f5a13b'],
     decimals: 8,
-    coinGeckoId: "wrapped-bitcoin",
+    coinGeckoId: 'wrapped-bitcoin',
     tokenIdentifier: mainnetTokens.WBTC,
     nativeOnly: false,
     minAmt: 10,
   },
   WETH: {
-    nativeNetwork: "ethereum",
-    symbol: "WETH",
-    name: "WETH",
+    nativeNetwork: 'ethereum',
+    symbol: 'WETH',
+    name: 'WETH',
     icon: wETHIcon,
-    iconColors: ["#C0CEF7", "#7594EE"],
+    iconColors: ['#C0CEF7', '#7594EE'],
     decimals: 18,
-    coinGeckoId: "weth",
+    coinGeckoId: 'weth',
     tokenIdentifier: mainnetTokens.WETH,
     nativeOnly: false,
     minAmt: 0.0028,
   },
   ETH: {
-    nativeNetwork: "ethereum",
-    symbol: "ETH",
-    name: "ETH",
+    nativeNetwork: 'ethereum',
+    symbol: 'ETH',
+    name: 'ETH',
     icon: wETHIcon,
-    iconColors: ["#C0CEF7", "#7594EE"],
+    iconColors: ['#C0CEF7', '#7594EE'],
     decimals: 18,
-    coinGeckoId: "ethereum",
+    coinGeckoId: 'ethereum',
     tokenIdentifier: mainnetTokens.WETH,
     nativeOnly: true,
     minAmt: 0.0028,
   },
   USDT: {
-    nativeNetwork: "ethereum",
-    symbol: "USDT",
-    name: "USDT",
+    nativeNetwork: 'ethereum',
+    symbol: 'USDT',
+    name: 'USDT',
     icon: USDTIcon,
-    iconColors: ["#fff", "#26A17B"],
+    iconColors: ['#fff', '#26A17B'],
     decimals: 6,
-    coinGeckoId: "tether",
+    coinGeckoId: 'tether',
     tokenIdentifier: mainnetTokens.USDT,
     nativeOnly: false,
     minAmt: 10,
   },
   USDC: {
-    nativeNetwork: "ethereum",
-    symbol: "USDC",
-    name: "USDC",
+    nativeNetwork: 'ethereum',
+    symbol: 'USDC',
+    name: 'USDC',
     icon: USDCIcon,
-    iconColors: ["#fff", "#2976C9"],
+    iconColors: ['#fff', '#2976C9'],
     decimals: 6,
-    coinGeckoId: "usd-coin",
+    coinGeckoId: 'usd-coin',
     tokenIdentifier: mainnetTokens.USDC,
     nativeOnly: false,
     minAmt: 10,
   },
   DAI: {
-    nativeNetwork: "ethereum",
-    symbol: "DAI",
-    name: "DAI",
+    nativeNetwork: 'ethereum',
+    symbol: 'DAI',
+    name: 'DAI',
     icon: DAIIcon,
-    iconColors: ["#f0bf54", "#F4B731"],
+    iconColors: ['#f0bf54', '#F4B731'],
     decimals: 18,
-    coinGeckoId: "dai",
+    coinGeckoId: 'dai',
     tokenIdentifier: mainnetTokens.DAI,
     nativeOnly: false,
     minAmt: 10,
   },
   FRAX: {
-    nativeNetwork: "ethereum",
-    symbol: "FRAX",
-    name: "FRAX",
+    nativeNetwork: 'ethereum',
+    symbol: 'FRAX',
+    name: 'FRAX',
     icon: FRAXIcon,
-    iconColors: ["#000", "#FFF"],
+    iconColors: ['#454545', '#000'],
     decimals: 18,
-    coinGeckoId: "frax",
+    coinGeckoId: 'frax',
     tokenIdentifier: mainnetTokens.FRAX,
     nativeOnly: false,
     minAmt: 10,
   },
   FXS: {
-    nativeNetwork: "ethereum",
-    symbol: "FXS",
-    name: "FXS",
+    nativeNetwork: 'ethereum',
+    symbol: 'FXS',
+    name: 'FXS',
     icon: FXSIcon,
-    iconColors: ["#000", "#FFF"],
+    iconColors: ['#454545', '#000'],
     decimals: 18,
-    coinGeckoId: "frax-share",
+    coinGeckoId: 'frax-share',
     tokenIdentifier: mainnetTokens.FXS,
     nativeOnly: false,
     minAmt: 10,
   },
   GLMR: {
-    nativeNetwork: "moonbeam",
-    symbol: "GLMR",
-    name: "GLMR",
+    nativeNetwork: 'moonbeam',
+    symbol: 'GLMR',
+    name: 'GLMR',
     icon: DEVIcon,
-    iconColors: ["#53CBC8", "#e84195"],
+    iconColors: ['#53CBC8', '#e84195'],
     decimals: 18,
-    coinGeckoId: "moonbeam",
+    coinGeckoId: 'moonbeam',
     tokenIdentifier: mainnetTokens.WGLMR,
     nativeOnly: true,
     minAmt: 10,
   },
   WGLMR: {
-    nativeNetwork: "moonbeam",
-    symbol: "WGLMR",
-    name: "WGLMR",
+    nativeNetwork: 'moonbeam',
+    symbol: 'WGLMR',
+    name: 'WGLMR',
     icon: DEVIcon,
-    iconColors: ["#53CBC8", "#e84195"],
+    iconColors: ['#53CBC8', '#e84195'],
     decimals: 18,
-    coinGeckoId: "moonbeam",
+    coinGeckoId: 'moonbeam',
     tokenIdentifier: mainnetTokens.WGLMR,
     nativeOnly: false,
     minAmt: 10,
@@ -140,47 +140,47 @@ const PROD_DEFAULT_CONFIRMATION_TIME_IN_MINUTES = 30;
 
 export const networks: { [key: string]: NetworkMetadata } = {
   ethereum: {
-    name: "ethereum",
+    name: 'ethereum',
     chainID: 1,
     domainID: 6648936,
     rpcUrl:
-      "https://eth-mainnet.alchemyapi.io/v2/giUxguFsfUQIJMYN86WVn5OQn1rIPQoY",
+      'https://eth-mainnet.alchemyapi.io/v2/giUxguFsfUQIJMYN86WVn5OQn1rIPQoY',
     nativeToken: tokens.ETH,
-    blockExplorer: "https://etherscan.io",
+    blockExplorer: 'https://etherscan.io',
     icon: wETHIcon,
     confirmationTimeInMinutes: PROD_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
   },
   moonbeam: {
-    name: "moonbeam",
+    name: 'moonbeam',
     chainID: 1284,
     domainID: 1650811245,
     rpcUrl:
-      "https://moonbeam-api.us-east-1.bwarelabs.com/5dc337ad-29bc-4ccc-be11-c505107d2838",
+      'https://moonbeam-api.us-east-1.bwarelabs.com/5dc337ad-29bc-4ccc-be11-c505107d2838',
     nativeToken: tokens.WGLMR,
-    blockExplorer: "https://blockscout.moonbeam.network",
+    blockExplorer: 'https://blockscout.moonbeam.network',
     icon: DEVIcon,
     confirmationTimeInMinutes: PROD_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
   },
 };
 
 export const connextPools: { [key: string]: string[] } = {
-  moonbeam: ["WETH", "USDC", "USDT", "DAI"],
-  ethereum: ["ETH", "USDC", "USDT", "DAI"],
+  moonbeam: ['WETH', 'USDC', 'USDT', 'DAI'],
+  ethereum: ['ETH', 'USDC', 'USDT', 'DAI'],
 };
 
 export const connextConfig: SdkBaseChainConfigParams = {
   1: {
     // ethereum mainnet
     providers: [
-      "https://eth-mainnet.alchemyapi.io/v2/rud551ngiIel2fRYbWmsnhwAE1FGgCLG",
+      'https://eth-mainnet.alchemyapi.io/v2/rud551ngiIel2fRYbWmsnhwAE1FGgCLG',
     ],
   },
   1284: {
     // moonbeam mainnet
     providers: [
-      "https://moonbeam.api.onfinality.io/rpc?apikey=499ab348-13c8-4f4e-bebd-ce2af1141d74",
-      "https://moonbeam.api.onfinality.io/public",
-      "https://rpc.api.moonbeam.network",
+      'https://moonbeam.api.onfinality.io/rpc?apikey=499ab348-13c8-4f4e-bebd-ce2af1141d74',
+      'https://moonbeam.api.onfinality.io/public',
+      'https://rpc.api.moonbeam.network',
     ],
   },
 };

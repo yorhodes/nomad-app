@@ -1,4 +1,17 @@
 <template>
+  <n-alert
+    v-if="status === 2 && destNet === 'ethereum'"
+    title="Important"
+    type="default"
+    class="mb-5 rounded-md"
+  >
+    <template #icon>
+      <n-icon color="#3889c5">
+        <alert-circle-outline />
+      </n-icon>
+    </template>
+    Reducing the gas limit on a process transaction may result in a failed transaction. By design, the gas limit must be estimated much higher. In reality, the gas price will be aproximately 1/5 the estimate. <a href="https://docs.nomad.xyz/bridge/faq.html#why-is-gas-estimate-so-high-to-get-my-funds-on-ethereum" target="_blank" class="underline">Read more</a>
+  </n-alert>
   <status-header :status="status" :confirm-at="confirmAt" :destination-network="destNet" />
   <div class="w-full mt-8">
     <div class="flex items-center justify-between mb-8">
@@ -47,9 +60,10 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { NText, NDivider } from 'naive-ui'
 import { utils, BigNumber } from 'ethers'
 import { TransferMessage } from '@nomad-xyz/sdk/nomad'
+import { NText, NIcon, NDivider, NAlert } from 'naive-ui'
+import { AlertCircleOutline } from '@vicons/ionicons5'
 
 import { useStore } from '@/store'
 import { truncateAddr, fromBytes32 } from '@/utils'
@@ -77,8 +91,11 @@ export default defineComponent({
     StatusHeader,
     Detail,
     NText,
+    NIcon,
     NDivider,
+    NAlert,
     CopyHash,
+    AlertCircleOutline,
   },
 
   setup: () => {

@@ -221,14 +221,14 @@ const actions = <ActionTree<ConnextState, RootState>>{
       }
 
       const finish = await connextSDK.fulfillTransfer({ bidSignature, encodedBid, encryptedCallData, txData: receivingTxData! }, true)
-      console.log('finish: ', finish);
+      console.log('finish: ', finish)
     } else {
       console.log('not ready to claim')
     }
   },
 
   async cancelTransfer({ dispatch, rootState }, activeTransaction: ActiveTransaction) {
-    const { sending, invariant } = activeTransaction.crosschainTx;
+    const { sending, invariant } = activeTransaction.crosschainTx
     const sendingTxData = {
       ...invariant,
       ...sending,
@@ -255,9 +255,9 @@ const getters = <GetterTree<ConnextState, RootState>>{
       console.log('connext after instantiating', connextSDK)
     }
 
-    const activeTxs = await connextSDK.getActiveTransactions();
+    const activeTxs = await connextSDK.getActiveTransactions()
     return activeTxs.map((tx: any) => {
-      const variant = tx.crosschainTx.receiving ?? tx.crosschainTx.sending;
+      const variant = tx.crosschainTx.receiving ?? tx.crosschainTx.sending
       return {
         sentAmount: utils.formatEther(tx.crosschainTx.sending?.amount ?? '0'),
         receivedAmount: utils.formatEther(tx.crosschainTx.receiving?.amount ?? '0'),

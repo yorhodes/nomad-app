@@ -152,7 +152,7 @@ export default defineComponent({
       deep: true,
     },
     async sendAmount(newAmt) {
-      console.log('send amount changed!', newAmt);
+      console.log('send amount changed!', newAmt)
       // user should initiate the quote first by clicking quote swap first
       if (!this.quoteInitiated) {
         return

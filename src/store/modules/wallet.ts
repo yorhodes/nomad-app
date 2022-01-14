@@ -44,13 +44,8 @@ const actions = <ActionTree<WalletState, RootState>>{
     const { ethereum } = window
     if (!ethereum) return
 
-    try {
-      // connect Metamask
-      await window.ethereum.request({ method: 'eth_requestAccounts' })
-    } catch (e) {
-      console.error(e)
-      throw new Error('Couldn\'t connect to metamask')
-    }
+    // connect Metamask
+    await window.ethereum.request({ method: 'eth_requestAccounts' })
 
     // get provider/signer
     const provider = await mmUtils.getMetamaskProvider()

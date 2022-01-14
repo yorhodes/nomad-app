@@ -3,7 +3,10 @@ Changelog
 
 This change log is manually updated at the moment.
 
-Released
+Unreleased
+--------------------------------
+
+v1.0.1 (Jan 13th, 2022)
 --------------------------------
 - adds basic changelog
 - bunch of small tx details UI fixes
@@ -17,5 +20,6 @@ Released
 - removes "Cancel" button for Connext transactions, expired txs can be handled in Connextscan
 - add FRAX and WBTC
 
-Unreleased
+v1.0.0 (Jan 11th, 2022)
 --------------------------------
+- bridge live!

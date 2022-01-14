@@ -1,4 +1,18 @@
 <template>
+  <n-alert
+    v-if="status === 2 && readyToManualProcess"
+    title="Important"
+    type="default"
+    class="mb-5 rounded-md"
+  >
+    <template #icon>
+      <n-icon color="#3889c5">
+        <alert-circle-outline />
+      </n-icon>
+    </template>
+    Reducing the gas limit on a process transaction may result in a failed transaction. By design, the gas limit must be estimated much higher. In reality, the gas price will be aproximately 1/5 the estimate. <a href="https://docs.nomad.xyz/bridge/faq.html#why-is-gas-estimate-so-high-to-get-my-funds-on-ethereum" target="_blank" class="underline">Read more</a>
+  </n-alert>
+
   <div
     class="header transition-all duration-400 px-5 py-8"
     :class="[status < 3 ? 'bg-[#5185d0]' : 'bg-[#2fbb72]']"
@@ -79,6 +93,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import {
+  NAlert,
   NText,
   NSpin,
   NSteps,
@@ -88,7 +103,7 @@ import {
   NCollapseTransition,
   useNotification,
 } from 'naive-ui'
-import { ChevronDown } from '@vicons/ionicons5'
+import { ChevronDown, AlertCircleOutline } from '@vicons/ionicons5'
 import { BigNumber } from 'ethers'
 import { useStore } from '@/store'
 import { networks, BUFFER_CONFIRMATION_TIME_IN_MINUTES } from '@/config'
@@ -107,6 +122,7 @@ export default defineComponent({
     },
   },
   components: {
+    NAlert,
     NText,
     NSpin,
     NSteps,
@@ -115,6 +131,7 @@ export default defineComponent({
     NProgress,
     NCollapseTransition,
     ChevronDown,
+    AlertCircleOutline,
   },
   data: () => ({
     showStatus: false,

@@ -5,6 +5,7 @@ This change log is manually updated at the moment.
 
 Unreleased
 --------------------------------
+- tweak connext + metamask error handling
 
 v1.0.3 (Jan 18th, 2022)
 --------------------------------

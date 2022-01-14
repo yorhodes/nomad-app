@@ -1,17 +1,26 @@
 <template>
   <div class="end w-full">
-    <nomad-button v-if="expired" primary>Cancel</nomad-button>
-    <nomad-button
-      v-else-if="ready"
+    <!-- <nomad-button
+      v-if="expired"
       primary
-      class="disabled:opacity-30"
+      class="action"
+      :class="{ disabled: disabled }"
+      @disabled="disabled"
+      @click="cancel"
+    >
+      Cancel
+    </nomad-button> -->
+    <nomad-button
+      v-if="ready"
+      primary
+      class="action"
+      :class="{ disabled: disabled }"
       @disabled="disabled"
       @click="claim"
     >
       Claim
     </nomad-button>
     <a
-      v-else
       class="flex flex-row items-center justify-center cursor-pointer"
       :href="explorerLink"
       target="_blank"
@@ -28,6 +37,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { useNotification } from 'naive-ui'
 import { connextScanURL } from '@/config'
 import { useStore } from '@/store'
 import NomadButton from '@/components/Button.vue'
@@ -57,8 +67,11 @@ export default defineComponent({
   },
   setup: () => {
     const store = useStore()
+    const notification = useNotification()
+
     return {
       store,
+      notification,
     }
   },
   methods: {
@@ -68,6 +81,23 @@ export default defineComponent({
       await this.store.dispatch('finishTransfer', this.txAction)
       this.disabled = false
     },
+    async cancel() {
+      console.log('cancel expired connext tx', this.txAction)
+      this.disabled = true
+      try {
+        await this.store.dispatch('cancelTransfer', this.txAction)
+        this.notification.info({
+          title: 'Transfer cancelled'
+        })
+      } catch(e) {
+        this.notification.info({
+          title: 'Error',
+          content: 'An error occurred while cancelling your transfer.'
+        })
+        console.error(e)
+      }
+      this.disabled = false
+    }
   },
   components: {
     NomadButton,
@@ -84,7 +114,12 @@ export default defineComponent({
 </script>
 
 <style scoped lang="stylus">
+.disabled
+  opacity 50%
+.action
+  padding 3px 10px
 .end
   display flex
-  justify-content flex-end
+  flex-direction column
+  align-items flex-end
 </style>

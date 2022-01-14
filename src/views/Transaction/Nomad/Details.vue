@@ -1,5 +1,6 @@
 <template>
   <status-header :status="status" :confirm-at="confirmAt" :destination-network="destNet" />
+
   <div class="w-full mt-8">
     <div class="flex items-center justify-between mb-8">
       <copy-hash class="text-xl font-medium" :address="$route.params.id" />
@@ -47,9 +48,9 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { NText, NDivider } from 'naive-ui'
 import { utils, BigNumber } from 'ethers'
 import { TransferMessage } from '@nomad-xyz/sdk/nomad'
+import { NText, NDivider } from 'naive-ui'
 
 import { useStore } from '@/store'
 import { truncateAddr, fromBytes32 } from '@/utils'

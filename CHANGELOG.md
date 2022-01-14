@@ -6,6 +6,12 @@ This change log is manually updated at the moment.
 Unreleased
 --------------------------------
 
+v1.0.2 (Jan 14th, 2022)
+--------------------------------
+- Process gas notification
+- Increase send gas limit by 10%
+- Fix docs link
+
 v1.0.1 (Jan 13th, 2022)
 --------------------------------
 - adds basic changelog

@@ -1,6 +1,7 @@
 <template>
+  <!-- Note about process gas fees -->
   <n-alert
-    v-if="status === 2 && readyToManualProcess"
+    v-if="readyToManualProcess"
     title="Important"
     type="default"
     class="mb-5 rounded-md"
@@ -11,6 +12,34 @@
       </n-icon>
     </template>
     Reducing the gas limit on a process transaction may result in a failed transaction. By design, the gas limit must be estimated much higher. In reality, the gas price will be aproximately 1/5 the estimate. <a href="https://docs.nomad.xyz/bridge/faq.html#why-is-gas-estimate-so-high-to-get-my-funds-on-ethereum" target="_blank" class="underline">Read more</a>
+  </n-alert>
+  <!-- Return to process -->
+  <n-alert
+    v-else-if="destinationNetwork === 'ethereum'"
+    title="Transfer pending"
+    type="default"
+    class="mb-5 rounded-md"
+  >
+    <template #icon>
+      <n-icon color="#3889c5">
+        <alert-circle-outline />
+      </n-icon>
+    </template>
+    Return to this page once bridging is complete to receive your funds on Ethereum. <a href="https://docs.nomad.xyz/bridge/nomad-gui.html#bridging-through-nomad" target="_blank" class="underline">Read more</a>
+  </n-alert>
+  <!-- Processing is subsidized -->
+  <n-alert
+    v-if="status < 3 && destinationNetwork === 'moonbeam'"
+    title="Transfer pending"
+    type="default"
+    class="mb-5 rounded-md"
+  >
+    <template #icon>
+      <n-icon color="#3889c5">
+        <alert-circle-outline />
+      </n-icon>
+    </template>
+    Good news! Transfers to Moonbeam are subsidized, so funds will be deposited in your account automatically once bridging is complete. <a href="https://docs.nomad.xyz/bridge/nomad-gui.html#bridging-through-nomad" target="_blank" class="underline">Read more</a>
   </n-alert>
 
   <div

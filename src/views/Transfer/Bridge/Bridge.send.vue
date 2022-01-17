@@ -43,10 +43,11 @@
 
   <nomad-button
     v-if="checkingLiquidity"
-    class="w-full uppercase mt-6 bg-white text-black h-11 flex flex-row justify-center opacity-70 cursor-default"
+    class="w-full uppercase mt-6 bg-white text-black h-11 flex flex-row justify-center bg-opacity-70 cursor-default"
   >
-    Checking availability
-    <loader-bounce color="black" class="ml-1" />
+    Checking
+    <img src="@/assets/connext-logo-black.png" class="h-6 px-2" />
+    availability
   </nomad-button>
 
   <nomad-button
@@ -66,14 +67,12 @@ import { networks, BUFFER_CONFIRMATION_TIME_IN_MINUTES } from '@/config'
 import { useStore } from '@/store'
 import { isNativeToken, getNetworkDomainIDByName } from '@/utils'
 import NomadButton from '@/components/Button.vue'
-import LoaderBounce from '@/components/LoaderBounce.vue'
 
 export default defineComponent({
   components: {
     NText,
     NDivider,
     NomadButton,
-    LoaderBounce,
   },
   props: {
     v$: {

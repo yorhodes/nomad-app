@@ -1,16 +1,16 @@
-import wETHIcon from '@/assets/token-logos/WETH.png';
-import USDTIcon from '@/assets/token-logos/USDT.png';
-import USDCIcon from '@/assets/token-logos/USDC.png';
-import DAIIcon from '@/assets/token-logos/DAI.png';
-import DEVIcon from '@/assets/token-logos/DEV.png';
-import WBTCIcon from '@/assets/token-logos/WBTC.png';
-import FRAXIcon from '@/assets/token-logos/FRAX.png';
-import FXSIcon from '@/assets/token-logos/FXS.png';
+import wETHIcon from '@/assets/token-logos/WETH.png'
+import USDTIcon from '@/assets/token-logos/USDT.png'
+import USDCIcon from '@/assets/token-logos/USDC.png'
+import DAIIcon from '@/assets/token-logos/DAI.png'
+import DEVIcon from '@/assets/token-logos/DEV.png'
+import WBTCIcon from '@/assets/token-logos/WBTC.png'
+import FRAXIcon from '@/assets/token-logos/FRAX.png'
+import FXSIcon from '@/assets/token-logos/FXS.png'
 
-import { SdkBaseChainConfigParams } from '@connext/nxtp-sdk';
+import { SdkBaseChainConfigParams } from '@connext/nxtp-sdk'
 
-import mainnetTokens from './tokens.main';
-import { TokenMetadata, NetworkMetadata } from './config.types';
+import mainnetTokens from './tokens.main'
+import { TokenMetadata, NetworkMetadata } from './config.types'
 
 export const tokens: { [key: string]: TokenMetadata } = {
   WBTC: {
@@ -133,10 +133,10 @@ export const tokens: { [key: string]: TokenMetadata } = {
     nativeOnly: false,
     minAmt: 10,
   },
-};
+}
 
 // default confirmation time for prod, set on each network below
-const PROD_DEFAULT_CONFIRMATION_TIME_IN_MINUTES = 30;
+const PROD_DEFAULT_CONFIRMATION_TIME_IN_MINUTES = 30
 
 export const networks: { [key: string]: NetworkMetadata } = {
   ethereum: {
@@ -161,12 +161,12 @@ export const networks: { [key: string]: NetworkMetadata } = {
     icon: DEVIcon,
     confirmationTimeInMinutes: PROD_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
   },
-};
+}
 
 export const connextPools: { [key: string]: string[] } = {
   moonbeam: ['WETH', 'USDC', 'USDT', 'DAI'],
   ethereum: ['ETH', 'USDC', 'USDT', 'DAI'],
-};
+}
 
 export const connextConfig: SdkBaseChainConfigParams = {
   1: {
@@ -183,4 +183,4 @@ export const connextConfig: SdkBaseChainConfigParams = {
       'https://rpc.api.moonbeam.network',
     ],
   },
-};
+}

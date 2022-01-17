@@ -85,7 +85,7 @@ export default defineComponent({
       },
       {
         href: 'https://github.com/nomad-xyz/nomad-monorepo',
-        label: 'Github',
+        label: 'GitHub',
       },
     ],
     legals: [

@@ -5,14 +5,18 @@ This change log is manually updated at the moment.
 
 Unreleased
 --------------------------------
-- Update copy w/logo, "Checking Connext availability"
+
+v1.0.3 (Jan 18th, 2022)
+--------------------------------
+- update copy w/logo, "Checking Connext availability"
 - show user's addresses in origin/destination fields
+- adds notifications about processing
 
 v1.0.2 (Jan 14th, 2022)
 --------------------------------
-- Process gas notification
-- Increase send gas limit by 10%
-- Fix docs link
+- process gas notification
+- increase send gas limit by 10%
+- fix docs link
 
 v1.0.1 (Jan 13th, 2022)
 --------------------------------

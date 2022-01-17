@@ -50,16 +50,17 @@
       <n-text class="uppercase opacity-60">Est. time remaining</n-text>
 
       <!-- dropdown status stepper -->
-      <n-icon
-        size="16"
-        class="mt-4 cursor-pointer"
+      <div
+        class="px-8 py-1 mt-4 cursor-pointer"
         @click="showStatus = !showStatus"
       >
-        <ChevronDown
-          class="transition-all"
-          :class="{ 'rotate-180': showStatus }"
-        />
-      </n-icon>
+        <n-icon size="16">
+          <ChevronDown
+            class="transition-all"
+            :class="{ 'rotate-180': showStatus }"
+          />
+        </n-icon>
+      </div>
       <div>
         <n-collapse-transition :show="showStatus">
           <n-steps vertical :current="stepperStatus" size="small" class="mt-2 px-1">

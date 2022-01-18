@@ -25,7 +25,7 @@
         <alert-circle-outline />
       </n-icon>
     </template>
-    Return to this page once bridging is complete to receive your funds on Ethereum. <a href="https://docs.nomad.xyz/bridge/nomad-gui.html#bridging-through-nomad" target="_blank" class="underline">Read more</a>
+    Return to this page once bridging is complete to collect your funds on Ethereum. <a href="https://docs.nomad.xyz/bridge/nomad-gui.html#bridging-through-nomad" target="_blank" class="underline">Read more</a>
   </n-alert>
   <!-- Processing is subsidized -->
   <n-alert

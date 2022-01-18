@@ -6,6 +6,7 @@ This change log is manually updated at the moment.
 Unreleased
 --------------------------------
 - Update copy w/logo, "Checking Connext availability"
+- show user's addresses in origin/destination fields
 
 v1.0.2 (Jan 14th, 2022)
 --------------------------------

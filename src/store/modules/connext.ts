@@ -135,8 +135,8 @@ const actions = <ActionTree<ConnextState, RootState>>{
       await connextSDK.getTransferQuote(payload)
     } catch(e: any) {
       commit(types.SET_CHECKING_LIQUIDITY, false)
-      const noLiquidity = e.message.includes('Error validating or retrieving bids') || e.message.includes('No bids received')
-      return !noLiquidity
+      // should return, don't show error when just checking availability
+      return false
     }
     commit(types.SET_CHECKING_LIQUIDITY, false)
     return true

@@ -9,18 +9,20 @@
       <!-- <search class="mb-3" /> -->
 
       <!-- token list -->
-      <div
-        v-for="token in tokens"
-        :key="token.symbol"
-        class="flex flex-row items-center p-2 cursor-pointer rounded-lg hover:bg-white hover:bg-opacity-5"
-        @click="select(token)"
-      >
-        <div class="bg-black bg-opacity-50 rounded-lg p-2">
-          <img :src="token.icon" class="h-6" />
-        </div>
-        <div class="flex flex-col ml-2">
-          <n-text>{{ token.symbol }}</n-text>
-          <n-text class="opacity-60 text-xs">{{ token.name }}</n-text>
+      <div class="tokens-container">
+        <div
+          v-for="token in tokens"
+          :key="token.symbol"
+          class="flex flex-row items-center p-2 cursor-pointer rounded-lg hover:bg-white hover:bg-opacity-5"
+          @click="select(token)"
+        >
+          <div class="bg-black bg-opacity-50 rounded-lg p-2">
+            <img :src="token.icon" class="h-6" />
+          </div>
+          <div class="flex flex-col ml-2">
+            <n-text>{{ token.symbol }}</n-text>
+            <n-text class="opacity-60 text-xs">{{ token.name }}</n-text>
+          </div>
         </div>
       </div>
       <n-button
@@ -77,3 +79,10 @@ export default defineComponent({
   },
 })
 </script>
+
+<style scoped lang='stylus'>
+.tokens-container
+  height 90%
+  max-height 300px
+  overflow-x scroll
+</style>

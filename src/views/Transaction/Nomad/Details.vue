@@ -115,8 +115,8 @@ export default defineComponent({
     // destination network
     this.destNet = this.store.getters.resolveDomainName(message.destination)
     // destination/origin addr
-    this.originAddr = fromBytes32(message.sender)
-    this.destAddr = fromBytes32(message.recipient)
+    this.originAddr = message.receipt.from
+    this.destAddr = fromBytes32(message.to)
     // get token
     const token = await this.store.getters.resolveRepresentation(
       message.origin,

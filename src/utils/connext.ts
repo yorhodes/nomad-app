@@ -1,8 +1,8 @@
 import { ethers, utils, providers } from 'ethers'
-import { NxtpSdk, NxtpSdkEvents } from '@connext/nxtp-sdk'
-// import { Logger } from '@connext/nxtp-utils'
+import { NxtpSdk } from '@connext/nxtp-sdk'
+import { Logger } from '@connext/nxtp-utils'
 
-import { connextConfig } from '@/config'
+import { connextConfig, isProduction } from '@/config'
 import { MainnetNetwork, TestnetNetwork, TokenMetadata } from '@/config/config.types'
 
 export type SwapData = {
@@ -21,59 +21,27 @@ export default async function instantiateConnextSDK(): Promise<NxtpSdk> {
     throw new Error('Metamask not installed')
   }
 
-  try {
-    await ethereum.request({ method: 'eth_requestAccounts' })
-  } catch (e) {
-    console.error(e)
-    throw new Error('Couldn\'t request wallet accounts')
-  }
+  await ethereum.request({ method: 'eth_requestAccounts' })
 
   const provider = new providers.Web3Provider(ethereum)
   const _signer = provider.getSigner()
 
   // Level can be one of:
   // 'fatal' | 'error' | 'warn' | 'info' | 'debug' | 'trace' | 'silent'
-  // const logger = new Logger({ name: 'shuturface', level: 'silent' })
+  // silenced in production
+  const logger = new Logger({
+    name: 'shuturface',
+    level: isProduction ? 'silent' : 'warn'
+  })
 
   // Instantiate SDK
-  try {
-    const sdk = await NxtpSdk.create({
-      chainConfig: connextConfig,
-      signer: _signer,
-    })
-    console.log('sdk', sdk)
+  const sdk = await NxtpSdk.create({
+    chainConfig: connextConfig,
+    signer: _signer,
+    logger
+  })
 
-    // // set up event listeners
-    // sdk.attach(NxtpSdkEvents.SenderTransactionPrepared, (data) => {
-    //   console.log("!!SenderTransactionPrepared:", data)
-    // })
-    // sdk.attach(NxtpSdkEvents.SenderTransactionFulfilled, (data) => {
-    //   console.log("!!SenderTransactionFulfilled:", data)
-    // })
-    // sdk.attach(NxtpSdkEvents.SenderTransactionCancelled, (data) => {
-    //   console.log("!!SenderTransactionCancelled:", data)
-    // })
-    // sdk.attach(NxtpSdkEvents.ReceiverTransactionPrepared, (data) => {
-    //   console.log("!!ReceiverTransactionPrepared:", data)
-    // })
-    // sdk.attach(NxtpSdkEvents.ReceiverTransactionFulfilled, async (data) => {
-    //   console.log("!!ReceiverTransactionFulfilled:", data)
-    // })
-    // sdk.attach(NxtpSdkEvents.ReceiverTransactionCancelled, (data) => {
-    //   console.log("!!ReceiverTransactionCancelled:", data)
-    // })
-    // sdk.attach(NxtpSdkEvents.SenderTokenApprovalMined, (data) => {
-    //   console.log("!!SenderTokenApprovalMined:", data)
-    // })
-    // sdk.attach(NxtpSdkEvents.SenderTransactionPrepareSubmitted, (data) => {
-    //   console.log("!!SenderTransactionPrepareSubmitted:", data)
-    // })
-
-    return sdk
-  } catch (e) {
-    console.error(e)
-    throw new Error('Couldn\'t setup connext')
-  }
+  return sdk
 }
 
 // The test tokens are collateralized by routers on the test network, so swap requests
@@ -90,12 +58,7 @@ export async function mintTestERC20(address: string, signer?: ethers.Signer) {
     // Get signer from metamask
     const { ethereum } = window
 
-    try {
-      await ethereum.request({ method: 'eth_requestAccounts' })
-    } catch (e) {
-      console.error(e)
-      throw new Error('Couldn\'t connect to metamask')
-    }
+    await ethereum.request({ method: 'eth_requestAccounts' })
 
     const provider = new providers.Web3Provider(ethereum)
     _signer = provider.getSigner()

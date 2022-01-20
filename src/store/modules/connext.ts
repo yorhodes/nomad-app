@@ -4,12 +4,10 @@ import { BigNumber, utils } from 'ethers'
 // import { Logger } from '@connext/nxtp-utils'
 
 import { RootState } from '@/store'
-import { networks } from '@/config'
+import { networks, isProduction } from '@/config'
 import * as types from '@/store/mutation-types'
 import { MainnetNetwork, TestnetNetwork, TokenMetadata } from '@/config/config.types'
 import instantiateConnextSDK from '@/utils/connext'
-
-const isProduction = process.env.VUE_APP_NOMAD_ENVIRONMENT === 'production'
 
 let connextSDK: NxtpSdk
 

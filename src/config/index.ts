@@ -20,6 +20,7 @@ export const connextScanURL = environment === 'development'
   : 'https://connextscan.io/'
 export const BUFFER_CONFIRMATION_TIME_IN_MINUTES = environment === 'development' ? 5 : 25
 export const PROCESS_TIME_IN_MINUTES = environment === 'development' ? 2 : 10
+export const isProduction = environment === 'production'
 
 function chooseConfig(environment: string | undefined): {
   tokens: { [key: string]: TokenMetadata }

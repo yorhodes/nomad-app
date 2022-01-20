@@ -1,8 +1,8 @@
 import { ethers, utils, providers } from 'ethers'
-import { NxtpSdk, NxtpSdkEvents } from '@connext/nxtp-sdk'
-// import { Logger } from '@connext/nxtp-utils'
+import { NxtpSdk } from '@connext/nxtp-sdk'
+import { Logger } from '@connext/nxtp-utils'
 
-import { connextConfig } from '@/config'
+import { connextConfig, isProduction } from '@/config'
 import { MainnetNetwork, TestnetNetwork, TokenMetadata } from '@/config/config.types'
 
 export type SwapData = {
@@ -26,10 +26,19 @@ export default async function instantiateConnextSDK(): Promise<NxtpSdk> {
   const provider = new providers.Web3Provider(ethereum)
   const _signer = provider.getSigner()
 
+  // Level can be one of:
+  // 'fatal' | 'error' | 'warn' | 'info' | 'debug' | 'trace' | 'silent'
+  // silenced in production
+  const logger = new Logger({
+    name: 'shuturface',
+    level: isProduction ? 'silent' : 'warn'
+  })
+
   // Instantiate SDK
   const sdk = await NxtpSdk.create({
     chainConfig: connextConfig,
     signer: _signer,
+    logger
   })
 
   return sdk

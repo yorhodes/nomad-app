@@ -73,7 +73,9 @@
     <span class="flex flex-col items-center" v-else-if="status < 3">
       <n-text class="text-4xl mb-2">
         <span v-if="!minutesRemaining">—</span>
-        <span v-else-if="minutesRemaining <= 10">Less than 10 minutes</span>
+        <span v-else-if="minutesRemaining <= PROCESS_TIME_IN_MINUTES">
+          Less than {{ PROCESS_TIME_IN_MINUTES }} minutes
+        </span>
         <span v-else>{{ minutesRemaining }} minutes</span>
       </n-text>
       <n-text class="uppercase opacity-60">Est. time remaining</n-text>
@@ -136,7 +138,11 @@ import {
 import { ChevronDown, AlertCircleOutline } from '@vicons/ionicons5'
 import { BigNumber } from 'ethers'
 import { useStore } from '@/store'
-import { networks, BUFFER_CONFIRMATION_TIME_IN_MINUTES } from '@/config'
+import {
+  networks,
+  BUFFER_CONFIRMATION_TIME_IN_MINUTES,
+  PROCESS_TIME_IN_MINUTES,
+} from '@/config'
 import { minutesTilConfirmation } from '@/utils/time'
 
 export default defineComponent({
@@ -164,6 +170,7 @@ export default defineComponent({
     AlertCircleOutline,
   },
   data: () => ({
+    PROCESS_TIME_IN_MINUTES,
     showStatus: false,
   }),
   setup: () => {
@@ -211,7 +218,7 @@ export default defineComponent({
     minutesRemaining(): number | undefined {
       if (!this.confirmationTime) return
       const bufferMinutes = BUFFER_CONFIRMATION_TIME_IN_MINUTES
-      const processingTime = 10
+      const processingTime = PROCESS_TIME_IN_MINUTES
       // if status doesn't exist
       if (!this.status && this.status !== 0) return
       if (this.status < 2) {

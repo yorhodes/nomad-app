@@ -6,7 +6,7 @@ This change log is manually updated at the moment.
 Unreleased
 --------------------------------
 
-v1.0.4 (Jan 21th, 2022)
+v1.0.4 (Jan 21st, 2022)
 --------------------------------
 - tweak connext + metamask error handling
 - fix twitter meta image

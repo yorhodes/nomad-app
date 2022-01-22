@@ -140,7 +140,6 @@ export default defineComponent({
     }
     // status
     await this.getStatus(message)
-    this.confirmAt = await message.confirmAt()
 
     setInterval(() => {
       if (this.status < 3) {

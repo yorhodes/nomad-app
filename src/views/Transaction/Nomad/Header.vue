@@ -71,10 +71,15 @@
     class="header transition-all duration-400 px-5 py-8"
     :class="[status < 3 ? 'bg-[#5185d0]' : 'bg-[#2fbb72]']"
   >
+    <!-- complete -->
+    <span class="flex flex-col items-center" v-if="status === 3">
+      <img src="@/assets/icons/check.svg" alt="check" class="mb-2" />
+      <n-text class="uppercase opacity-80">Transfer complete</n-text>
+    </span>
     <!-- Manual process -->
     <span
       class="flex flex-col items-center max-w-xs" 
-      v-if="readyToManualProcess"
+      v-else-if="readyToManualProcess"
     >
       <n-text class="mb-2 opacity-80 text-center">
         Your funds have been bridged back to Ethereum! Please click below to
@@ -98,7 +103,7 @@
       <n-text class="uppercase opacity-60">Loading . . .</n-text>
     </span>
     <!-- in progress -->
-    <span class="flex flex-col items-center" v-else-if="status < 3">
+    <span class="flex flex-col items-center" v-else>
       <n-text class="text-4xl mb-2">
         <span v-if="!minutesRemaining">—</span>
         <span v-else-if="minutesRemaining <= PROCESS_TIME_IN_MINUTES">
@@ -149,11 +154,6 @@
           </n-steps>
         </n-collapse-transition>
       </div>
-    </span>
-    <!-- complete -->
-    <span class="flex flex-col items-center" v-else>
-      <img src="@/assets/icons/check.svg" alt="check" class="mb-2" />
-      <n-text class="uppercase opacity-80">Transfer complete</n-text>
     </span>
   </div>
 </template>

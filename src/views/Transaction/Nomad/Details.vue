@@ -140,7 +140,6 @@ export default defineComponent({
     }
     // status
     await this.getStatus(message)
-    this.confirmAt = await message.confirmAt()
 
     setInterval(() => {
       if (this.status < 3) {
@@ -155,11 +154,19 @@ export default defineComponent({
       const process = await message.getProcess();
       if (process) {
         this.status = 3
-      } else {
-        this.confirmAt = await message.confirmAt()
-        this.status = (await message.events()).status
-        console.log('status: ', this.status)
+        console.log('status: 3')
+        return
       }
+      const confirmAt = await message.confirmAt()
+      if (this.confirmAt && !this.confirmAt.isZero()) {
+        this.status = 2
+        this.confirmAt = confirmAt
+        console.log('status: 2')
+        console.log('confirm at: ', this.confirmAt.toString())
+        return
+      }
+      this.status = (await message.events()).status
+      console.log('status: ', this.status)
     },
   },
 

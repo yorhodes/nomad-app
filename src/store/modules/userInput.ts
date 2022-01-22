@@ -11,7 +11,6 @@ import { TokenMetadata } from '@/config/config.types'
 import { nullToken } from '@/utils'
 
 export interface UserInputState {
-  dismissDisclaimer: boolean
   disableConnext: boolean
   destinationAddress: string
   sendAmount: number
@@ -22,7 +21,6 @@ export interface UserInputState {
 }
 
 const state: UserInputState = {
-  dismissDisclaimer: localStorage.getItem('dismiss_disclaimer') === 'true',
   disableConnext: localStorage.getItem('disable_connext') === 'true',
   destinationAddress: '',
   sendAmount: 0,
@@ -33,12 +31,6 @@ const state: UserInputState = {
 }
 
 const mutations = <MutationTree<UserInputState>>{
-  [types.SET_DISMISS_DISCLAIMER](state: UserInputState, dismiss: boolean) {
-    console.log('{dispatch} set dismissDisclaimer: ', dismiss)
-    state.dismissDisclaimer = dismiss
-    localStorage.setItem('dismiss_disclaimer', `${dismiss}`)
-  },
-
   [types.SET_DISABLE_CONNEXT](state: UserInputState, disable: boolean) {
     console.log('{dispatch} set disableConnext: ', disable)
     state.disableConnext = disable
@@ -82,10 +74,6 @@ const mutations = <MutationTree<UserInputState>>{
 }
 
 const actions = <ActionTree<UserInputState, RootState>>{
-  dismissDisclaimer({ commit }) {
-    commit(types.SET_DISMISS_DISCLAIMER, true)
-  },
-
   setDisableConnext({ commit }, disable) {
     commit(types.SET_DISABLE_CONNEXT, disable)
   },

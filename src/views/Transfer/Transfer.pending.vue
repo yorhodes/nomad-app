@@ -4,7 +4,6 @@
       <n-spin />
       <n-text class="text-[20px] uppercase text-lg font-medium text-white my-5">Sending transaction</n-text>
       <n-text class="opacity-70 mb-3">Please continue to Metamask to<br />approve your bridge transaction</n-text>
-      <!-- <n-text class="opacity-70">A record of your transaction<br />will be available shortly</n-text> -->
     </div>
   </div>
 </template>

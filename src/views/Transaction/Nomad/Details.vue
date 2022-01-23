@@ -158,6 +158,7 @@ export default defineComponent({
         return
       }
       const confirmAt = await message.confirmAt()
+      console.log('confirmAt', confirmAt)
       if (this.confirmAt && !this.confirmAt.isZero()) {
         this.status = 2
         this.confirmAt = confirmAt

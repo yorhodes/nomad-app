@@ -86,7 +86,10 @@ const actions = <ActionTree<ConnextState, RootState>>{
     // get sending asset address
     let sendingAsset
     console.log(originNetwork, token.symbol)
-    if (originNetwork === hubNetwork.name && token.symbol === tokens.ETH.symbol) {
+    if (
+      originNetwork === hubNetwork.name &&
+      token.symbol === tokens.ETH.symbol
+    ) {
       // if sending ETH from Ethereum, get ETH as send asset
       sendingAsset = '0x0000000000000000000000000000000000000000'
     } else {
@@ -107,7 +110,10 @@ const actions = <ActionTree<ConnextState, RootState>>{
 
     // get receiving asset address
     let receivingAsset
-    if (destinationNetwork === hubNetwork.name && token.symbol === tokens.WETH.symbol) {
+    if (
+      destinationNetwork === hubNetwork.name &&
+      token.symbol === tokens.WETH.symbol
+    ) {
       // if sending WETH to Ethereum, get ETH as receiving asset
       receivingAsset = '0x0000000000000000000000000000000000000000'
     } else {

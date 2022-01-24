@@ -151,7 +151,7 @@ export default defineComponent({
   methods: {
     async getStatus(message: TransferMessage) {
       if (!message) return
-      const process = await message.getProcess();
+      const process = await message.getProcess()
       if (process) {
         this.status = 3
         console.log('status: 3')

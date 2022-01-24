@@ -124,7 +124,9 @@ export function getNetworkDomainIDByName(networkName: string): number {
 /**
  * Given a network name, return a boolean if that network is the hub network's name
  */
-export const isEthereumNetwork = (networkName: string) => networkName === hubNetwork.name
+export function isEthereumNetwork(networkName: string) {
+  return networkName === hubNetwork.name
+}
 
 // TOKEN
 
@@ -206,4 +208,3 @@ export function checkConnext(network: string, token: string): boolean {
   }
   return false
 }
-

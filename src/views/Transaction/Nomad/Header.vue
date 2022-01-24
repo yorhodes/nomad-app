@@ -78,7 +78,7 @@
     </span>
     <!-- Manual process -->
     <span
-      class="flex flex-col items-center max-w-xs" 
+      class="flex flex-col items-center max-w-xs"
       v-else-if="readyToManualProcess"
     >
       <n-text class="mb-2 opacity-80 text-center">
@@ -293,7 +293,8 @@ export default defineComponent({
     readyToManualProcess(): boolean {
       if (!this.confirmAt || !this.destinationNetwork) return false
       // hub is not subsidized
-      const destinationNetworkIsHub = this.destinationNetwork === hubNetwork.name
+      const destinationNetworkIsHub =
+        this.destinationNetwork === hubNetwork.name
       // get timestamp in seconds
       const now = BigNumber.from(Date.now()).div(1000)
       // check if confirmAt time has passed

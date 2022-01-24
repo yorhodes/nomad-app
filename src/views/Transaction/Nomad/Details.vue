@@ -19,7 +19,17 @@
     </div>
 
     <detail title="AMOUNT">
-      <n-text v-if="amount">{{ amount }} {{ tokenSymbol }}</n-text>
+      <n-text v-if="amount" class="flex flex-row">
+        <span>{{ amount }} {{ tokenSymbol }}</span>
+        <span class="opacity-70 flex flex-row ml-2 cursor-pointer">
+          add
+          <img
+            src="@/assets/icons/arrow-right-up.svg"
+            alt="open"
+            class="opacity-70"
+          />
+        </span>
+      </n-text>
       <n-text v-else>{{ nullVal }}</n-text>
     </detail>
     <detail :title="`ORIGIN: ${$route.params.network.toUpperCase()}`">

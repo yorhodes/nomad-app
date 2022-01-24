@@ -180,7 +180,7 @@ import {
   PROCESS_TIME_IN_MINUTES,
 } from '@/config'
 import { minutesTilConfirmation } from '@/utils/time'
-import { hubNetwork } from '@/config/config.dev'
+import { hubNetwork } from '@/config'
 
 export default defineComponent({
   props: {

@@ -12,7 +12,7 @@ import {
   TokenMetadata,
 } from '@/config/config.types'
 import instantiateConnextSDK from '@/utils/connext'
-import { hubNetwork, tokens } from '@/config/config.dev'
+import { hubNetwork, tokens } from '@/config'
 
 let connextSDK: NxtpSdk
 

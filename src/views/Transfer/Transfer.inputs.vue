@@ -102,6 +102,16 @@
           @hide="showEditRecipient = false"
         />
       </div>
+
+      <n-divider class="divider" v-if="claimGasFee" />
+
+      <!-- gas fee -->
+      <div v-if="claimGasFee" class="flex flex-row justify-between">
+        <n-text class="opacity-50">Gas Fee</n-text>
+        <div>
+          <n-tag type="info" round>Paid on claim</n-tag>
+        </div>
+      </div>
     </div>
 
     <!-- origin network select modal -->
@@ -123,14 +133,14 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
-import { NText, NDivider, NButton } from 'naive-ui'
+import { NText, NDivider, NButton, NTag } from 'naive-ui'
 import useVuelidate from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
 
 import { useStore } from '@/store'
 import { truncateAddr, toDecimals, isValidAddress } from '@/utils/index'
 import { NetworkMetadata } from '@/config/config.types'
-import { networks } from '@/config'
+import { networks, hubNetwork } from '@/config'
 import NetworkSelect from './Transfer.networks.vue'
 import EditRecipient from './Transfer.recipient.vue'
 
@@ -142,8 +152,14 @@ interface ComponentData {
 }
 
 export default defineComponent({
+  props: {
+    connextAvail: {
+      type: Boolean,
+    }
+  },
   components: {
     NText,
+    NTag,
     NDivider,
     NButton,
     NetworkSelect,
@@ -205,6 +221,13 @@ export default defineComponent({
       }
     },
   },
+  computed: {
+    claimGasFee() {
+      if (!this.destinationNetwork) return false
+      if (this.connextAvail) return true
+      return this.destinationNetwork === hubNetwork.name
+    }
+  }
 })
 </script>
 

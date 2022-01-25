@@ -55,7 +55,7 @@ export default defineComponent({
       const connected = ethereum.isConnected()
       if (connected) {
         // TODO: fix connect wallet button flicker
-        await store.dispatch('connectWallet')
+        // await store.dispatch('connectWallet')
       }
 
       if (ethereum) {

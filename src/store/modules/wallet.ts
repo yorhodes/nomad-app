@@ -7,7 +7,7 @@ import { RootState } from '@/store'
 import * as types from '@/store/mutation-types'
 import { networks } from '@/config/index'
 import * as mmUtils from '@/utils/metamask'
-import { getNetworkByChainID, nullToken } from '@/utils'
+import { fromBytes32, getNetworkByChainID, nullToken } from '@/utils'
 import { TokenIdentifier } from '@nomad-xyz/sdk/nomad'
 import { tokens } from '@/config'
 import { MainnetNetwork, TestnetNetwork } from '@/config/config.types'
@@ -163,8 +163,9 @@ const actions = <ActionTree<WalletState, RootState>>{
     )
 
     let token
+    const tokenId = fromBytes32(payload.tokenId.id as string)
     for (const t in tokens) {
-      if (tokens[t].tokenIdentifier === payload.tokenId) {
+      if (tokens[t].tokenIdentifier.id === tokenId) {
         token = tokens[t]
       }
     }

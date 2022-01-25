@@ -49,11 +49,23 @@
           >
           <n-divider class="divider" />
           <div class="flex flex-row justify-between w-full p-2">
-            <n-text>Enable Connext</n-text>
+            <a
+              href="https://docs.nomad.xyz/bridge/nomad-gui.html"
+              target="_blank"
+              class="flex flex-row items-center cursor-pointer mr-2"
+            >
+              <n-text>Fast bridging with Connext</n-text>
+              <n-icon size="17" class="ml-1">
+                <help-circle-outline />
+              </n-icon>
+            </a>
             <n-switch
               :value="!connextDisabled"
               @update:value="handleConnextSetting"
-            />
+            >
+              <template #checked class="switch-tag">on</template>
+              <template #unchecked class="switch-tag">off</template>
+            </n-switch>
           </div>
         </div>
       </n-tooltip>
@@ -76,7 +88,7 @@
 import { defineComponent, computed } from 'vue'
 import { truncateAddr } from '@/utils'
 import { NText, NIcon, NTooltip, NSwitch, NDivider } from 'naive-ui'
-import { ChevronDown } from '@vicons/ionicons5'
+import { ChevronDown, HelpCircleOutline } from '@vicons/ionicons5'
 import NomadButton from '@/components/Button.vue'
 import { useStore } from '@/store'
 import { useRoute } from 'vue-router'
@@ -89,6 +101,7 @@ export default defineComponent({
     NSwitch,
     NDivider,
     ChevronDown,
+    HelpCircleOutline,
     NomadButton,
   },
   data: () => ({
@@ -162,4 +175,6 @@ nav
   height 40px
 .n-popover
   --n-color #2f2f2f !important
+.n-switch__checked, .n-switch__unchecked
+  margin-bottom 3px
 </style>

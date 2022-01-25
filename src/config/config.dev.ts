@@ -37,7 +37,7 @@ export const tokens: { [key: string]: TokenMetadata } = {
   },
   kWETH: {
     nativeNetwork: 'kovan',
-    symbol: 'WETH',
+    symbol: 'kWETH',
     name: 'Kovan WETH',
     icon: wETHIcon,
     iconColors: ['#C0CEF7', '#7594EE'],
@@ -49,7 +49,7 @@ export const tokens: { [key: string]: TokenMetadata } = {
   },
   kETH: {
     nativeNetwork: 'kovan',
-    symbol: 'ETH',
+    symbol: 'kETH',
     name: 'Kovan ETH',
     icon: wETHIcon,
     iconColors: ['#C0CEF7', '#7594EE'],
@@ -153,7 +153,7 @@ export const networks: { [key: string]: NetworkMetadata } = {
     name: 'kovan',
     chainID: 42,
     domainID: 3000,
-    nativeToken: tokens.ETH,
+    nativeToken: tokens.kETH,
     rpcUrl:
       'https://eth-kovan.alchemyapi.io/v2/QKnfLTfe7CkGA80yAVsCdh8ZatQCsfHI',
     blockExplorer: 'https://kovan.etherscan.io',

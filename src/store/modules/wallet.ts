@@ -96,7 +96,7 @@ const actions = <ActionTree<WalletState, RootState>>{
   async switchNetwork({ dispatch, state }, networkName: string) {
     console.log('set wallet network')
     if (!state.connected) {
-      dispatch('connectWallet')
+      await dispatch('connectWallet')
     }
 
     // if window.ethereum does not exist, do not instantiate nomad

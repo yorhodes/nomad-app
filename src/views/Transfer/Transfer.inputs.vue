@@ -140,7 +140,7 @@ import { required } from '@vuelidate/validators'
 import { useStore } from '@/store'
 import { truncateAddr, toDecimals, isValidAddress } from '@/utils/index'
 import { NetworkMetadata } from '@/config/config.types'
-import { networks } from '@/config'
+import { networks, hubNetwork } from '@/config'
 import NetworkSelect from './Transfer.networks.vue'
 import EditRecipient from './Transfer.recipient.vue'
 
@@ -225,7 +225,7 @@ export default defineComponent({
     claimGasFee() {
       if (!this.destinationNetwork) return false
       if (this.connextAvail) return true
-      return this.destinationNetwork === 'ethereum'
+      return this.destinationNetwork === hubNetwork.name
     }
   }
 })

@@ -5,6 +5,10 @@ This change log is manually updated at the moment.
 
 Unreleased
 --------------------------------
+- fix status poll
+
+v1.0.5 (Jan 24th, 2022)
+--------------------------------
 - support hub and spoke on network select UI
 - support 3 testnets
 

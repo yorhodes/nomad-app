@@ -17,6 +17,7 @@ v1.0.6 (Jan 28th, 2022)
 
 v1.0.5 (Jan 24th, 2022)
 --------------------------------
+- add token to metamask from tx details
 - support hub and spoke on network select UI
 - support 3 testnets
 

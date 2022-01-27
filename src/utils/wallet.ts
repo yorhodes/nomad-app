@@ -25,7 +25,7 @@ type Wallet = Partial<Record<string, unknown>> & {
   on: (eventName: string, listener: any) => void
 }
 
-let wallet: Wallet
+let wallet: Wallet | undefined
 
 export async function getWalletProvider(walletType?: WalletType): Promise<Wallet> {
   if (wallet) return wallet
@@ -36,12 +36,12 @@ export async function getWalletProvider(walletType?: WalletType): Promise<Wallet
     provider = await getMetamaskProvider()
 
     wallet = provider as any
-    wallet.enable = ethereumEnable
-    wallet.request = window.ethereum.request
+    wallet!.enable = ethereumEnable
+    wallet!.request = window.ethereum.request
 
     // NOTE: Need to wrap this in a function for some reason
     // just doing wallet.on = window.ethereum.on does not work
-    wallet.on = (evt: string, listener: () => void) => {
+    wallet!.on = (evt: string, listener: () => void) => {
       window.ethereum.on(evt, listener)
     }
   } else if (walletType === WalletType.WalletConnect) {
@@ -51,14 +51,16 @@ export async function getWalletProvider(walletType?: WalletType): Promise<Wallet
     const web3Provider = new Web3Provider(provider)
 
     wallet = web3Provider as any
-    wallet.enable = provider.enable
-    wallet.request = provider.request
-    wallet.on = (evt: string, listener: () => void) => {
+    wallet!.enable = provider.enable
+    wallet!.request = provider.request
+    wallet!.on = (evt: string, listener: () => void) => {
       provider.on(evt, listener)
     }
   }
 
-  console.log('getWalletProvider', wallet)
+  return wallet!
+}
 
-  return wallet
+export async function resetWallet() {
+  wallet = undefined
 }

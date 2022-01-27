@@ -3,15 +3,15 @@
  * This is also a good module to look at for how to write a Vuex module
  */
 import { MutationTree, ActionTree } from 'vuex'
+import { BigNumber } from 'ethers'
+import { TokenIdentifier } from '@nomad-xyz/sdk/nomad'
+
 import { RootState } from '@/store'
 import * as types from '@/store/mutation-types'
-import { networks } from '@/config/index'
 import { fromBytes32, getNetworkByChainID, nullToken } from '@/utils'
-import { TokenIdentifier } from '@nomad-xyz/sdk/nomad'
-import { tokens } from '@/config'
+import { networks, tokens } from '@/config'
 import { MainnetNetwork, TestnetNetwork } from '@/config/config.types'
-import { getWalletProvider, WalletType } from '@/utils/wallet'
-import { BigNumber } from 'ethers'
+import { getWalletProvider, WalletType, resetWallet } from '@/utils/wallet'
 
 export interface WalletState {
   connected: boolean
@@ -70,7 +70,12 @@ const actions = <ActionTree<WalletState, RootState>>{
     const provider = await getWalletProvider(walletType || state.type)
 
     // enable session
-    await provider.enable()
+    try {
+      await provider.enable()
+    } catch(e) {
+      resetWallet()
+      console.error(e)
+    }
 
     provider.on('chainChanged', async (chainId: number) => {
       console.log('network change')

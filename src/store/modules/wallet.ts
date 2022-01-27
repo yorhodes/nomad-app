@@ -207,8 +207,12 @@ const actions = <ActionTree<WalletState, RootState>>{
   },
 
   async addToken({ dispatch, state, rootGetters }, payload: TokenPayload) {
+    let provider
+
     if (!state.connected) {
-      await dispatch('connectWallet')
+      provider = await dispatch('connectWallet')
+    } else {
+      provider = await getWalletProvider(state.type)
     }
     await dispatch('switchNetwork', payload.network)
 
@@ -227,7 +231,7 @@ const actions = <ActionTree<WalletState, RootState>>{
 
     if (!token) return false
 
-    const wasAdded = await (window as any).ethereum.request({
+    const wasAdded = provider.request({
       method: 'wallet_watchAsset',
       params: {
         type: 'ERC20',

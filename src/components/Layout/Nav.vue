@@ -10,16 +10,6 @@
 
     <!-- right side of nav -->
     <div class="flex items-center" v-if="showButton">
-      <!-- metamask not installed -->
-      <!-- <nomad-button
-        v-if="!metamaskInstalled"
-        class="uppercase"
-        primary
-        @click="installMetamask"
-      >
-        Install Metamask
-      </nomad-button> -->
-
       <!-- connected -->
       <n-tooltip
         v-if="walletConnected"
@@ -76,14 +66,14 @@
         class="uppercase"
         :disabled="buttonDisabled"
         primary
-        @click="openConnectWalletModal()"
+        @click="openConnectWalletModal"
       >
         Connect Wallet
       </nomad-button>
 
       <!-- connect wallet modal -->
-      <n-modal :show="showConnectWalletModal" @maskClick="closeConnectWalletModal()">
-        <connect-wallet v-on:close-modal="closeConnectWalletModal()"/>
+      <n-modal :show="showConnectWalletModal" @maskClick="closeConnectWalletModal">
+        <connect-wallet v-on:close-modal="closeConnectWalletModal"/>
       </n-modal>
     </div>
   </nav>
@@ -136,21 +126,12 @@ export default defineComponent({
     closeConnectWalletModal() {
       this.store.dispatch('closeConnectWalletModal')
     },
-    // TODO: determine what to do when user has neither metamask or wallet connect
-    // installMetamask() {
-    //   window.open('https://metamask.io/download.html', '_blank')
-    // },
   },
   computed: {
     truncatedAddress(): string {
       const { address, connected } = this.store.state.wallet
       return connected ? truncateAddr(address) : ''
     },
-    // metamaskInstalled(): boolean {
-    //   const { ethereum } = window
-    //   if (!ethereum) return false
-    //   return !ethereum.isMetamask
-    // },
   },
 })
 </script>

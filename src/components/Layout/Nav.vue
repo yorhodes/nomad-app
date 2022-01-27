@@ -72,9 +72,7 @@
       </nomad-button>
 
       <!-- connect wallet modal -->
-      <n-modal :show="showConnectWalletModal" @maskClick="closeConnectWalletModal">
-        <connect-wallet v-on:close-modal="closeConnectWalletModal"/>
-      </n-modal>
+      <connect-wallet />
     </div>
   </nav>
 </template>
@@ -82,7 +80,7 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
 import { truncateAddr } from '@/utils'
-import { NText, NIcon, NTooltip, NSwitch, NDivider, NModal } from 'naive-ui'
+import { NText, NIcon, NTooltip, NSwitch, NDivider } from 'naive-ui'
 import { ChevronDown, HelpCircleOutline } from '@vicons/ionicons5'
 import NomadButton from '@/components/Button.vue'
 import ConnectWallet from '@/components/ConnectWallet.vue'
@@ -96,7 +94,6 @@ export default defineComponent({
     NTooltip,
     NSwitch,
     NDivider,
-    NModal,
     ChevronDown,
     HelpCircleOutline,
     NomadButton,
@@ -112,7 +109,6 @@ export default defineComponent({
       walletConnected: computed(() => store.state.wallet.connected),
       connextDisabled: computed(() => store.state.userInput.disableConnext),
       showButton: computed(() => ['Bridge'].includes(route.name as string)),
-      showConnectWalletModal: computed(() => store.state.wallet.showConnectWalletModal),
       store,
     }
   },
@@ -122,9 +118,6 @@ export default defineComponent({
     },
     openConnectWalletModal() {
       this.store.dispatch('openConnectWalletModal')
-    },
-    closeConnectWalletModal() {
-      this.store.dispatch('closeConnectWalletModal')
     },
   },
   computed: {

@@ -1,57 +1,60 @@
 <template>
-  <n-card
-    style="width: 95%; max-width: 450px; background-color: #2F2F2F;"
-    class="rounded-md"
-    size="small"
-  >
-    <div
-      class="wallet-select flex align-center justify-between rounded-md bg-translucent m-2"
-      @click="metamaskInstalled() ? handleMetamaskButtonClick() : installMetamask()"
+  <n-modal :show="showConnectWalletModal" @maskClick="closeConnectWalletModal">
+    <n-card
+      style="width: 95%; max-width: 450px; background-color: #2F2F2F;"
+      class="rounded-md"
+      size="small"
     >
-      <div class="w-full flex items-center justify-center">
-        <img
-          src="@/assets/metamask-logo.svg"
-          width="200"
-        />
+      <div
+        class="wallet-select flex align-center justify-between rounded-md bg-translucent m-2"
+        @click="metamaskInstalled() ? handleMetamaskButtonClick() : installMetamask()"
+      >
+        <div class="w-full flex items-center justify-center">
+          <img
+            src="@/assets/metamask-logo.svg"
+            width="200"
+          />
+        </div>
+        <div class="wallet-connect flex flex-col justify-center items-center">
+          <div class="m-2">Metamask</div>
+          <nomad-button primary>
+            {{ metamaskInstalled() ? 'Connect' : 'Install' }}
+          </nomad-button>
+        </div>
       </div>
-      <div class="wallet-connect flex flex-col justify-center items-center">
-        <div class="m-2">Metamask</div>
-        <nomad-button primary>
-          {{ metamaskInstalled() ? 'Connect' : 'Install' }}
-        </nomad-button>
-      </div>
-    </div>
 
-    <div
-      class="wallet-select flex align-center justify-center rounded-md bg-translucent m-2"
-      @click="handleWalletConnectButtonClick"
-    >
-      <div class="bg-walletconnect rounded-md w-full flex items-center justify-center p-4 m-2">
-        <img
-          src="@/assets/walletconnect-logo.svg"
-          width="200"
-          class="h-full"
-        />
+      <div
+        class="wallet-select flex align-center justify-center rounded-md bg-translucent m-2"
+        @click="handleWalletConnectButtonClick"
+      >
+        <div class="bg-walletconnect rounded-md w-full flex items-center justify-center p-4 m-2">
+          <img
+            src="@/assets/walletconnect-logo.svg"
+            width="200"
+            class="h-full"
+          />
+        </div>
+        <div class="wallet-connect flex flex-col justify-center items-center">
+          <div class="m-2">Wallet Connect</div>
+          <nomad-button primary>
+            Connect
+          </nomad-button>
+        </div>
       </div>
-      <div class="wallet-connect flex flex-col justify-center items-center">
-        <div class="m-2">Wallet Connect</div>
-        <nomad-button primary>
-          Connect
-        </nomad-button>
-      </div>
-    </div>
-  </n-card>
+    </n-card>
+  </n-modal>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import { NCard } from 'naive-ui'
+import { defineComponent, computed } from 'vue'
+import { NModal, NCard } from 'naive-ui'
 import NomadButton from '@/components/Button.vue'
 import { useStore } from '@/store'
 import { WalletType } from '@/utils/wallet'
 
 export default defineComponent({
   components: {
+    NModal,
     NCard,
     NomadButton,
   },
@@ -63,6 +66,7 @@ export default defineComponent({
     const store = useStore()
 
     return {
+      showConnectWalletModal: computed(() => store.state.wallet.showConnectWalletModal),
       store,
     }
   },
@@ -77,7 +81,7 @@ export default defineComponent({
         console.log('connect wallet error', error)
       } finally {
         this.disableWalletConnectButton = false
-        this.$emit('closeModal')
+        this.closeConnectWalletModal()
       }
     },
     async handleMetamaskButtonClick() {
@@ -90,7 +94,7 @@ export default defineComponent({
         console.log('metamask error', error)
       } finally {
         this.disableMetamaskButton = false
-        this.$emit('closeModal')
+        this.closeConnectWalletModal()
       }
     },
     installMetamask() {
@@ -101,6 +105,9 @@ export default defineComponent({
       const { ethereum } = window
       if (!ethereum) return false
       return !ethereum.isMetamask
+    },
+    closeConnectWalletModal() {
+      this.store.dispatch('closeConnectWalletModal')
     },
   },
 })

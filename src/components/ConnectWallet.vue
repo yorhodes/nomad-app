@@ -6,7 +6,7 @@
   >
     <div
       class="wallet-select flex align-center justify-between rounded-md bg-translucent m-2"
-      @click="handleMetamaskButtonClick"
+      @click="metamaskInstalled() ? handleMetamaskButtonClick() : installMetamask()"
     >
       <div class="w-full flex items-center justify-center">
         <img
@@ -17,7 +17,7 @@
       <div class="wallet-connect flex flex-col justify-center items-center">
         <div class="m-2">Metamask</div>
         <nomad-button primary>
-          Connect
+          {{ metamaskInstalled() ? 'Connect' : 'Install' }}
         </nomad-button>
       </div>
     </div>
@@ -92,6 +92,15 @@ export default defineComponent({
         this.disableMetamaskButton = false
         this.$emit('closeModal')
       }
+    },
+    installMetamask() {
+      console.log('here')
+      window.open('https://metamask.io/download.html', '_blank')
+    },
+    metamaskInstalled(): boolean {
+      const { ethereum } = window
+      if (!ethereum) return false
+      return !ethereum.isMetamask
     },
   },
 })

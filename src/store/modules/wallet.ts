@@ -74,6 +74,7 @@ const actions = <ActionTree<WalletState, RootState>>{
       await provider.enable()
     } catch(e) {
       resetWallet()
+      localStorage.removeItem('wallet_type')
       console.error(e)
     }
 

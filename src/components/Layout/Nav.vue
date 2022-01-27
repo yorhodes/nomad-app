@@ -76,14 +76,14 @@
         class="uppercase"
         :disabled="buttonDisabled"
         primary
-        @click="showConnectWalletModal = true"
+        @click="openConnectWalletModal()"
       >
         Connect Wallet
       </nomad-button>
 
       <!-- connect wallet modal -->
-      <n-modal :show="showConnectWalletModal" @maskClick="showConnectWalletModal = false">
-        <connect-wallet v-on:close-modal="showConnectWalletModal = false"/>
+      <n-modal :show="showConnectWalletModal" @maskClick="closeConnectWalletModal()">
+        <connect-wallet v-on:close-modal="closeConnectWalletModal()"/>
       </n-modal>
     </div>
   </nav>
@@ -114,7 +114,6 @@ export default defineComponent({
   },
   data: () => ({
     buttonDisabled: false,
-    showConnectWalletModal: false,
   }),
   setup: () => {
     const store = useStore()
@@ -123,12 +122,19 @@ export default defineComponent({
       walletConnected: computed(() => store.state.wallet.connected),
       connextDisabled: computed(() => store.state.userInput.disableConnext),
       showButton: computed(() => ['Bridge'].includes(route.name as string)),
+      showConnectWalletModal: computed(() => store.state.wallet.showConnectWalletModal),
       store,
     }
   },
   methods: {
     handleConnextSetting(val: boolean) {
       this.store.dispatch('setDisableConnext', !val)
+    },
+    openConnectWalletModal() {
+      this.store.dispatch('openConnectWalletModal')
+    },
+    closeConnectWalletModal() {
+      this.store.dispatch('closeConnectWalletModal')
     },
     // TODO: determine what to do when user has neither metamask or wallet connect
     // installMetamask() {

@@ -19,7 +19,20 @@
     </div>
 
     <detail title="AMOUNT">
-      <n-text v-if="amount">{{ amount }} {{ tokenSymbol }}</n-text>
+      <n-text v-if="amount" class="flex flex-row">
+        <span>{{ amount }} {{ tokenSymbol }}</span>
+        <span
+          class="opacity-70 flex flex-row ml-2 cursor-pointer"
+          @click="addToken"
+        >
+          add
+          <img
+            src="@/assets/icons/arrow-right-up.svg"
+            alt="open"
+            class="opacity-70"
+          />
+        </span>
+      </n-text>
       <n-text v-else>{{ nullVal }}</n-text>
     </detail>
     <detail :title="`ORIGIN: ${$route.params.network.toUpperCase()}`">
@@ -57,7 +70,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { utils, BigNumber } from 'ethers'
-import { TransferMessage } from '@nomad-xyz/sdk/nomad'
+import { TokenIdentifier, TransferMessage } from '@nomad-xyz/sdk/nomad'
 import { NText, NDivider } from 'naive-ui'
 
 import { useStore } from '@/store'
@@ -73,6 +86,7 @@ interface ComponentData {
   confirmAt: BigNumber | null
   amount: string
   tokenSymbol: string
+  tokenId: TokenIdentifier
   destNet: string
   originAddr: string
   destAddr: string
@@ -126,6 +140,7 @@ export default defineComponent({
     this.originAddr = message.receipt.from
     this.destAddr = fromBytes32(message.to)
     // get token
+    this.tokenId = message.token
     const token = await this.store.getters.resolveRepresentation(
       message.origin,
       message.token
@@ -133,10 +148,10 @@ export default defineComponent({
     if (token) {
       // token symbol
       this.tokenSymbol = await token.symbol()
-      // amount as BN
-      const amountBN = message.amount.toString()
       // amount divided by decimals
-      this.amount = await utils.formatUnits(amountBN, await token.decimals())
+      const amountBN = message.amount.toString()
+      const tokenDecimals = await token.decimals()
+      this.amount = await utils.formatUnits(amountBN, tokenDecimals)
     }
     // status
     await this.getStatus(message)
@@ -168,6 +183,17 @@ export default defineComponent({
       this.status = (await message.events()).status
       console.log('status: ', this.status)
     },
+    async addToken() {
+      const payload = {
+        network: this.destNet,
+        tokenId: this.tokenId,
+      }
+      try {
+        await this.store.dispatch('addToken', payload)
+      } catch (error) {
+        console.error(error)
+      }
+    }
   },
 
   computed: {

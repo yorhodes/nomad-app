@@ -7,11 +7,19 @@ import { RootState } from '@/store'
 import * as types from '@/store/mutation-types'
 import { networks } from '@/config/index'
 import * as mmUtils from '@/utils/metamask'
-import { getNetworkByChainID, nullToken } from '@/utils'
+import { fromBytes32, getNetworkByChainID, nullToken } from '@/utils'
+import { TokenIdentifier } from '@nomad-xyz/sdk/nomad'
+import { tokens } from '@/config'
+import { MainnetNetwork, TestnetNetwork } from '@/config/config.types'
 
 export interface WalletState {
   connected: boolean
   address: string
+}
+
+type TokenPayload = {
+  network: MainnetNetwork | TestnetNetwork,
+  tokenId: TokenIdentifier
 }
 
 const state = (): WalletState => ({
@@ -142,6 +150,43 @@ const actions = <ActionTree<WalletState, RootState>>{
 
     dispatch('setWalletNetwork', network.name)
   },
+
+  async addToken({ dispatch, state, rootGetters }, payload: TokenPayload) {
+    if (!state.connected) {
+      await dispatch('connectWallet')
+    }
+    await dispatch('switchNetwork', payload.network)
+
+    const { address } = await rootGetters.resolveRepresentation(
+      payload.network,
+      payload.tokenId,
+    )
+
+    let token
+    const tokenId = fromBytes32(payload.tokenId.id as string)
+    for (const t in tokens) {
+      if (tokens[t].tokenIdentifier.id === tokenId) {
+        token = tokens[t]
+      }
+    }
+
+    if (!token) return false
+
+    const wasAdded = await (window as any).ethereum.request({
+      method: 'wallet_watchAsset',
+      params: {
+        type: 'ERC20',
+        options: {
+          address,
+          symbol: token.symbol,
+          decimals: token.decimals,
+          image: token.icon,
+        },
+      },
+    })
+  
+    return !!wasAdded
+  }
 }
 
 export default {

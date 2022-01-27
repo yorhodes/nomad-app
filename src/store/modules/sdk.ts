@@ -292,15 +292,7 @@ const getters = <GetterTree<SDKState, RootState>>{
 
   resolveRepresentation:
     () => async (network: string, token: TokenIdentifier) => {
-      let bridgeToken
-
-      try {
-        bridgeToken = await nomad.resolveRepresentation(network, token)
-      } catch (e) {
-        console.error(e)
-      }
-
-      return bridgeToken
+      return await nomad.resolveRepresentation(network, token)
     },
 }
 

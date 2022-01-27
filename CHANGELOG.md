@@ -5,6 +5,7 @@ This change log is manually updated at the moment.
 
 Unreleased
 --------------------------------
+- add token to metamask from tx details
 - support hub and spoke on network select UI
 - support 3 testnets
 

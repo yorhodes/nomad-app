@@ -10,8 +10,8 @@ const ethereumEnable = async () => {
 }
 
 export enum WalletType {
-  Metamask = 0,
-  WalletConnect = 1,
+  Metamask = 1,
+  WalletConnect = 2,
 }
 
 // Not sure the best way to type this is yet

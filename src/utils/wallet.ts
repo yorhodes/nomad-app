@@ -41,9 +41,11 @@ export async function getWalletProvider(walletType?: WalletType): Promise<Wallet
 
     // NOTE: Need to wrap this in a function for some reason
     // just doing wallet.on = window.ethereum.on does not work
-    wallet!.on = (evt: string, listener: () => void) => {
-      window.ethereum.on(evt, listener)
-    }
+
+    // TODO: uncomment these 3 lines out for things to break
+    // wallet!.on = (evt: string, listener: () => void) => {
+    //   window.ethereum.on(evt, listener)
+    // }
   } else if (walletType === WalletType.WalletConnect) {
     provider = await getWalletConnectProvider()
 
@@ -53,9 +55,11 @@ export async function getWalletProvider(walletType?: WalletType): Promise<Wallet
     wallet = web3Provider as any
     wallet!.enable = provider.enable
     wallet!.request = provider.request
-    wallet!.on = (evt: string, listener: () => void) => {
-      provider.on(evt, listener)
-    }
+
+    // TODO: uncomment these 3 lines out for things to break
+    // wallet!.on = (evt: string, listener: () => void) => {
+    //   provider.on(evt, listener)
+    // }
   }
 
   return wallet!

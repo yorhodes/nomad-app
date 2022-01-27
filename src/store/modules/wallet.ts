@@ -28,7 +28,7 @@ type TokenPayload = {
 const state = (): WalletState => ({
   connected: false,
   address: localStorage.getItem('wallet_address') || '',
-  type: undefined,
+  type: (localStorage.getItem('wallet_type') as unknown as WalletType) || undefined,
   showConnectWalletModal: false
 })
 

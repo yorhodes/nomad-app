@@ -22,7 +22,7 @@ type Wallet = Partial<Record<string, unknown>> & {
   request: (args: any) => Promise<any>
   getSigner: () => Promise<Signer>
   ready: Promise<Record<string, unknown> & { chainId: number }>
-  on: (eventName: string, listener: any) => void
+  customOn: (eventName: string, listener: any) => void
 }
 
 let wallet: Wallet | undefined
@@ -40,12 +40,11 @@ export async function getWalletProvider(walletType?: WalletType): Promise<Wallet
     wallet!.request = window.ethereum.request
 
     // NOTE: Need to wrap this in a function for some reason
-    // just doing wallet.on = window.ethereum.on does not work
-
-    // TODO: uncomment these 3 lines out for things to break
-    // wallet!.on = (evt: string, listener: () => void) => {
-    //   window.ethereum.on(evt, listener)
-    // }
+    // just doing wallet.on = window.ethereum.on does not work.
+    // Also, the web3Provider.on method should not be overridden
+    wallet!.customOn = (evt: string, listener: () => void) => {
+      window.ethereum.on(evt, listener)
+    }
   } else if (walletType === WalletType.WalletConnect) {
     provider = await getWalletConnectProvider()
 
@@ -56,10 +55,7 @@ export async function getWalletProvider(walletType?: WalletType): Promise<Wallet
     wallet!.enable = provider.enable
     wallet!.request = provider.request
 
-    // TODO: uncomment these 3 lines out for things to break
-    // wallet!.on = (evt: string, listener: () => void) => {
-    //   provider.on(evt, listener)
-    // }
+    wallet!.customOn = provider.on
   }
 
   return wallet!

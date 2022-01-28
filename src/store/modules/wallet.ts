@@ -78,7 +78,7 @@ const actions = <ActionTree<WalletState, RootState>>{
       console.error(e)
     }
 
-    provider.on('chainChanged', async (chainId: number) => {
+    provider.customOn('chainChanged', async (chainId: number) => {
       console.log('network change')
       // get name of network and set in store
       const id = BigNumber.from(chainId).toNumber()
@@ -86,6 +86,7 @@ const actions = <ActionTree<WalletState, RootState>>{
       if (network) {
         // network supported, setting wallet network
         await dispatch('setWalletNetwork', network.name)
+        await dispatch('setDestinationNetwork', '')
       } else {
         // network not supported, clearing network
         await dispatch('setWalletNetwork', '')

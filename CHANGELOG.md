@@ -5,7 +5,11 @@ This change log is manually updated at the moment.
 
 Unreleased
 --------------------------------
+
+v1.0.6 (Jan 28th, 2022)
+--------------------------------
 - fix status poll
+- bump sdk from v1.2.4 -> v1.2.5
 
 v1.0.5 (Jan 24th, 2022)
 --------------------------------

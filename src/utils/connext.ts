@@ -8,6 +8,7 @@ import {
   TestnetNetwork,
   TokenMetadata,
 } from '@/config/config.types'
+import { getWalletProvider } from './wallet'
 
 export type SwapData = {
   origin: MainnetNetwork | TestnetNetwork
@@ -18,19 +19,7 @@ export type SwapData = {
 }
 
 export default async function instantiateConnextSDK(): Promise<NxtpSdk> {
-  // Get signer from metamask
-  const { ethereum } = window
-
-  if (!ethereum) {
-    throw new Error('Metamask not installed')
-  }
-
-  // TODO: need to figure out what to do here, shouldn't automatically request accounts
-  // on mount. We should request accounts when we know which wallet type will be used
-
-  await ethereum.request({ method: 'eth_requestAccounts' })
-
-  const provider = new providers.Web3Provider(ethereum)
+  const provider = await getWalletProvider()
   const _signer = await provider.getSigner()
 
   // Level can be one of:

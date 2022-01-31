@@ -78,7 +78,7 @@ const actions = <ActionTree<WalletState, RootState>>{
       console.error(e)
     }
 
-    provider.customOn('chainChanged', async (chainId: number) => {
+    provider.listen('chainChanged', async (chainId: number) => {
       console.log('network change')
       // get name of network and set in store
       const id = BigNumber.from(chainId).toNumber()

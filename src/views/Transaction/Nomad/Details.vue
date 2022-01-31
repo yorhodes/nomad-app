@@ -201,7 +201,7 @@ export default defineComponent({
       } catch (error) {
         console.error(error)
       }
-    }
+    },
   },
 
   computed: {

@@ -8,6 +8,7 @@ Unreleased
 - add token to metamask from tx details
 - support hub and spoke on network select UI
 - support 3 testnets
+- support wallet connect
 
 v1.0.4 (Jan 21st, 2022)
 --------------------------------

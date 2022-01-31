@@ -10,19 +10,9 @@
 
     <!-- right side of nav -->
     <div class="flex items-center" v-if="showButton">
-      <!-- metamask not installed -->
-      <nomad-button
-        v-if="!metamaskInstalled"
-        class="uppercase"
-        primary
-        @click="installMetamask"
-      >
-        Install Metamask
-      </nomad-button>
-
       <!-- connected -->
       <n-tooltip
-        v-else-if="walletConnected"
+        v-if="walletConnected"
         placement="bottom-end"
         :show-arrow="false"
         trigger="click"
@@ -76,10 +66,13 @@
         class="uppercase"
         :disabled="buttonDisabled"
         primary
-        @click="handleConnect"
+        @click="openConnectWalletModal"
       >
         Connect Wallet
       </nomad-button>
+
+      <!-- connect wallet modal -->
+      <connect-wallet />
     </div>
   </nav>
 </template>
@@ -90,6 +83,7 @@ import { truncateAddr } from '@/utils'
 import { NText, NIcon, NTooltip, NSwitch, NDivider } from 'naive-ui'
 import { ChevronDown, HelpCircleOutline } from '@vicons/ionicons5'
 import NomadButton from '@/components/Button.vue'
+import ConnectWallet from '@/components/ConnectWallet.vue'
 import { useStore } from '@/store'
 import { useRoute } from 'vue-router'
 
@@ -103,6 +97,7 @@ export default defineComponent({
     ChevronDown,
     HelpCircleOutline,
     NomadButton,
+    ConnectWallet,
   },
   data: () => ({
     buttonDisabled: false,
@@ -118,33 +113,17 @@ export default defineComponent({
     }
   },
   methods: {
-    async handleConnect() {
-      this.buttonDisabled = true
-      try {
-        await this.store.dispatch('connectWallet')
-      } catch (error) {
-        // TODO: determine how we want to handle wallet connect errors
-        console.log('error', error)
-      } finally {
-        this.buttonDisabled = false
-      }
-    },
     handleConnextSetting(val: boolean) {
       this.store.dispatch('setDisableConnext', !val)
     },
-    installMetamask() {
-      window.open('https://metamask.io/download.html', '_blank')
+    openConnectWalletModal() {
+      this.store.dispatch('openConnectWalletModal')
     },
   },
   computed: {
     truncatedAddress(): string {
       const { address, connected } = this.store.state.wallet
       return connected ? truncateAddr(address) : ''
-    },
-    metamaskInstalled(): boolean {
-      const { ethereum } = window
-      if (!ethereum) return false
-      return !ethereum.isMetamask
     },
   },
 })

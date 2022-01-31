@@ -12,6 +12,7 @@ export const isProduction = environment === 'production'
 export const tokens = currentEnv.tokens
 export const networks = currentEnv.networks
 export const connextConfig = currentEnv.connextConfig
+export const walletConnectRPCConfig = currentEnv.walletConnectRPCConfig
 export const connextPools = currentEnv.connextPools
 export const hubNetwork = currentEnv.hubNetwork
 export const s3URL = isProduction
@@ -27,6 +28,7 @@ function chooseConfig(environment: string | undefined): {
   tokens: { [key: string]: TokenMetadata }
   networks: { [key: string]: NetworkMetadata }
   connextConfig: SdkBaseChainConfigParams
+  walletConnectRPCConfig: Record<number, string>
   connextPools: { [key: string]: string[] }
   hubNetwork: NetworkMetadata
 } {

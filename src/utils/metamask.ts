@@ -5,9 +5,9 @@ export async function getMetamaskProvider(): Promise<Web3Provider> {
   // Connect to metamask
   const provider = new Web3Provider(window.ethereum)
   await provider.ready
-  const signer = provider.getSigner()
+  const signer = await provider.getSigner()
   console.log({ provider, signer })
-  return Promise.resolve(provider)
+  return provider
 }
 
 export async function getNetwork(provider: Web3Provider): Promise<string> {

@@ -104,13 +104,6 @@ export default defineComponent({
     },
     // use connext to swap tokens
     async quoteSwap() {
-      if (!this.metamaskInstalled) {
-        this.notification.info({
-          title: 'Install Metamask',
-          content: 'Please install Metamask to continue',
-        })
-        return
-      }
       // validate inputs, return if invalid
       const inputsValid = await this.v$.$validate()
       if (!inputsValid) return
@@ -163,14 +156,6 @@ export default defineComponent({
       // reset and show user the quote swap button again
       await this.store.dispatch('resetTransferQuote')
       this.quoteInitiated = false
-    },
-  },
-
-  computed: {
-    metamaskInstalled(): boolean {
-      const { ethereum } = window
-      if (!ethereum) return false
-      return !ethereum.isMetamask
     },
   },
 })

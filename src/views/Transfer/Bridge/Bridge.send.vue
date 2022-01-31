@@ -104,14 +104,6 @@ export default defineComponent({
   methods: {
     // use Nomad to bridge tokens
     async bridge() {
-      if (!this.metamaskInstalled) {
-        this.notification.info({
-          title: 'Install Metamask',
-          content: 'Please install Metamask to continue',
-        })
-        return
-      }
-
       // validate inputs, return if invalid
       const inputsValid = await this.v$.$validate()
       if (!inputsValid) return
@@ -155,14 +147,6 @@ export default defineComponent({
             'We encountered an error while dispatching your transaction.',
         })
       }
-    },
-  },
-
-  computed: {
-    metamaskInstalled(): boolean {
-      const { ethereum } = window
-      if (!ethereum) return false
-      return !ethereum.isMetamask
     },
   },
 })

@@ -8,6 +8,7 @@ import {
   TestnetNetwork,
   TokenMetadata,
 } from '@/config/config.types'
+import { getWalletProvider } from './wallet'
 
 export type SwapData = {
   origin: MainnetNetwork | TestnetNetwork
@@ -18,17 +19,8 @@ export type SwapData = {
 }
 
 export default async function instantiateConnextSDK(): Promise<NxtpSdk> {
-  // Get signer from metamask
-  const { ethereum } = window
-
-  if (!ethereum) {
-    throw new Error('Metamask not installed')
-  }
-
-  await ethereum.request({ method: 'eth_requestAccounts' })
-
-  const provider = new providers.Web3Provider(ethereum)
-  const _signer = provider.getSigner()
+  const provider = await getWalletProvider()
+  const _signer = await provider.getSigner()
 
   // Level can be one of:
   // 'fatal' | 'error' | 'warn' | 'info' | 'debug' | 'trace' | 'silent'

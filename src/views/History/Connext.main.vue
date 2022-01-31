@@ -127,6 +127,7 @@ export default defineComponent({
   },
 
   watch: {
+    // TODO: get active transactions if address exists
     walletConnected(newWalletConnected) {
       if (newWalletConnected) {
         this.getActive()

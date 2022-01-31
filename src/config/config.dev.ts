@@ -201,6 +201,12 @@ export const connextConfig: SdkBaseChainConfigParams = {
       'https://eth-mainnet.alchemyapi.io/v2/rud551ngiIel2fRYbWmsnhwAE1FGgCLG',
     ],
   },
+  4: {
+    // rinkeby
+    providers: [
+      'https://eth-rinkeby.alchemyapi.io/v2/-uKtZgu7bWLDEuW3EaOZ0f6eKpqiH-Tj'
+    ]
+  },
   42: {
     // kovan
     providers: [
@@ -216,6 +222,7 @@ export const connextConfig: SdkBaseChainConfigParams = {
 }
 
 export const walletConnectRPCConfig: Record<number, string>  = {
+  4: 'https://eth-rinkeby.alchemyapi.io/v2/-uKtZgu7bWLDEuW3EaOZ0f6eKpqiH-Tj',
   42: 'https://eth-kovan.alchemyapi.io/v2/QKnfLTfe7CkGA80yAVsCdh8ZatQCsfHI',
   1287: 'https://moonbeam-alpha.api.onfinality.io/rpc?apikey=44e80fe3-d9ce-40f2-8336-6089e751b625',
 }

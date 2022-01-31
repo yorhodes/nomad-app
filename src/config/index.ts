@@ -21,6 +21,10 @@ export const s3URL = isProduction
 export const connextScanURL = isProduction
   ? 'https://connextscan.io/'
   : 'https://testnet.connextscan.io/'
+// TODO: add production URL
+export const nomadAPI = isProduction
+  ? ''
+  : 'https://bridge-indexer.dev.madlads.tools/tx'
 export const BUFFER_CONFIRMATION_TIME_IN_MINUTES = isProduction ? 25 : 5
 export const PROCESS_TIME_IN_MINUTES = isProduction ? 10 : 2
 

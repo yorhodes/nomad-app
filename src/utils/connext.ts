@@ -1,6 +1,6 @@
-import { providers } from 'ethers'
+// import { providers } from 'ethers'
 import { NxtpSdk } from '@connext/nxtp-sdk'
-import { Logger } from '@connext/nxtp-utils'
+// import { Logger } from '@connext/nxtp-utils'
 
 import { connextConfig, isProduction } from '@/config'
 import {
@@ -25,16 +25,16 @@ export default async function instantiateConnextSDK(): Promise<NxtpSdk> {
   // Level can be one of:
   // 'fatal' | 'error' | 'warn' | 'info' | 'debug' | 'trace' | 'silent'
   // silenced in production
-  const logger = new Logger({
-    name: 'shuturface',
-    level: isProduction ? 'silent' : 'warn',
-  })
+  // const logger = new Logger({
+  //   name: 'shuturface',
+  //   level: isProduction ? 'silent' : 'warn',
+  // })
 
   // Instantiate SDK
   const sdk = await NxtpSdk.create({
     chainConfig: connextConfig,
     signer: _signer,
-    logger,
+    // logger,
   })
 
   return sdk

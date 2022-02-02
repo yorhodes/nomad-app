@@ -12,7 +12,8 @@
     "build-staging": "vue-cli-service build --mode staging",
     "push-dev": "git push origin main:development -f",
     "push-staging": "git push origin main:staging -f",
-    "serve-prod": "vue-cli-service serve --mode production"
+    "serve-prod": "vue-cli-service serve --mode production",
+    "link-sdk": "pushd ~/code/nomad-monorepo/typescript/nomad-sdk && cp package.json src/package.json && cd src && npm link && popd && npm link @nomad-xyz/sdk"
   },
   "dependencies": {
     "@connext/nxtp-sdk": "^0.1.14",

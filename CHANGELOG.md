@@ -6,6 +6,10 @@ This change log is manually updated at the moment.
 Unreleased
 --------------------------------
 
+v1.0.7 (Feb 3rd, 2022) [HOTFIX]
+--------------------------------
+- bump sdk from v1.2.5 -> v1.3.2
+
 v1.0.6 (Jan 28th, 2022)
 --------------------------------
 - fix status poll

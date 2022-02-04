@@ -177,7 +177,7 @@ const actions = <ActionTree<SDKState, RootState>>{
     nomad.registerSigner(networkName, newSigner)
   },
 
-  async send({ commit }, payload: SendData): Promise<TransferMessage | null> {
+  async send({ commit, dispatch }, payload: SendData): Promise<TransferMessage | null> {
     console.log('sending...', payload)
     commit(types.SET_SENDING, true)
     const { isNative, originNetwork, destNetwork, asset, amnt, recipient } =
@@ -213,6 +213,7 @@ const actions = <ActionTree<SDKState, RootState>>{
       commit(types.SET_SENDING, false)
       return transferMessage
     } catch (e) {
+      await dispatch('checkFailedHomes')
       console.error(e)
     }
 
@@ -255,14 +256,19 @@ const actions = <ActionTree<SDKState, RootState>>{
     }
     replica.connect(signer)
 
-    // prove and process
-    const receipt = await replica.proveAndProcess(
-      data.message as BytesLike,
-      data.proof.path,
-      data.proof.index
-    )
-    console.log('PROCESSED!!!!')
-    return receipt
+    try {
+      // prove and process
+      const receipt = await replica.proveAndProcess(
+        data.message as BytesLike,
+        data.proof.path,
+        data.proof.index
+      )
+      console.log('PROCESSED!!!!')
+      return receipt
+    } catch(e) {
+      await dispatch('checkFailedHomes')
+      console.error(e)
+    }
   },
 }
 

@@ -56,11 +56,13 @@ export interface SendData {
 export interface SDKState {
   balance: BigNumber | null
   sending: boolean
+  blacklist: Set<number>
 }
 
 const state: SDKState = {
   balance: null,
   sending: false,
+  blacklist: new Set([5000]),
 }
 
 const mutations = <MutationTree<SDKState>>{
@@ -73,10 +75,15 @@ const mutations = <MutationTree<SDKState>>{
     console.log('{dispatch} transaction send in process: ', sending)
     state.sending = sending
   },
+
+  [types.SET_BLACKLIST](state: SDKState, blacklist: Set<number>) {
+    console.log('{dispatch} transaction send in process: ', blacklist)
+    state.blacklist = blacklist
+  }
 }
 
 const actions = <ActionTree<SDKState, RootState>>{
-  instantiateNomad() {
+  async instantiateNomad({ dispatch }) {
     console.log('instantiateNomad: ', environment)
     try {
       nomad = _instantiateNomad()
@@ -85,6 +92,14 @@ const actions = <ActionTree<SDKState, RootState>>{
       console.error(e)
       throw new Error("Couldn't setup Nomad")
     }
+    await dispatch('checkFailedHomes')
+  },
+
+  async checkFailedHomes({ state, commit }) {
+    await nomad.checkHomes(Object.keys(networks))
+    const blacklist = nomad.blacklist()
+    console.log(blacklist)
+    // commit(types.SET_BLACKLIST, blacklist)
   },
 
   async getBalanceFromWallet({ rootState, commit }) {
@@ -253,6 +268,11 @@ const actions = <ActionTree<SDKState, RootState>>{
 }
 
 const getters = <GetterTree<SDKState, RootState>>{
+  activeNetworks: (state: SDKState) => () => {
+    return Object.keys(networks)
+      .filter(n => !state.blacklist.has(networks[n].domainID))
+      .map(n => networks[n])
+  },
   getGasPrice: () => async (network: string | number) => {
     try {
       const provider = nomad.getProvider(network)

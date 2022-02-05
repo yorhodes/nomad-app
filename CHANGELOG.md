@@ -5,6 +5,9 @@ This change log is manually updated at the moment.
 
 Unreleased
 --------------------------------
+- add token to metamask from tx details
+- support wallet connect
+- bump sdk from v1.2.2 -> v1.3.4
 
 v1.0.7 (Feb 3rd, 2022) [HOTFIX]
 --------------------------------

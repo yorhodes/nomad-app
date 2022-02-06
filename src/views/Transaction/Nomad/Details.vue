@@ -131,12 +131,16 @@ export default defineComponent({
       message.token
     )
     if (token) {
-      // token symbol
-      this.tokenSymbol = await token.symbol()
-      // amount as BN
-      const amountBN = message.amount.toString()
-      // amount divided by decimals
-      this.amount = await utils.formatUnits(amountBN, await token.decimals())
+      try {
+        // token symbol
+        this.tokenSymbol = await token.symbol()
+        // amount as BN
+        const amountBN = message.amount.toString()
+        // amount divided by decimals
+        this.amount = await utils.formatUnits(amountBN, await token.decimals())
+      } catch(e) {
+        console.log(e)
+      }
     }
     // status
     try {

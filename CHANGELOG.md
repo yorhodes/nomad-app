@@ -5,9 +5,13 @@ This change log is manually updated at the moment.
 
 Unreleased
 --------------------------------
+- WalletConnect support
+
+v1.0.8 (Feb 7th, 2022)
+--------------------------------
 - add token to metamask from tx details
-- support wallet connect
-- bump sdk from v1.2.2 -> v1.3.4
+- network button for native token select
+- bump sdk from v1.2.2 -> v1.3.7
 
 v1.0.7 (Feb 3rd, 2022) [HOTFIX]
 --------------------------------

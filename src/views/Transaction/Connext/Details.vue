@@ -11,8 +11,31 @@
       </n-text>
     </div>
 
-    <!-- <detail title="AMOUNT">
-      <n-text v-if="amount">{{ amount }} {{ tokenSymbol }}</n-text>
+    <detail title="AMOUNT">
+      <n-tooltip
+        v-if="amount"
+        trigger="hover"
+        placement="right"
+        :style="{ padding: '0 5px 3px 5px' }"
+      >
+        <template #trigger>
+          <n-text class="inline-flex flex-row cursor-pointer">
+            <span>{{ amount }} {{ tokenSymbol }}</span>
+            <span
+              class="opacity-70 flex flex-row ml-2"
+              @click="addToken"
+            >
+              add
+              <img
+                src="@/assets/icons/arrow-right-up.svg"
+                alt="open"
+                class="opacity-70"
+              />
+            </span>
+          </n-text>
+        </template>
+        add token details to wallet
+      </n-tooltip>
       <n-text v-else>{{ nullVal }}</n-text>
     </detail>
     <detail :title="`FROM (${$route.params.network.toUpperCase()})`">
@@ -22,7 +45,7 @@
     <detail :title="`TO (${destNet.toUpperCase()})`">
       <copy-hash v-if="destAddr" :address="destAddr" />
       <n-text v-else>{{ nullVal }}</n-text>
-    </detail> -->
+    </detail>
     <!-- <detail title="TRANSFER INITIATED">
       <n-text>{{ timeSent || nullVal }}</n-text>
     </detail> -->

@@ -93,6 +93,7 @@ export default defineComponent({
 
   methods: {
     select(token: TokenMetadata) {
+      if (this.shouldSwitchToNative(token)) return
       this.$emit('selectToken', token)
     },
 

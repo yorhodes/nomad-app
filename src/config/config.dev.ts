@@ -3,6 +3,7 @@ import USDTIcon from '@/assets/token-logos/USDT.png'
 import USDCIcon from '@/assets/token-logos/USDC.png'
 import DAIIcon from '@/assets/token-logos/DAI.png'
 import DEVIcon from '@/assets/token-logos/DEV.png'
+import wADAIcon from '@/assets/token-logos/wADA.png'
 import ConnextIcon from '@/assets/icons/connext.svg'
 
 import { SdkBaseChainConfigParams } from '@connext/nxtp-sdk'
@@ -37,7 +38,7 @@ export const tokens: { [key: string]: TokenMetadata } = {
   },
   kWETH: {
     nativeNetwork: 'kovan',
-    symbol: 'WETH',
+    symbol: 'kWETH',
     name: 'Kovan WETH',
     icon: wETHIcon,
     iconColors: ['#C0CEF7', '#7594EE'],
@@ -49,7 +50,7 @@ export const tokens: { [key: string]: TokenMetadata } = {
   },
   kETH: {
     nativeNetwork: 'kovan',
-    symbol: 'ETH',
+    symbol: 'kETH',
     name: 'Kovan ETH',
     icon: wETHIcon,
     iconColors: ['#C0CEF7', '#7594EE'],
@@ -120,18 +121,30 @@ export const tokens: { [key: string]: TokenMetadata } = {
     nativeOnly: false,
     minAmt: 10,
   },
-  // mbTEST: {
-  //   nativeNetwork: 'kovan',
-  //   symbol: 'mbTEST',
-  //   name: 'Moonbase TEST',
-  //   icon: ConnextIcon,
-  //   iconColors: ['#62BBEF', '#8470E2'],
-  //   decimals: 18,
-  //   coinGeckoId: 'dai',
-  //   tokenIdentifier: { domain: 'moonbasealpha', id: '0x4326c29a626d9a98464df8f53856887d43a11759' },
-  //   nativeOnly: false,
-  //   minAmt: 10,
-  // }
+  mADA: {
+    nativeNetwork: 'milkomedatestnet',
+    symbol: 'mADA',
+    name: 'wADA',
+    icon: wADAIcon,
+    iconColors: ['#6684CD', '#0033AC'],
+    decimals: 18,
+    coinGeckoId: 'cardano',
+    tokenIdentifier: testnetTokens.wADA,
+    nativeOnly: true,
+    minAmt: 10,
+  },
+  wADA: {
+    nativeNetwork: 'milkomedatestnet',
+    symbol: 'wADA',
+    name: 'wADA',
+    icon: wADAIcon,
+    iconColors: ['#6684CD', '#0033AC'],
+    decimals: 18,
+    coinGeckoId: 'cardano',
+    tokenIdentifier: testnetTokens.wADA,
+    nativeOnly: false,
+    minAmt: 10,
+  }
 }
 
 // default confirmation time for dev, set on each network below
@@ -153,7 +166,7 @@ export const networks: { [key: string]: NetworkMetadata } = {
     name: 'kovan',
     chainID: 42,
     domainID: 3000,
-    nativeToken: tokens.ETH,
+    nativeToken: tokens.kETH,
     rpcUrl:
       'https://eth-kovan.alchemyapi.io/v2/QKnfLTfe7CkGA80yAVsCdh8ZatQCsfHI',
     blockExplorer: 'https://kovan.etherscan.io',
@@ -166,9 +179,20 @@ export const networks: { [key: string]: NetworkMetadata } = {
     domainID: 5000,
     nativeToken: tokens.DEV,
     rpcUrl:
-      'https://moonbeam-alpha.api.onfinality.io/rpc?apikey=44e80fe3-d9ce-40f2-8336-6089e751b625',
+      'https://moonbase-alpha-api.us-east-1.bwarelabs.com/5a2f9f29-1ff5-4708-a044-7c7e9378f822',
     blockExplorer: 'https://moonbase-blockscout.testnet.moonbeam.network',
     icon: DEVIcon,
+    confirmationTimeInMinutes: DEV_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
+  },
+  milkomedatestnet: {
+    name: 'milkomedatestnet',
+    chainID: 200101,
+    domainID: 8000,
+    nativeToken: tokens.wADA,
+    rpcUrl:
+      'https://use-util.cloud.milkomeda.com:8555',
+    blockExplorer: 'http://use-util.cloud.milkomeda.com:4000',
+    icon: wADAIcon,
     confirmationTimeInMinutes: DEV_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
   },
   // TODO: re-add once evmos testnet has been added here (https://github.com/nomad-xyz/nomad-monorepo/blob/main/typescript/nomad-provider/src/nomad/domains/dev.ts)
@@ -210,7 +234,7 @@ export const connextConfig: SdkBaseChainConfigParams = {
   1287: {
     // moonbasealpha
     providers: [
-      'https://moonbeam-alpha.api.onfinality.io/rpc?apikey=44e80fe3-d9ce-40f2-8336-6089e751b625',
+      'https://moonbase-alpha-api.us-east-1.bwarelabs.com/5a2f9f29-1ff5-4708-a044-7c7e9378f822',
     ],
   },
 }

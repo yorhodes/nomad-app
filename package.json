@@ -1,6 +1,6 @@
 {
   "name": "bridge-web-app",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve --mode development",
@@ -12,7 +12,8 @@
     "build-staging": "vue-cli-service build --mode staging",
     "push-dev": "git push origin main:development -f",
     "push-staging": "git push origin main:staging -f",
-    "serve-prod": "vue-cli-service serve --mode production"
+    "serve-prod": "vue-cli-service serve --mode production",
+    "link-sdk": "pushd ~/code/nomad-monorepo/typescript/nomad-sdk && cp package.json src/package.json && cd src && npm link && popd && npm link @nomad-xyz/sdk"
   },
   "dependencies": {
     "@connext/nxtp-sdk": "^0.1.14",

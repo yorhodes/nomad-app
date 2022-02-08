@@ -18,8 +18,8 @@ const WBTC: TokenIdentifier = {
 }
 
 const USDC: TokenIdentifier = {
-  domain: 'kovan',
-  id: '0xb7a4f3e9097c08da09517b5ab877f7a917224ede',
+  domain: 'rinkeby',
+  id: '0x4dbcdf9b62e891a7cec5a2568c3f4faf9e8abe2b',
 }
 
 const USDT: TokenIdentifier = {
@@ -42,6 +42,11 @@ const TEST: TokenIdentifier = {
   id: '0xe71678794fff8846bff855f716b0ce9d9a78e844',
 }
 
+const wADA: TokenIdentifier = {
+  domain: 'milkomedatestnet',
+  id: '0x1a40217B16E7329E27FDC9cED672e1F264e07Cc2'
+}
+
 export default {
   WETH,
   kWETH,
@@ -51,4 +56,5 @@ export default {
   DAI,
   DEV,
   TEST,
+  wADA
 }

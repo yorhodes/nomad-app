@@ -2,6 +2,22 @@
   <div class="app-container">
     <div class="header"><Nav /></div>
     <div class="main flex flex-col items-center m-auto relative">
+      <!-- Display if any Homes are in a failed state -->
+      <card-alert
+        :show="failedHomes.size > 0"
+        title="Under maintenance, temporarily unavailable:"
+      >
+        <span
+          v-for="domain in failedHomes"
+          :key="domain"
+          class="capitalize mr-2"
+        >
+          {{ getNetworkByDomainID(domain).name }}
+          <span v-if="i < failedHomes.size - 1">,</span>
+        </span>
+      </card-alert>
+
+      <!-- page view -->
       <router-view></router-view>
     </div>
     <div class="footer"><Footer /></div>
@@ -9,7 +25,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, computed } from 'vue'
 import { BigNumber } from 'ethers'
 import { useStore } from '@/store'
 import { getNetworkByChainID } from '@/utils'
@@ -17,12 +33,15 @@ import { getNetworkByChainID } from '@/utils'
 import { RouterView } from 'vue-router'
 import Nav from '@/components/Layout/Nav.vue'
 import Footer from '@/components/Layout/Footer.vue'
+import CardAlert from '@/components/CardAlert.vue'
+import { getNetworkByDomainID } from '@/utils'
 
 export default defineComponent({
   components: {
     RouterView,
     Nav,
     Footer,
+    CardAlert,
   },
   async mounted() {
     const store = useStore()
@@ -61,6 +80,15 @@ export default defineComponent({
       }
     }
   },
+
+  setup() {
+    const store = useStore()
+
+    return {
+      failedHomes: computed(() => store.state.sdk.blacklist)
+    }
+  },
+  methods: { getNetworkByDomainID },
 })
 </script>
 

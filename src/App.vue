@@ -85,7 +85,7 @@ export default defineComponent({
     const store = useStore()
 
     return {
-      failedHomes: computed(() => store.state.sdk.blacklist)
+      failedHomes: computed(() => store.state.sdk.blacklist),
     }
   },
   methods: { getNetworkByDomainID },

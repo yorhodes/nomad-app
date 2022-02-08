@@ -21,10 +21,7 @@
         <template #trigger>
           <n-text class="inline-flex flex-row cursor-pointer">
             <span>{{ amount }} {{ tokenSymbol }}</span>
-            <span
-              class="opacity-70 flex flex-row ml-2"
-              @click="addToken"
-            >
+            <span class="opacity-70 flex flex-row ml-2" @click="addToken">
               add
               <img
                 src="@/assets/icons/arrow-right-up.svg"

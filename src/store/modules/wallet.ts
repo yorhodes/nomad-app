@@ -18,7 +18,7 @@ export interface WalletState {
 }
 
 type TokenPayload = {
-  network: MainnetNetwork | TestnetNetwork,
+  network: MainnetNetwork | TestnetNetwork
   tokenId: TokenIdentifier
 }
 
@@ -159,7 +159,7 @@ const actions = <ActionTree<WalletState, RootState>>{
 
     const { address } = await rootGetters.resolveRepresentation(
       payload.network,
-      payload.tokenId,
+      payload.tokenId
     )
 
     let token
@@ -184,9 +184,9 @@ const actions = <ActionTree<WalletState, RootState>>{
         },
       },
     })
-  
+
     return !!wasAdded
-  }
+  },
 }
 
 export default {

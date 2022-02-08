@@ -11,6 +11,14 @@ import { SdkBaseChainConfigParams } from '@connext/nxtp-sdk'
 import testnetTokens from './tokens.dev'
 import { TokenMetadata, NetworkMetadata } from './config.types'
 
+const {
+  VUE_APP_ETHEREUM_RPC,
+  VUE_APP_RINKEBY_RPC,
+  VUE_APP_KOVAN_RPC,
+  VUE_APP_MOONBASEALPHA_RPC,
+  VUE_APP_MILKOMEDA_RPC,
+} = process.env
+
 export const tokens: { [key: string]: TokenMetadata } = {
   WETH: {
     nativeNetwork: 'rinkeby',
@@ -144,7 +152,7 @@ export const tokens: { [key: string]: TokenMetadata } = {
     tokenIdentifier: testnetTokens.wADA,
     nativeOnly: false,
     minAmt: 10,
-  }
+  },
 }
 
 // default confirmation time for dev, set on each network below
@@ -156,8 +164,7 @@ export const networks: { [key: string]: NetworkMetadata } = {
     chainID: 4,
     domainID: 2000,
     nativeToken: tokens.ETH,
-    rpcUrl:
-      'https://eth-rinkeby.alchemyapi.io/v2/-uKtZgu7bWLDEuW3EaOZ0f6eKpqiH-Tj',
+    rpcUrl: VUE_APP_RINKEBY_RPC!,
     blockExplorer: 'https://rinkeby.etherscan.io',
     icon: wETHIcon,
     confirmationTimeInMinutes: DEV_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
@@ -167,8 +174,7 @@ export const networks: { [key: string]: NetworkMetadata } = {
     chainID: 42,
     domainID: 3000,
     nativeToken: tokens.kETH,
-    rpcUrl:
-      'https://eth-kovan.alchemyapi.io/v2/QKnfLTfe7CkGA80yAVsCdh8ZatQCsfHI',
+    rpcUrl: VUE_APP_KOVAN_RPC!,
     blockExplorer: 'https://kovan.etherscan.io',
     icon: wETHIcon,
     confirmationTimeInMinutes: DEV_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
@@ -178,8 +184,7 @@ export const networks: { [key: string]: NetworkMetadata } = {
     chainID: 1287,
     domainID: 5000,
     nativeToken: tokens.DEV,
-    rpcUrl:
-      'https://moonbase-alpha-api.us-east-1.bwarelabs.com/5a2f9f29-1ff5-4708-a044-7c7e9378f822',
+    rpcUrl: VUE_APP_MOONBASEALPHA_RPC!,
     blockExplorer: 'https://moonbase-blockscout.testnet.moonbeam.network',
     icon: DEVIcon,
     confirmationTimeInMinutes: DEV_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
@@ -189,8 +194,7 @@ export const networks: { [key: string]: NetworkMetadata } = {
     chainID: 200101,
     domainID: 8000,
     nativeToken: tokens.wADA,
-    rpcUrl:
-      'https://use-util.cloud.milkomeda.com:8555',
+    rpcUrl: VUE_APP_MILKOMEDA_RPC!,
     blockExplorer: 'http://use-util.cloud.milkomeda.com:4000',
     icon: wADAIcon,
     confirmationTimeInMinutes: DEV_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
@@ -221,20 +225,14 @@ export const connextConfig: SdkBaseChainConfigParams = {
   // must have Ethereum for some reason
   1: {
     // ethereum mainnet
-    providers: [
-      'https://eth-mainnet.alchemyapi.io/v2/rud551ngiIel2fRYbWmsnhwAE1FGgCLG',
-    ],
+    providers: [VUE_APP_ETHEREUM_RPC!],
   },
   42: {
     // kovan
-    providers: [
-      'https://eth-kovan.alchemyapi.io/v2/QKnfLTfe7CkGA80yAVsCdh8ZatQCsfHI',
-    ],
+    providers: [VUE_APP_KOVAN_RPC!],
   },
   1287: {
     // moonbasealpha
-    providers: [
-      'https://moonbase-alpha-api.us-east-1.bwarelabs.com/5a2f9f29-1ff5-4708-a044-7c7e9378f822',
-    ],
+    providers: [VUE_APP_MOONBASEALPHA_RPC!],
   },
 }

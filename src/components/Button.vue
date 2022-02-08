@@ -1,5 +1,10 @@
 <template>
-  <button @click="onClick" :class="styles" :disabled="disabled" class="outline-none">
+  <button
+    @click="onClick"
+    :class="styles"
+    :disabled="disabled"
+    class="outline-none"
+  >
     <slot></slot>
   </button>
 </template>

@@ -79,7 +79,7 @@ const mutations = <MutationTree<SDKState>>{
   [types.SET_BLACKLIST](state: SDKState, blacklist: Set<number>) {
     console.log('{dispatch} transaction send in process: ', blacklist)
     state.blacklist = blacklist
-  }
+  },
 }
 
 const actions = <ActionTree<SDKState, RootState>>{
@@ -177,7 +177,10 @@ const actions = <ActionTree<SDKState, RootState>>{
     nomad.registerSigner(networkName, newSigner)
   },
 
-  async send({ commit, dispatch }, payload: SendData): Promise<TransferMessage | null> {
+  async send(
+    { commit, dispatch },
+    payload: SendData
+  ): Promise<TransferMessage | null> {
     console.log('sending...', payload)
     commit(types.SET_SENDING, true)
     const { isNative, originNetwork, destNetwork, asset, amnt, recipient } =
@@ -265,7 +268,7 @@ const actions = <ActionTree<SDKState, RootState>>{
       )
       console.log('PROCESSED!!!!')
       return receipt
-    } catch(e) {
+    } catch (e) {
       await dispatch('checkFailedHomes')
       console.error(e)
     }
@@ -275,8 +278,8 @@ const actions = <ActionTree<SDKState, RootState>>{
 const getters = <GetterTree<SDKState, RootState>>{
   activeNetworks: (state: SDKState) => () => {
     return Object.keys(networks)
-      .filter(n => !state.blacklist.has(networks[n].domainID))
-      .map(n => networks[n])
+      .filter((n) => !state.blacklist.has(networks[n].domainID))
+      .map((n) => networks[n])
   },
   getGasPrice: () => async (network: string | number) => {
     try {

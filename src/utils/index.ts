@@ -124,7 +124,7 @@ export function getNetworkDomainIDByName(networkName: string): number {
 /**
  * Given a network name, return a boolean if that network is the hub network's name
  */
-export function isEthereumNetwork(networkName: string) {
+export function isEthereumNetwork(networkName: string): boolean {
   return networkName === hubNetwork.name
 }
 

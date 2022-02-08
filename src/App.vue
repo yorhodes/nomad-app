@@ -26,7 +26,6 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
-import { BigNumber } from 'ethers'
 import { useStore } from '@/store'
 
 import { RouterView } from 'vue-router'

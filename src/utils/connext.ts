@@ -17,12 +17,13 @@ export type SwapData = {
   amount: number
 }
 
-export default async function instantiateConnextSDK(): Promise<NxtpSdk> {
+export default async function instantiateConnextSDK(): Promise<NxtpSdk | undefined> {
   // Get signer from metamask
   const { ethereum } = window
 
   if (!ethereum) {
-    throw new Error('Metamask not installed')
+    console.log('Metamask not installed')
+    return
   }
 
   await ethereum.request({ method: 'eth_requestAccounts' })

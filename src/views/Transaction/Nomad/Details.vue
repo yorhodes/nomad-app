@@ -153,18 +153,18 @@ export default defineComponent({
         const amountBN = message.amount.toString()
         const tokenDecimals = await token.decimals()
         this.amount = await utils.formatUnits(amountBN, tokenDecimals)
-      } catch(e) {
+      } catch (e) {
         console.log(e)
       }
     }
     // status
     try {
       await this.getStatus(message)
-    } catch(e) {
+    } catch (e) {
       console.error(e)
     }
 
-    setInterval(async() => {
+    setInterval(async () => {
       if (this.status < 3) {
         await this.getStatus(message)
       }
@@ -201,7 +201,7 @@ export default defineComponent({
       } catch (error) {
         console.error(error)
       }
-    }
+    },
   },
 
   computed: {

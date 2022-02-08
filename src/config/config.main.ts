@@ -12,6 +12,8 @@ import { SdkBaseChainConfigParams } from '@connext/nxtp-sdk'
 import mainnetTokens from './tokens.main'
 import { TokenMetadata, NetworkMetadata } from './config.types'
 
+const { VUE_APP_ETHEREUM_RPC, VUE_APP_MOONBEAM_RPC } = process.env
+
 export const tokens: { [key: string]: TokenMetadata } = {
   WBTC: {
     nativeNetwork: 'ethereum',
@@ -143,8 +145,7 @@ export const networks: { [key: string]: NetworkMetadata } = {
     name: 'ethereum',
     chainID: 1,
     domainID: 6648936,
-    rpcUrl:
-      'https://eth-mainnet.alchemyapi.io/v2/giUxguFsfUQIJMYN86WVn5OQn1rIPQoY',
+    rpcUrl: VUE_APP_ETHEREUM_RPC!,
     nativeToken: tokens.ETH,
     blockExplorer: 'https://etherscan.io',
     icon: wETHIcon,
@@ -154,8 +155,7 @@ export const networks: { [key: string]: NetworkMetadata } = {
     name: 'moonbeam',
     chainID: 1284,
     domainID: 1650811245,
-    rpcUrl:
-      'https://moonbeam-api.us-east-1.bwarelabs.com/5dc337ad-29bc-4ccc-be11-c505107d2838',
+    rpcUrl: VUE_APP_MOONBEAM_RPC!,
     nativeToken: tokens.GLMR,
     blockExplorer: 'https://blockscout.moonbeam.network',
     icon: DEVIcon,
@@ -173,14 +173,12 @@ export const connextPools: { [key: string]: string[] } = {
 export const connextConfig: SdkBaseChainConfigParams = {
   1: {
     // ethereum mainnet
-    providers: [
-      'https://eth-mainnet.alchemyapi.io/v2/rud551ngiIel2fRYbWmsnhwAE1FGgCLG',
-    ],
+    providers: [VUE_APP_ETHEREUM_RPC!],
   },
   1284: {
     // moonbeam mainnet
     providers: [
-      'https://moonbeam.api.onfinality.io/rpc?apikey=499ab348-13c8-4f4e-bebd-ce2af1141d74',
+      VUE_APP_MOONBEAM_RPC!,
       'https://moonbeam.api.onfinality.io/public',
       'https://rpc.api.moonbeam.network',
     ],

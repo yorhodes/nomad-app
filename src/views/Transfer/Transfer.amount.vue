@@ -78,7 +78,7 @@ import { defineComponent, computed } from 'vue'
 import { NText, NTooltip } from 'naive-ui'
 import { utils, BigNumber } from 'ethers'
 import useVuelidate from '@vuelidate/core'
-import { required, helpers } from '@vuelidate/validators'
+import { helpers } from '@vuelidate/validators'
 
 import { useStore } from '@/store'
 import { getMinAmount, toDecimals } from '@/utils'
@@ -125,13 +125,10 @@ export default defineComponent({
   validations() {
     return {
       amt: {
-        required: helpers.withMessage(
-          'Enter an amount to bridge',
-          () => {
-            if (!this.amt) return false
-            return this.amt > 0
-          }
-        ),
+        required: helpers.withMessage('Enter an amount to bridge', () => {
+          if (!this.amt) return false
+          return this.amt > 0
+        }),
         noToken: helpers.withMessage(
           'No token selected',
           () => !!this.token.symbol

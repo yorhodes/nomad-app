@@ -36,7 +36,6 @@
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
 import { NModal, NCard, NText, NButton } from 'naive-ui'
-import { networks } from '@/config/index'
 import { NetworkMetadata } from '@/config/config.types'
 import { filterDestinationNetworks } from '@/utils'
 import { useStore } from '@/store'

@@ -19,7 +19,7 @@ const routes: Array<RouteRecordRaw> = [
     component: TransactionSearch,
   },
   {
-    path: '/tx/nomad/:network/:id',
+    path: '/tx/nomad/:id',
     name: 'NomadTransaction',
     component: NomadTransaction,
   },

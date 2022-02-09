@@ -76,7 +76,7 @@
     :class="[status < 3 ? 'bg-[#5185d0]' : 'bg-[#2fbb72]']"
   >
     <!-- complete -->
-    <span class="flex flex-col items-center" v-if="status === 3">
+    <span class="flex flex-col items-center" v-if="status >= 3">
       <img src="@/assets/icons/check.svg" alt="check" class="mb-2" />
       <n-text class="uppercase opacity-80">Transfer complete</n-text>
     </span>
@@ -255,16 +255,17 @@ export default defineComponent({
   computed: {
     showAlerts() {
       if (!this.status) return false
-      return this.status >= 0 && this.status !== 3
+      return this.status >= 0 && this.status < 3
     },
     stepperStatus(): number {
+      if (!this.status) return 1
       if (this.status === 0) {
         return 1
       } else if (this.status === 1) {
         return 2
       } else if (this.status === 2) {
         return 4
-      } else if (this.status === 3) {
+      } else if (this.status >= 3) {
         return 5
       }
       return 1

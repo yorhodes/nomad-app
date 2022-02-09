@@ -87,7 +87,7 @@ interface ComponentData {
   confirmAt: BigNumber | null
   amount: string
   tokenSymbol: string
-  tokenId: TokenIdentifier
+  tokenId: TokenIdentifier | undefined
   originNet: string
   destNet: string
   originAddr: string
@@ -123,6 +123,7 @@ export default defineComponent({
       confirmAt: null,
       amount: '',
       tokenSymbol: '',
+      tokenId: undefined,
       originNet: '',
       destNet: '',
       originAddr: '',
@@ -144,13 +145,14 @@ export default defineComponent({
     this.originNet = getNetworkByDomainID(tx.origin).name
     this.destNet = getNetworkByDomainID(tx.destination).name
     this.timeSent = tx.dispatchedAt * 1000
+    this.tokenId = {
+      domain: tx.tokenDomain,
+      id: tx.tokenId,
+    }
 
     const token = await this.store.getters.resolveRepresentation(
       this.destNet,
-      {
-        domain: tx.tokenDomain,
-        id: tx.tokenId,
-      }
+      this.tokenId,
     )
     this.tokenSymbol = await token.symbol()
     const decimals = await token.decimals()

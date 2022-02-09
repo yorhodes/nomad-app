@@ -35,7 +35,7 @@
       </n-text>
       <n-text v-else>{{ nullVal }}</n-text>
     </detail>
-    <detail :title="`ORIGIN: ${$route.params.network.toUpperCase()}`">
+    <detail :title="`ORIGIN: ${originNet.toUpperCase()}`">
       <copy-hash v-if="originAddr" :address="originAddr" />
       <n-text v-else>{{ nullVal }}</n-text>
     </detail>
@@ -43,14 +43,15 @@
       <copy-hash v-if="destAddr" :address="destAddr" />
       <n-text v-else>{{ nullVal }}</n-text>
     </detail>
-    <!-- <detail title="TRANSFER INITIATED">
-      <n-text>{{ timeSent || nullVal }}</n-text>
-    </detail> -->
+    <detail title="TRANSFER INITIATED">
+      <n-time v-if="timeSent" :time="timeSent" format="yyyy-MM-dd hh:mm" />
+      <n-text v-else>{{ nullVal }}</n-text>
+    </detail>
 
     <n-divider />
 
     <!-- link to block explorer -->
-    <div class="flex flex-row">
+    <div class="flex flex-row" v-if="explorerLink">
       <a
         :href="explorerLink"
         class="flex items-center hover:underline"
@@ -69,13 +70,13 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { utils, BigNumber } from 'ethers'
+import { BigNumber, utils } from 'ethers'
 import { TokenIdentifier, TransferMessage } from '@nomad-xyz/sdk/nomad'
-import { NText, NDivider, useNotification } from 'naive-ui'
+import { NText, NDivider, NTime, useNotification } from 'naive-ui'
 
 import { useStore } from '@/store'
-import { truncateAddr, fromBytes32 } from '@/utils'
-import { networks } from '@/config'
+import { fromBytes32, getNetworkByDomainID, truncateAddr } from '@/utils'
+import { nomadAPI, networks } from '@/config'
 import Detail from '@/views/Transaction/Detail.vue'
 import CopyHash from '@/components/CopyHash.vue'
 import StatusHeader from './Header.vue'
@@ -87,10 +88,11 @@ interface ComponentData {
   amount: string
   tokenSymbol: string
   tokenId: TokenIdentifier
+  originNet: string
   destNet: string
   originAddr: string
   destAddr: string
-  timeSent: string
+  timeSent: number | undefined
   nullVal: string
   truncateAddr: (addr: string) => string
 }
@@ -101,6 +103,7 @@ export default defineComponent({
     Detail,
     NText,
     NDivider,
+    NTime,
     CopyHash,
   },
 
@@ -120,81 +123,49 @@ export default defineComponent({
       confirmAt: null,
       amount: '',
       tokenSymbol: '',
+      originNet: '',
       destNet: '',
       originAddr: '',
       destAddr: '',
-      timeSent: '19:12 PM UTC, 12/23/2021',
+      timeSent: undefined,
       nullVal: '—',
       truncateAddr,
     } as ComponentData
   },
 
   async mounted() {
-    const txData = {
-      network: this.$route.params.network,
-      hash: this.$route.params.id,
-    }
-    const message = await this.store.getters.getTxMessage(txData)
-    this.transferMessage = message
-    console.log('transaction:\n', message)
+    const { id } = this.$route.params
+    const res = await fetch(`${nomadAPI}${id}`)
+    const tx = (await res.json())[0] as any
+    console.log('tx data: ', tx)
+    this.status = tx.state
+    this.originAddr = tx.sender.toLowerCase()
+    this.destAddr = fromBytes32(tx.recipient)
+    this.originNet = getNetworkByDomainID(tx.origin).name
+    this.destNet = getNetworkByDomainID(tx.destination).name
+    this.timeSent = tx.dispatchedAt * 1000
 
-    // destination network
-    this.destNet = this.store.getters.resolveDomainName(message.destination)
-    // destination/origin addr
-    this.originAddr = message.receipt.from
-    this.destAddr = fromBytes32(message.to)
-    // get token
-    this.tokenId = message.token
     const token = await this.store.getters.resolveRepresentation(
-      message.origin,
-      message.token
+      this.destNet,
+      {
+        domain: tx.tokenDomain,
+        id: tx.tokenId,
+      }
     )
-    if (token) {
-      try {
-        // token symbol
-        this.tokenSymbol = await token.symbol()
-        // amount divided by decimals
-        const amountBN = message.amount.toString()
-        const tokenDecimals = await token.decimals()
-        this.amount = await utils.formatUnits(amountBN, tokenDecimals)
-      } catch (e) {
-        console.log(e)
-      }
-    }
-    // status
-    try {
-      await this.getStatus(message)
-    } catch (e) {
-      console.error(e)
-    }
+    this.tokenSymbol = await token.symbol()
+    const decimals = await token.decimals()
+    this.amount = utils.formatUnits(tx.amount, decimals)
 
-    setInterval(async () => {
-      if (this.status < 3) {
-        await this.getStatus(message)
-      }
-    }, 30000)
+    if (tx.state === 2) {
+      const message = await this.store.getters.getTxMessage({
+        network: this.originNet,
+        hash: id,
+      })
+      this.confirmAt = await message.confirmAt()
+    }
   },
 
   methods: {
-    async getStatus(message: TransferMessage) {
-      if (!message) return
-      const process = await message.getProcess()
-      if (process) {
-        this.status = 3
-        console.log('status: 3')
-        return
-      }
-      const confirmAt = await message.confirmAt()
-      if (confirmAt && !confirmAt.isZero()) {
-        this.status = 2
-        this.confirmAt = confirmAt
-        console.log('status: 2')
-        console.log('confirm at: ', this.confirmAt.toString())
-        return
-      }
-      this.status = (await message.events()).status
-      console.log('status: ', this.status)
-    },
     async addToken() {
       const payload = {
         network: this.destNet,
@@ -214,7 +185,8 @@ export default defineComponent({
 
   computed: {
     explorerLink(): string {
-      const n = networks[this.$route.params.network as string]
+      if (!this.originNet) return ''
+      const n = networks[this.originNet]
       return `${n.blockExplorer}/tx/${this.$route.params.id}`
     },
   },

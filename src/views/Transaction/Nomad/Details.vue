@@ -45,7 +45,7 @@
     </detail>
     <detail title="TRANSFER INITIATED">
       <n-time
-        v-if="timeSent !== 0"
+        v-if="timeSent"
         :time="timeSent"
         format="yyyy-MM-dd hh:mm"
       />
@@ -148,10 +148,12 @@ export default defineComponent({
     this.destAddr = fromBytes32(tx.recipient)
     this.originNet = getNetworkByDomainID(tx.origin).name
     this.destNet = getNetworkByDomainID(tx.destination).name
-    this.timeSent = tx.dispatchedAt * 1000
     this.tokenId = {
       domain: tx.tokenDomain,
       id: tx.tokenId,
+    }
+    if (tx.dispatchedAt > 0) {
+      this.timeSent = tx.dispatchedAt * 1000
     }
 
     const token = await this.store.getters.resolveRepresentation(

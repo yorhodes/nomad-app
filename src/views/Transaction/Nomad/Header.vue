@@ -196,6 +196,9 @@ export default defineComponent({
     destinationNetwork: {
       type: String,
     },
+    originNet: {
+      type: String,
+    }
   },
   components: {
     NAlert,
@@ -224,11 +227,12 @@ export default defineComponent({
     }
   },
   methods: {
+    // TODO: emit process
     async process() {
       try {
         const receipt = await this.store.dispatch('processTx', {
-          origin: this.$route.params.network,
-          hash: this.$route.params.id,
+          origin: this.originNet,
+          hash: this.$route.params.id
         })
         if (receipt) {
           this.notification.success({

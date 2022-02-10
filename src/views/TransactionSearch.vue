@@ -33,27 +33,6 @@
         >
       </n-tab-pane>
       <n-tab-pane :name="panels[1]">
-        <!-- Origin network select -->
-        <n-popselect
-          v-model:value="originNetwork"
-          :options="options"
-          placement="bottom-start"
-          trigger="click"
-          width="trigger"
-          class="capitalize"
-        >
-          <div
-            class="border border-white border-opacity-50 rounded-md flex flex-row px-2 py-1 mb-4"
-          >
-            <input
-              v-model="originNetwork"
-              placeholder="Origin Network"
-              readonly
-              class="w-full border-0 outline-none bg-transparent capitalize"
-            />
-            <img src="@/assets/icons/select.svg" />
-          </div>
-        </n-popselect>
         <!-- Tx Hash -->
         <div
           class="border border-white border-opacity-50 rounded-md flex flex-row px-2 py-1 mb-4"
@@ -78,7 +57,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { NCard, NPopselect, NTabs, NTabPane, useNotification } from 'naive-ui'
+import { NCard, NTabs, NTabPane, useNotification } from 'naive-ui'
 import NomadButton from '@/components/Button.vue'
 import { connextScanURL } from '@/config'
 import { generateNetworkOptions } from '@/utils'
@@ -86,7 +65,6 @@ import { generateNetworkOptions } from '@/utils'
 export default defineComponent({
   components: {
     NCard,
-    NPopselect,
     NTabs,
     NTabPane,
     NomadButton,
@@ -94,7 +72,6 @@ export default defineComponent({
   data() {
     return {
       panels: ['Connext', 'Nomad'],
-      originNetwork: '',
       txHash: '',
       options: generateNetworkOptions(),
     }
@@ -118,8 +95,8 @@ export default defineComponent({
       }
     },
     goNomad() {
-      if (this.originNetwork && this.txHash.length === 66) {
-        this.$router.push(`/tx/nomad/${this.originNetwork}/${this.txHash}`)
+      if (this.txHash.length === 66) {
+        this.$router.push(`/tx/nomad/${this.txHash}`)
       } else {
         this.notification.warning({
           title: 'Invalid Input',

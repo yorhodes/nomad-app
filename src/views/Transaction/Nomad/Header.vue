@@ -199,6 +199,9 @@ export default defineComponent({
     destinationNetwork: {
       type: String,
     },
+    originNet: {
+      type: String,
+    }
   },
   components: {
     NAlert,
@@ -227,6 +230,7 @@ export default defineComponent({
     }
   },
   methods: {
+    // TODO: emit process
     async process() {
       try {
         const { network, id } = this.$route.params
@@ -235,8 +239,8 @@ export default defineComponent({
           originNet = 'milkomedaC1'
         }
         const receipt = await this.store.dispatch('processTx', {
-          origin: originNet,
-          hash: id,
+          origin: this.originNet,
+          hash: this.$route.params.id
         })
         if (receipt) {
           this.notification.success({

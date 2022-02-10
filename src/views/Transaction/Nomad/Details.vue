@@ -44,7 +44,7 @@
       <n-text v-else>{{ nullVal }}</n-text>
     </detail>
     <detail title="TRANSFER INITIATED">
-      <n-time v-if="timeSent" :time="timeSent" format="yyyy-MM-dd hh:mm" />
+      <n-time v-if="timeSent !== 0" :time="timeSent" format="yyyy-MM-dd hh:mm" />
       <n-text v-else>{{ nullVal }}</n-text>
     </detail>
 

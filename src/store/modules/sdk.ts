@@ -7,7 +7,7 @@ import { TokenIdentifier } from '@nomad-xyz/sdk/nomad'
 import { TXData } from './transactions'
 import { RootState } from '@/store'
 import * as types from '@/store/mutation-types'
-import { networks, s3URL } from '@/config/index'
+import { networks, s3URL, nomadAPI } from '@/config/index'
 import { getBalance, getNativeBalance, getERC20Balance } from '@/utils/balance'
 import { isNativeToken, getNetworkByDomainID } from '@/utils/index'
 import { NetworkMetadata, NetworkName } from '@/config/config.types'
@@ -229,34 +229,26 @@ const actions = <ActionTree<SDKState, RootState>>{
     commit(types.SET_SENDING, false)
     return null
   },
-  async processTx({ dispatch }, tx: { origin: NetworkName; hash: string;}) {
+  async processTx({ dispatch }, txId: string) {
     // get transfer message
-    const { origin, hash } = tx
-    const message = await TransferMessage.singleFromTransactionHash(
-      nomad,
-      origin,
-      hash
-    )
+    const res = await fetch(`${nomadAPI}${txId}`)
+    const tx = (await res.json())[0] as any
 
-    const destNetwork = getNetworkByDomainID(message.destination)
+    // switch network and register signer
+    const originNetwork = getNetworkByDomainID(tx.origin)
+    const destNetwork = getNetworkByDomainID(tx.destination)
     await dispatch('switchNetwork', destNetwork.name)
-    // register signer
     await dispatch('registerSigner', destNetwork)
 
     // get proof
-    let res
-    try {
-      res = await fetch(`${s3URL}${origin}_${message.leafIndex.toString()}`)
-    } catch(e) {
-      res = await fetch(`${s3URL}${origin.toLowerCase()}_${message.leafIndex.toString()}`)
-    }
-    if (!res) throw new Error('Not able to fetch proof')
-    const data = (await res.json()) as any
+    const index = BigNumber.from(tx.leafIndex).toNumber()
+    const s3Res = await fetch(`${s3URL}${originNetwork.name.toLowerCase()}_${index}`)
+    const data = (await s3Res.json()) as any
     console.log('proof: ', data)
 
     // get replica contract
-    const core = nomad.getCore(message.destination)
-    const replica = core?.getReplica(message.origin)
+    const core = nomad.getCore(tx.destination)
+    const replica = core?.getReplica(tx.origin)
 
     if (!replica) {
       console.error('missing replica, unable to process transaction')
@@ -264,7 +256,7 @@ const actions = <ActionTree<SDKState, RootState>>{
     }
 
     // connect signer
-    const signer = nomad.getSigner(message.destination)
+    const signer = nomad.getSigner(tx.destination)
     if (!signer) {
       console.error('missing signer, unable to process transaction')
       return

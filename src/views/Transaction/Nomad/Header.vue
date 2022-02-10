@@ -91,7 +91,7 @@
         Please click below to submit a transaction to complete your transfer.
       </n-text>
       <n-text
-        @click="process"
+        @click="processTx"
         class="flex flex-row items-center uppercase mt-1 cursor-pointer"
       >
         Complete transfer
@@ -199,9 +199,6 @@ export default defineComponent({
     destinationNetwork: {
       type: String,
     },
-    originNet: {
-      type: String,
-    }
   },
   components: {
     NAlert,
@@ -230,18 +227,9 @@ export default defineComponent({
     }
   },
   methods: {
-    // TODO: emit process
-    async process() {
+    async processTx() {
       try {
-        const { network, id } = this.$route.params
-        let originNet = network as NetworkName
-        if (network === 'milkomedac1') {
-          originNet = 'milkomedaC1'
-        }
-        const receipt = await this.store.dispatch('processTx', {
-          origin: this.originNet,
-          hash: this.$route.params.id
-        })
+        const receipt = await this.store.dispatch('processTx', this.$route.params.id)
         if (receipt) {
           this.notification.success({
             title: 'Success',

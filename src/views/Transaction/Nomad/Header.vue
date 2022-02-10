@@ -223,7 +223,10 @@ export default defineComponent({
   methods: {
     async processTx() {
       try {
-        const receipt = await this.store.dispatch('processTx', this.$route.params.id)
+        const receipt = await this.store.dispatch(
+          'processTx',
+          this.$route.params.id
+        )
         if (receipt) {
           this.notification.success({
             title: 'Success',

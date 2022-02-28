@@ -36,6 +36,11 @@ const FXS: TokenIdentifier = {
   id: '0x3432B6A60D23Ca0dFCa7761B7ab56459D9C964D0',
 }
 
+const WSTAR: TokenIdentifier = {
+  domain: 'ethereum',
+  id: '0xf0dc76c22139ab22618ddfb498be1283254612b1'
+}
+
 const WGLMR: TokenIdentifier = {
   domain: 'moonbeam',
   id: '0xAcc15dC74880C9944775448304B263D191c6077F',
@@ -54,6 +59,7 @@ export default {
   DAI,
   FRAX,
   FXS,
+  WSTAR,
   WGLMR,
   WADA,
 }

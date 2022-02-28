@@ -7,6 +7,7 @@ import WBTCIcon from '@/assets/token-logos/WBTC.png'
 import FRAXIcon from '@/assets/token-logos/FRAX.png'
 import FXSIcon from '@/assets/token-logos/FXS.png'
 import wADAIcon from '@/assets/token-logos/wADA.png'
+import WSTARIcon from '@/assets/token-logos/WSTAR.png'
 
 import { SdkBaseChainConfigParams } from '@connext/nxtp-sdk'
 
@@ -164,6 +165,18 @@ export const tokens: { [key: string]: TokenMetadata } = {
     nativeOnly: false,
     minAmt: 10,
   },
+  WSTAR: {
+    nativeNetwork: 'ethereum',
+    symbol: 'WSTAR',
+    name: 'WSTAR',
+    icon: WSTARIcon,
+    iconColors: ['#454545', '#000'],
+    decimals: 18,
+    coinGeckoId: 'wrapped-star',
+    tokenIdentifier: mainnetTokens.WSTAR,
+    nativeOnly: false,
+    minAmt: 10,
+  }
 }
 
 // default confirmation time for prod, set on each network below

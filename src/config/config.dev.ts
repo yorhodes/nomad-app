@@ -17,7 +17,7 @@ const {
   VUE_APP_RINKEBY_RPC,
   VUE_APP_KOVAN_RPC,
   VUE_APP_MOONBASEALPHA_RPC,
-  VUE_APP_MILKOMEDA_RPC,
+  VUE_APP_MILKOMEDA_TESTNET_RPC,
   VUE_APP_EVMOS_TESTNET_RPC,
 } = process.env
 
@@ -133,7 +133,7 @@ export const tokens: { [key: string]: TokenMetadata } = {
   },
   milkADA: {
     nativeNetwork: 'milkomedatestnet',
-    symbol: 'milkADA',
+    symbol: 'mADA',
     name: 'milkADA',
     icon: wADAIcon,
     iconColors: ['#6684CD', '#0033AC'],
@@ -142,19 +142,7 @@ export const tokens: { [key: string]: TokenMetadata } = {
     tokenIdentifier: null,
     nativeOnly: true,
     minAmt: 10,
-  },
-  wmilkADA: {
-    nativeNetwork: 'milkomedatestnet',
-    symbol: 'wmilkADA',
-    name: 'wmilkADA',
-    icon: wADAIcon,
-    iconColors: ['#6684CD', '#0033AC'],
-    decimals: 18,
-    coinGeckoId: 'cardano',
-    tokenIdentifier: testnetTokens.wmilkADA,
-    nativeOnly: false,
-    minAmt: 10,
-  },
+  }, 
   wADA: {
     nativeNetwork: 'milkomedatestnet',
     symbol: 'wADA',
@@ -199,6 +187,7 @@ const DEV_DEFAULT_CONFIRMATION_TIME_IN_MINUTES = 2
 export const networks: { [key: string]: NetworkMetadata } = {
   rinkeby: {
     name: 'rinkeby',
+    displayName: 'Rinkeby',
     chainID: 4,
     domainID: 2000,
     nativeToken: tokens.ETH,
@@ -209,6 +198,7 @@ export const networks: { [key: string]: NetworkMetadata } = {
   },
   kovan: {
     name: 'kovan',
+    displayName: 'Kovan',
     chainID: 42,
     domainID: 3000,
     nativeToken: tokens.kETH,
@@ -219,6 +209,7 @@ export const networks: { [key: string]: NetworkMetadata } = {
   },
   moonbasealpha: {
     name: 'moonbasealpha',
+    displayName: 'Moonbase Alpha',
     chainID: 1287,
     domainID: 5000,
     nativeToken: tokens.DEV,
@@ -229,16 +220,18 @@ export const networks: { [key: string]: NetworkMetadata } = {
   },
   milkomedatestnet: {
     name: 'milkomedatestnet',
+    displayName: 'Milkomeda Testnet',
     chainID: 200101,
     domainID: 8000,
     nativeToken: tokens.milkADA,
-    rpcUrl: VUE_APP_MILKOMEDA_RPC!,
+    rpcUrl: VUE_APP_MILKOMEDA_TESTNET_RPC!,
     blockExplorer: 'http://use-util.cloud.milkomeda.com:4000',
     icon: wADAIcon,
     confirmationTimeInMinutes: DEV_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
   },
   evmostestnet: {
     name: 'evmostestnet',
+    displayName: 'Evmos Testnet',
     chainID: 9000,
     domainID: 9000,
     nativeToken: tokens.tEVMOS,

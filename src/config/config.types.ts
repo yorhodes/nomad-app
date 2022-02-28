@@ -1,6 +1,6 @@
 import { TokenIdentifier } from '@nomad-xyz/sdk/nomad'
 
-export type MainnetNetwork = 'ethereum' | 'moonbeam'
+export type MainnetNetwork = 'ethereum' | 'moonbeam' | 'milkomedac1'
 export type TestnetNetwork =
   | 'kovan'
   | 'moonbasealpha'
@@ -23,6 +23,7 @@ export type TokenMetadata = {
 
 export type NetworkMetadata = {
   name: MainnetNetwork | TestnetNetwork
+  displayName: string
   chainID: number // for metamask
   domainID: number // nomad domain ID
   rpcUrl: string

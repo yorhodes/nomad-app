@@ -11,7 +11,7 @@
       </n-text>
     </div>
 
-    <detail title="AMOUNT">
+    <!-- <detail title="AMOUNT">
       <n-tooltip
         v-if="amount"
         trigger="hover"
@@ -42,7 +42,7 @@
     <detail :title="`TO (${destNet.toUpperCase()})`">
       <copy-hash v-if="destAddr" :address="destAddr" />
       <n-text v-else>{{ nullVal }}</n-text>
-    </detail>
+    </detail> -->
     <!-- <detail title="TRANSFER INITIATED">
       <n-text>{{ timeSent || nullVal }}</n-text>
     </detail> -->
@@ -72,6 +72,7 @@ import { defineComponent } from 'vue'
 import { NText, NDivider } from 'naive-ui'
 
 import { connextScanURL } from '@/config'
+import { useStore } from '@/store'
 // import Detail from '@/views/Transaction/Detail.vue'
 import CopyHash from '@/components/CopyHash.vue'
 import StatusHeader from './Header.vue'
@@ -83,6 +84,12 @@ export default defineComponent({
     NText,
     NDivider,
     CopyHash,
+  },
+
+  async mounted() {
+    const store = useStore()
+    const tx = await store.getters.getTransaction()
+    console.log(tx)
   },
 
   computed: {

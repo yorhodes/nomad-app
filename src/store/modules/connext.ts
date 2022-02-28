@@ -331,57 +331,58 @@ const getters = <GetterTree<ConnextState, RootState>>{
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   getTransaction: () => async () => {
     connextSDK = await instantiateConnextSDK()
+    const tx_id = '0x4748abc1cf2ffec3f8e2219c39ba1c39fb8c3f8b74bcf4ca6d2216ef90c7ed0f'
     const query = `
-      {
-        transactions(orderBy: preparedTimestamp, orderDirection: desc, where: { transactionId: '0xd3a053e2db95eb6ca25eeb02bd27ab99031e25800e4160b197304c2ba1957acf' }) {
-          id
-          status
-          chainId
-          preparedTimestamp
-          receivingChainTxManagerAddress
-          user {
+        {
+          transactions(orderBy: preparedTimestamp, orderDirection: desc, where: { transactionId: ${tx_id.toLowerCase()} }) {
             id
+            status
+            chainId
+            preparedTimestamp
+            receivingChainTxManagerAddress
+            user {
+              id
+            }
+            router {
+              id
+            }
+            initiator
+            sendingAssetId
+            receivingAssetId
+            sendingChainFallback
+            callTo
+            receivingAddress
+            callDataHash
+            transactionId
+            sendingChainId
+            receivingChainId
+            amount
+            expiry
+            preparedBlockNumber
+            encryptedCallData
+            prepareCaller
+            bidSignature
+            encodedBid
+            prepareTransactionHash
+            prepareMeta
+            relayerFee
+            signature
+            callData
+            externalCallSuccess
+            externalCallIsContract
+            externalCallReturnData
+            fulfillCaller
+            fulfillTransactionHash
+            fulfillMeta
+            cancelCaller
+            cancelTransactionHash
+            cancelMeta
           }
-          router {
-            id
-          }
-          initiator
-          sendingAssetId
-          receivingAssetId
-          sendingChainFallback
-          callTo
-          receivingAddress
-          callDataHash
-          transactionId
-          sendingChainId
-          receivingChainId
-          amount
-          expiry
-          preparedBlockNumber
-          encryptedCallData
-          prepareCaller
-          bidSignature
-          encodedBid
-          prepareTransactionHash
-          prepareMeta
-          relayerFee
-          signature
-          callData
-          externalCallSuccess
-          externalCallIsContract
-          externalCallReturnData
-          fulfillCaller
-          fulfillTransactionHash
-          fulfillMeta
-          cancelCaller
-          cancelTransactionHash
-          cancelMeta
         }
-      }
-    `
-    const tx1 = await connextSDK.querySubgraph(5, query)
+      `
+    const tx1 = await connextSDK.querySubgraph(1, query)
     console.log('??????', tx1)
-    const tx2 = await connextSDK.querySubgraph(4, query)
+    const tx2 = await connextSDK.querySubgraph(1284, query)
     console.log('??????', tx2)
   },
 }

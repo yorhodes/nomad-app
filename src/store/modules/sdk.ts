@@ -77,7 +77,7 @@ const mutations = <MutationTree<SDKState>>{
   },
 
   [types.SET_BLACKLIST](state: SDKState, blacklist: Set<number>) {
-    console.log('{dispatch} transaction send in process: ', blacklist)
+    console.log('{dispatch} fetch failed homes, if any: ', blacklist)
     state.blacklist = blacklist
   },
 }

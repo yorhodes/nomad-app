@@ -6,13 +6,18 @@ import DEVIcon from '@/assets/token-logos/DEV.png'
 import WBTCIcon from '@/assets/token-logos/WBTC.png'
 import FRAXIcon from '@/assets/token-logos/FRAX.png'
 import FXSIcon from '@/assets/token-logos/FXS.png'
+import wADAIcon from '@/assets/token-logos/wADA.png'
 
 import { SdkBaseChainConfigParams } from '@connext/nxtp-sdk'
 
 import mainnetTokens from './tokens.main'
 import { TokenMetadata, NetworkMetadata } from './config.types'
 
-const { VUE_APP_ETHEREUM_RPC, VUE_APP_MOONBEAM_RPC } = process.env
+const {
+  VUE_APP_ETHEREUM_RPC,
+  VUE_APP_MOONBEAM_RPC,
+  VUE_APP_MILKOMEDA_RPC,
+} = process.env
 
 export const tokens: { [key: string]: TokenMetadata } = {
   WBTC: {
@@ -47,7 +52,7 @@ export const tokens: { [key: string]: TokenMetadata } = {
     iconColors: ['#C0CEF7', '#7594EE'],
     decimals: 18,
     coinGeckoId: 'ethereum',
-    tokenIdentifier: mainnetTokens.WETH,
+    tokenIdentifier: null,
     nativeOnly: true,
     minAmt: 0.0028,
   },
@@ -119,7 +124,7 @@ export const tokens: { [key: string]: TokenMetadata } = {
     iconColors: ['#53CBC8', '#e84195'],
     decimals: 18,
     coinGeckoId: 'moonbeam',
-    tokenIdentifier: mainnetTokens.WGLMR,
+    tokenIdentifier: null,
     nativeOnly: true,
     minAmt: 10,
   },
@@ -135,6 +140,30 @@ export const tokens: { [key: string]: TokenMetadata } = {
     nativeOnly: false,
     minAmt: 10,
   },
+  milkADA: {
+    nativeNetwork: 'milkomedac1',
+    symbol: 'mADA',
+    name: 'milkADA',
+    icon: wADAIcon,
+    iconColors: ['#6684CD', '#0033AC'],
+    decimals: 18,
+    coinGeckoId: 'cardano',
+    tokenIdentifier: null,
+    nativeOnly: true,
+    minAmt: 10,
+  },
+  wADA: {
+    nativeNetwork: 'milkomedac1',
+    symbol: 'wADA',
+    name: 'wADA',
+    icon: wADAIcon,
+    iconColors: ['#6684CD', '#0033AC'],
+    decimals: 18,
+    coinGeckoId: 'cardano',
+    tokenIdentifier: mainnetTokens.WADA,
+    nativeOnly: false,
+    minAmt: 10,
+  },
 }
 
 // default confirmation time for prod, set on each network below
@@ -143,6 +172,7 @@ const PROD_DEFAULT_CONFIRMATION_TIME_IN_MINUTES = 30
 export const networks: { [key: string]: NetworkMetadata } = {
   ethereum: {
     name: 'ethereum',
+    displayName: 'Ethereum',
     chainID: 1,
     domainID: 6648936,
     rpcUrl: VUE_APP_ETHEREUM_RPC!,
@@ -153,6 +183,7 @@ export const networks: { [key: string]: NetworkMetadata } = {
   },
   moonbeam: {
     name: 'moonbeam',
+    displayName: 'Moonbeam',
     chainID: 1284,
     domainID: 1650811245,
     rpcUrl: VUE_APP_MOONBEAM_RPC!,
@@ -160,6 +191,17 @@ export const networks: { [key: string]: NetworkMetadata } = {
     blockExplorer: 'https://blockscout.moonbeam.network',
     icon: DEVIcon,
     confirmationTimeInMinutes: PROD_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
+  },
+  milkomedac1: {
+    name: 'milkomedac1',
+    displayName: 'Milkomeda C1',
+    chainID: 2001,
+    domainID: 25393,
+    nativeToken: tokens.milkADA,
+    rpcUrl: VUE_APP_MILKOMEDA_RPC!,
+    blockExplorer: 'https://rpc.c1.milkomeda.com:4000',
+    icon: wADAIcon,
+    confirmationTimeInMinutes: PROD_DEFAULT_CONFIRMATION_TIME_IN_MINUTES
   },
 }
 

@@ -4,6 +4,7 @@ import USDCIcon from '@/assets/token-logos/USDC.png'
 import DAIIcon from '@/assets/token-logos/DAI.png'
 import DEVIcon from '@/assets/token-logos/DEV.png'
 import wADAIcon from '@/assets/token-logos/wADA.png'
+import wEvmosIcon from '@/assets/token-logos/wEVMOS.jpeg'
 import ConnextIcon from '@/assets/icons/connext.svg'
 
 import { SdkBaseChainConfigParams } from '@connext/nxtp-sdk'
@@ -16,7 +17,8 @@ const {
   VUE_APP_RINKEBY_RPC,
   VUE_APP_KOVAN_RPC,
   VUE_APP_MOONBASEALPHA_RPC,
-  VUE_APP_MILKOMEDA_RPC,
+  VUE_APP_MILKOMEDA_TESTNET_RPC,
+  VUE_APP_EVMOS_TESTNET_RPC,
 } = process.env
 
 export const tokens: { [key: string]: TokenMetadata } = {
@@ -40,7 +42,7 @@ export const tokens: { [key: string]: TokenMetadata } = {
     iconColors: ['#C0CEF7', '#7594EE'],
     decimals: 18,
     coinGeckoId: 'ethereum',
-    tokenIdentifier: testnetTokens.WETH,
+    tokenIdentifier: null,
     nativeOnly: true,
     minAmt: 0.0028,
   },
@@ -64,7 +66,7 @@ export const tokens: { [key: string]: TokenMetadata } = {
     iconColors: ['#C0CEF7', '#7594EE'],
     decimals: 18,
     coinGeckoId: 'ethereum',
-    tokenIdentifier: testnetTokens.kWETH,
+    tokenIdentifier: null,
     nativeOnly: true,
     minAmt: 0.0028,
   },
@@ -112,7 +114,7 @@ export const tokens: { [key: string]: TokenMetadata } = {
     iconColors: ['#53CBC8', '#e84195'],
     decimals: 18,
     coinGeckoId: 'dai', // TODO:
-    tokenIdentifier: testnetTokens.DEV,
+    tokenIdentifier: null,
     nativeOnly: true,
     minAmt: 10,
   },
@@ -129,18 +131,18 @@ export const tokens: { [key: string]: TokenMetadata } = {
     nativeOnly: false,
     minAmt: 10,
   },
-  mADA: {
+  milkADA: {
     nativeNetwork: 'milkomedatestnet',
     symbol: 'mADA',
-    name: 'wADA',
+    name: 'milkADA',
     icon: wADAIcon,
     iconColors: ['#6684CD', '#0033AC'],
     decimals: 18,
     coinGeckoId: 'cardano',
-    tokenIdentifier: testnetTokens.wADA,
+    tokenIdentifier: null,
     nativeOnly: true,
     minAmt: 10,
-  },
+  }, 
   wADA: {
     nativeNetwork: 'milkomedatestnet',
     symbol: 'wADA',
@@ -153,6 +155,30 @@ export const tokens: { [key: string]: TokenMetadata } = {
     nativeOnly: false,
     minAmt: 10,
   },
+  tEVMOS: {
+    nativeNetwork: 'evmostestnet',
+    symbol: 'tEVMOS',
+    name: 'tEVMOS',
+    icon: wEvmosIcon,
+    iconColors: ['#454545', '#000'],
+    decimals: 18,
+    coinGeckoId: 'evmos',
+    tokenIdentifier: null,
+    nativeOnly: true,
+    minAmt: 10,
+  },
+  wtEVMOS: {
+    nativeNetwork: 'evmostestnet',
+    symbol: 'wtEVMOS',
+    name: 'wtEVMOS',
+    icon: wEvmosIcon,
+    iconColors: ['#454545', '#000'],
+    decimals: 18,
+    coinGeckoId: 'evmos',
+    tokenIdentifier: testnetTokens.wtEVMOS,
+    nativeOnly: false,
+    minAmt: 10,
+  },
 }
 
 // default confirmation time for dev, set on each network below
@@ -161,6 +187,7 @@ const DEV_DEFAULT_CONFIRMATION_TIME_IN_MINUTES = 2
 export const networks: { [key: string]: NetworkMetadata } = {
   rinkeby: {
     name: 'rinkeby',
+    displayName: 'Rinkeby',
     chainID: 4,
     domainID: 2000,
     nativeToken: tokens.ETH,
@@ -171,6 +198,7 @@ export const networks: { [key: string]: NetworkMetadata } = {
   },
   kovan: {
     name: 'kovan',
+    displayName: 'Kovan',
     chainID: 42,
     domainID: 3000,
     nativeToken: tokens.kETH,
@@ -181,6 +209,7 @@ export const networks: { [key: string]: NetworkMetadata } = {
   },
   moonbasealpha: {
     name: 'moonbasealpha',
+    displayName: 'Moonbase Alpha',
     chainID: 1287,
     domainID: 5000,
     nativeToken: tokens.DEV,
@@ -191,26 +220,26 @@ export const networks: { [key: string]: NetworkMetadata } = {
   },
   milkomedatestnet: {
     name: 'milkomedatestnet',
+    displayName: 'Milkomeda Testnet',
     chainID: 200101,
     domainID: 8000,
-    nativeToken: tokens.wADA,
-    rpcUrl: VUE_APP_MILKOMEDA_RPC!,
+    nativeToken: tokens.milkADA,
+    rpcUrl: VUE_APP_MILKOMEDA_TESTNET_RPC!,
     blockExplorer: 'http://use-util.cloud.milkomeda.com:4000',
     icon: wADAIcon,
     confirmationTimeInMinutes: DEV_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
   },
-  // TODO: re-add once evmos testnet has been added here (https://github.com/nomad-xyz/nomad-monorepo/blob/main/typescript/nomad-provider/src/nomad/domains/dev.ts)
-  // Currently will error otherwise.
-  // evmos: {
-  //   name: 'Evmos Testnet',
-  //   chainID: 9000,
-  //   domainID: 2000,
-  //   nativeToken: tokens.PHOTON,
-  //   rpcUrl: 'https://ethereum.rpc.evmos.dev',
-  //   blockExplorer: 'https://evm.evmos.org',
-  //   icon: wETHIcon, // TODO: update with correct icon
-  //   confirmationTimeInMinutes: 15,
-  // },
+  evmostestnet: {
+    name: 'evmostestnet',
+    displayName: 'Evmos Testnet',
+    chainID: 9000,
+    domainID: 9000,
+    nativeToken: tokens.tEVMOS,
+    rpcUrl: VUE_APP_EVMOS_TESTNET_RPC!,
+    blockExplorer: 'https://evm.evmos.org',
+    icon: wEvmosIcon, // TODO: update with correct icon
+    confirmationTimeInMinutes: DEV_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
+  },
 }
 
 export const hubNetwork = networks.rinkeby
@@ -234,5 +263,9 @@ export const connextConfig: SdkBaseChainConfigParams = {
   1287: {
     // moonbasealpha
     providers: [VUE_APP_MOONBASEALPHA_RPC!],
+  },
+  9000: {
+    // evmos testnet
+    providers: [VUE_APP_EVMOS_TESTNET_RPC!]
   },
 }

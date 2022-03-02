@@ -26,6 +26,11 @@ const DAI: TokenIdentifier = {
   id: '0x6b175474e89094c44da98b954eedeac495271d0f',
 }
 
+const WPHOTON: TokenIdentifier = {
+  domain: 'evmos',
+  id: ''
+}
+
 const FRAX: TokenIdentifier = {
   domain: 'ethereum',
   id: '0x853d955aCEf822Db058eb8505911ED77F175b99e',
@@ -57,6 +62,7 @@ export default {
   USDC,
   USDT,
   DAI,
+  WPHOTON,
   FRAX,
   FXS,
   WGLMR,

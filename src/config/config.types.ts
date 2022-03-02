@@ -1,6 +1,6 @@
 import { TokenIdentifier } from '@nomad-xyz/sdk/nomad'
 
-export type MainnetNetwork = 'ethereum' | 'moonbeam' | 'milkomedac1'
+export type MainnetNetwork = 'ethereum' | 'moonbeam' | 'milkomedac1' | 'evmos'
 export type TestnetNetwork =
   | 'kovan'
   | 'moonbasealpha'

@@ -18,6 +18,7 @@ const {
   VUE_APP_ETHEREUM_RPC,
   VUE_APP_MOONBEAM_RPC,
   VUE_APP_MILKOMEDA_RPC,
+  VUE_APP_EVMOS_RPC,
 } = process.env
 
 export const tokens: { [key: string]: TokenMetadata } = {
@@ -117,6 +118,30 @@ export const tokens: { [key: string]: TokenMetadata } = {
     nativeOnly: false,
     minAmt: 10,
   },
+  // PHOTON: {
+  //   nativeNetwork: 'evmos',
+  //   symbol: 'PHOTON',
+  //   name: 'PHOTON',
+  //   icon: null,
+  //   iconColors: [],
+  //   decimals: 18,
+  //   coinGeckoId: '',
+  //   tokenIdentifier: null,
+  //   nativeOnly: true,
+  //   minAmt: 10,
+  // },
+  // wPHOTON: {
+  //   nativeNetwork: 'evmos',
+  //   symbol: 'wPHTN',
+  //   name: 'wPHOTON',
+  //   icon: null,
+  //   iconColors: [],
+  //   decimals: 18,
+  //   coinGeckoId: '',
+  //   tokenIdentifier: mainnetTokens.WPHOTON,
+  //   nativeOnly: false,
+  //   minAmt: 10,
+  // },
   GLMR: {
     nativeNetwork: 'moonbeam',
     symbol: 'GLMR',
@@ -214,8 +239,19 @@ export const networks: { [key: string]: NetworkMetadata } = {
     rpcUrl: VUE_APP_MILKOMEDA_RPC!,
     blockExplorer: 'https://rpc.c1.milkomeda.com:4000',
     icon: wADAIcon,
-    confirmationTimeInMinutes: PROD_DEFAULT_CONFIRMATION_TIME_IN_MINUTES
+    confirmationTimeInMinutes: PROD_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
   },
+  // evmos: {
+  //   name: 'evmos',
+  //   displayName: 'Evmos',
+  //   chainID: 9001,
+  //   domainID: 1702260083,
+  //   nativeToken: tokens.PHOTON,
+  //   rpcUrl: VUE_APP_EVMOS_RPC!,
+  //   blockExplorer: 'https://blockscout.evmos.org',
+  //   icon: wETHIcon,
+  //   confirmationTimeInMinutes: PROD_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
+  // }
 }
 
 export const hubNetwork = networks.ethereum

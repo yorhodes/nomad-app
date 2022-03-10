@@ -7,6 +7,10 @@ Unreleased
 --------------------------------
 - WalletConnect support
 
+v1.1.0 (Mar 9th, 2022)
+--------------------------------
+- support CQT token in token selection modal
+
 v1.0.9 (Mar 7th, 2022)
 --------------------------------
 - silence metamask not installed sentry errors

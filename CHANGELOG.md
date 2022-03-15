@@ -6,30 +6,6 @@ This change log is manually updated at the moment.
 Unreleased
 --------------------------------
 - WalletConnect support
-- update connext package
-
-v1.1.0 (Mar 9th, 2022)
---------------------------------
-- support CQT token in token selection modal
-
-v1.4.0 (Apr 18th, 2022)
---------------------------------
-- SDK upgrade
-- Fix failedHomes banner display
-
-v1.3.1 (Apr 15th, 2022)
---------------------------------
-- Fix regression in `processTx` function
-- Fix fall back on confirmationTime calculation if `confirmAt` value is not available
-
-v1.3.0 (Apr 15th, 2022)
---------------------------------
-- Use indexer API to get tx status
-
-v1.2.2 (Apr 11th, 2022)
---------------------------------
-- fix, display correct destination address
-- "Complete Transfer" CTA animation, increase padding
 
 v1.2.1 (Apr 7th, 2022)
 --------------------------------

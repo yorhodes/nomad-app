@@ -6,6 +6,7 @@ This change log is manually updated at the moment.
 Unreleased
 --------------------------------
 - WalletConnect support
+- update Moonbeam explorer url
 
 v1.2.1 (Apr 7th, 2022)
 --------------------------------

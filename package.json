@@ -7,7 +7,7 @@
     "build": "vue-cli-service build --mode debug",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
-    "build-dev": "vue-cli-service build --mode development",
+    "build-dev": "vue-cli-service build --mode production",
     "build-prod": "vue-cli-service build --mode production",
     "build-staging": "vue-cli-service build --mode staging",
     "push-dev": "git push origin main:development -f",

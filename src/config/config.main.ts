@@ -54,6 +54,7 @@ export const tokens: { [key: string]: TokenMetadata } = {
     tokenIdentifier: null,
     nativeOnly: true,
     minAmt: 0.0028,
+    wrappedAsset: 'WETH',
   },
   USDT: {
     nativeNetwork: 'ethereum',
@@ -126,6 +127,7 @@ export const tokens: { [key: string]: TokenMetadata } = {
     tokenIdentifier: null,
     nativeOnly: true,
     minAmt: 10,
+    wrappedAsset: 'WGLMR',
   },
   WGLMR: {
     nativeNetwork: 'moonbeam',
@@ -150,6 +152,7 @@ export const tokens: { [key: string]: TokenMetadata } = {
     tokenIdentifier: null,
     nativeOnly: true,
     minAmt: 10,
+    wrappedAsset: 'wADA',
   },
   wADA: {
     nativeNetwork: 'milkomedaC1',
@@ -213,7 +216,7 @@ export const networks: { [key: string]: NetworkMetadata } = {
     domainID: 1650811245,
     rpcUrl: VUE_APP_MOONBEAM_RPC!,
     nativeToken: tokens.GLMR,
-    blockExplorer: 'https://blockscout.moonbeam.network',
+    blockExplorer: 'https://moonbeam.moonscan.io',
     icon: DEVIcon,
     confirmationTimeInMinutes: PROD_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
   },
@@ -232,11 +235,6 @@ export const networks: { [key: string]: NetworkMetadata } = {
 }
 
 export const hubNetwork = networks.ethereum
-
-export const connextPools: { [key: string]: string[] } = {
-  moonbeam: ['WETH', 'USDC', 'USDT', 'DAI'],
-  ethereum: ['ETH', 'USDC', 'USDT', 'DAI'],
-}
 
 export const connextConfig: SdkBaseChainConfigParams = {
   1: {

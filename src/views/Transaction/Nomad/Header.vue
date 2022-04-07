@@ -90,16 +90,15 @@
         <span class="capitalize">{{ hubNetwork.name }}!</span>
         Please click below to submit a transaction to complete your transfer.
       </n-text>
-      <n-text
-        @click="processTx"
-        class="flex flex-row items-center uppercase mt-1 cursor-pointer"
-      >
-        Complete transfer
-        <img
-          src="@/assets/icons/arrow-right-up.svg"
-          alt="open"
-          class="ml-2 cursor-pointer"
-        />
+      <n-text @click="processTx" class="uppercase mt-1 cursor-pointer p-2">
+        <span class="click-me flex flex-row items-center">
+          Complete transfer
+          <img
+            src="@/assets/icons/arrow-right-up.svg"
+            alt="open"
+            class="ml-2 cursor-pointer"
+          />
+        </span>
       </n-text>
     </span>
     <!-- loading -->
@@ -320,4 +319,14 @@ export default defineComponent({
   min-height 140px
 .rotate
   transform rotateZ(180deg)
+
+@keyframes bounce {
+	0%, 7%, 14%, 25%, 100% {transform: translateY(0)}
+  8% {transform: translateY(1px)}
+	12% {transform: translateY(-7px)}
+	17% {transform: translateY(-5px)}
+}
+.click-me {
+  animation: bounce 5s ease infinite
+}
 </style>

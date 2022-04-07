@@ -7,27 +7,12 @@ Unreleased
 --------------------------------
 - WalletConnect support
 
-v1.2.1 (Apr 7th, 2022)
---------------------------------
-- add transfer review screen
-- allow easy toggle between nomad/connext
-- upgrade connext package
-- fix connext instantiation in development
-- fix hanging on 'checking availability'
-- fix bug sending native assets
-- add transfer alerts
-- add link to Bridge Guide
-- remove ability to turn off Connext completely
-- remove connextPools whitelist of assets (just check liquidity by doing quote)
-
-- update Moonbeam explorer url
-
-v1.3.3 (Apr 15th, 2022)
+v1.3.1 (Apr 15th, 2022)
 --------------------------------
 - Fix regression in `processTx` function
 - Fix fall back on confirmationTime calculation if `confirmAt` value is not available
 
-v1.3.2 (Apr 15th, 2022)
+v1.3.0 (Apr 15th, 2022)
 --------------------------------
 - Use indexer API to get tx status
 

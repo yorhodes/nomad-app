@@ -19,7 +19,6 @@ v1.2.1 (Apr 7th, 2022)
 - add link to Bridge Guide
 - remove ability to turn off Connext completely
 - remove connextPools whitelist of assets (just check liquidity by doing quote)
-
 - update Moonbeam explorer url
 
 v1.1.1 (Mar 15th, 2022)

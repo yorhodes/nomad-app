@@ -73,7 +73,6 @@ import { defineComponent } from 'vue'
 import { utils, BigNumber } from 'ethers'
 import { TokenIdentifier, TransferMessage } from '@nomad-xyz/sdk-bridge'
 import { NText, NDivider, NTime, useNotification } from 'naive-ui'
-
 import { useStore } from '@/store'
 import { fromBytes32, toNetworkName, truncateAddr } from '@/utils'
 import { nomadAPI, networks } from '@/config'

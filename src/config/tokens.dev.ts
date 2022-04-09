@@ -1,4 +1,4 @@
-import { TokenIdentifier } from '@nomad-xyz/sdk/nomad'
+import { TokenIdentifier } from '@nomad-xyz/sdk-bridge'
 
 // IMPORTANT make name same as tokens[token].symbol value
 
@@ -10,6 +10,11 @@ const WETH: TokenIdentifier = {
 const kWETH: TokenIdentifier = {
   domain: 'kovan',
   id: '0xd0a1e359811322d97991e03f863a0c30c2cf029c',
+}
+
+const gWETH: TokenIdentifier = {
+  domain: 'goerli',
+  id: '0x0B1ba0af832d7C05fD64161E0Db78E85978E8082',
 }
 
 const WBTC: TokenIdentifier = {
@@ -32,18 +37,18 @@ const DAI: TokenIdentifier = {
   id: '0xFf795577d9AC8bD7D90Ee22b6C1703490b6512FD',
 }
 
-const DEV: TokenIdentifier = {
-  domain: 'moonbasealpha',
-  id: '0x0000000000000000000000000000000000000802',
-}
-
 const TEST: TokenIdentifier = {
   domain: 'kovan',
   id: '0xe71678794fff8846bff855f716b0ce9d9a78e844',
 }
 
+const DEV: TokenIdentifier = {
+  domain: 'moonbasealpha',
+  id: '0x0000000000000000000000000000000000000802',
+}
+
 const wADA: TokenIdentifier = {
-  domain: 'milkomedatestnet',
+  domain: 'milkomedaC1testnet',
   id: '0x65a51E52eCD17B641f8F0D1d56a6c9738951FDC9',
 }
 
@@ -55,12 +60,13 @@ const wtEVMOS: TokenIdentifier = {
 export default {
   WETH,
   kWETH,
+  gWETH,
   WBTC,
   USDC,
   USDT,
   DAI,
-  DEV,
   TEST,
+  DEV,
   wADA,
   wtEVMOS,
 }

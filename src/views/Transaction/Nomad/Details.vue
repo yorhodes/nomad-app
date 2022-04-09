@@ -74,8 +74,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { BigNumber, utils } from 'ethers'
-import { TokenIdentifier, TransferMessage } from '@nomad-xyz/sdk/nomad'
+import { utils, BigNumber } from 'ethers'
+import { TokenIdentifier, TransferMessage } from '@nomad-xyz/sdk-bridge'
 import { NText, NDivider, NTime, useNotification } from 'naive-ui'
 
 import { useStore } from '@/store'

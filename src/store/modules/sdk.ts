@@ -1,9 +1,8 @@
+await import('@nomad-xyz/sdk-bridge')
+
 import { MutationTree, ActionTree, GetterTree } from 'vuex'
 import { providers, BigNumber, BytesLike } from 'ethers'
-import { mainnet, staging, dev, NomadContext } from '@nomad-xyz/sdk'
-import { TransferMessage } from '@nomad-xyz/sdk/nomad/messages/BridgeMessage'
-import { TokenIdentifier } from '@nomad-xyz/sdk/nomad'
-
+import { TokenIdentifier } from '@nomad-xyz/sdk-bridge'
 import { TXData } from './transactions'
 import { RootState } from '@/store'
 import * as types from '@/store/mutation-types'
@@ -13,35 +12,19 @@ import { isNativeToken, getNetworkByDomainID } from '@/utils/index'
 import { NetworkMetadata } from '@/config/config.types'
 
 const environment = process.env.VUE_APP_NOMAD_ENVIRONMENT
-function getNomadContext() {
-  switch (environment) {
-    case 'development':
-      return dev
 
-    case 'staging':
-      return staging
+let nomadSDK: any
+let nomad: any
 
-    case 'production':
-      return mainnet
-
-    default:
-      return dev
-  }
-}
-
-function _instantiateNomad(): NomadContext {
-  // configure for mainnet/testnet
-  const nomadContext: NomadContext = getNomadContext()
-
-  // register rpc provider and signer for each network
+import('@nomad-xyz/sdk-bridge').then((sdk) => {
+  nomadSDK = sdk
+  const context = new sdk.BridgeContext(environment)
   Object.values(networks).forEach(({ name, rpcUrl }) => {
-    nomadContext.registerRpcProvider(name, rpcUrl)
+    context.registerRpcProvider(name, rpcUrl)
   })
-
-  return nomadContext
-}
-
-let nomad: NomadContext
+  console.log(context)
+  nomad = context
+})
 
 export interface SendData {
   isNative: boolean
@@ -83,18 +66,6 @@ const mutations = <MutationTree<SDKState>>{
 }
 
 const actions = <ActionTree<SDKState, RootState>>{
-  async instantiateNomad({ dispatch }) {
-    console.log('instantiateNomad: ', environment)
-    try {
-      nomad = _instantiateNomad()
-      console.log('nomad after instantiating', nomad)
-    } catch (e) {
-      console.error(e)
-      throw new Error("Couldn't setup Nomad")
-    }
-    await dispatch('checkFailedHomes')
-  },
-
   async checkFailedHomes({ commit }) {
     await nomad.checkHomes(Object.keys(networks))
     const blacklist = nomad.blacklist()
@@ -186,7 +157,7 @@ const actions = <ActionTree<SDKState, RootState>>{
   async send(
     { commit, dispatch },
     payload: SendData
-  ): Promise<TransferMessage | null> {
+  ): Promise<typeof nomadSDK.TransferMessage | null> {
     console.log('sending...', payload)
     commit(types.SET_SENDING, true)
     const { isNative, originNetwork, destNetwork, asset, amnt, recipient } =
@@ -251,15 +222,13 @@ const actions = <ActionTree<SDKState, RootState>>{
     const replica = nomad.getReplicaFor(tx.origin, tx.destination)
 
     if (!replica) {
-      console.error('missing replica, unable to process transaction')
-      return
+      throw new Error('missing replica, unable to process transaction')
     }
 
     // get signer and connect replica
     const signer = nomad.getSigner(tx.destination)
     if (!signer) {
-      console.error('missing signer, unable to process transaction')
-      return
+      throw new Error('missing signer, unable to process transaction')
     }
     replica.connect(signer)
 
@@ -297,12 +266,12 @@ const getters = <GetterTree<SDKState, RootState>>{
 
   getTxMessage:
     () =>
-    async (tx: TXData): Promise<TransferMessage> => {
+    async (tx: TXData): Promise<typeof nomadSDK.TransferMessage> => {
       const { network, hash } = tx
       let message
 
       try {
-        message = await TransferMessage.singleFromTransactionHash(
+        message = await nomadSDK.TransferMessage.singleFromTransactionHash(
           nomad,
           network,
           hash
@@ -311,7 +280,7 @@ const getters = <GetterTree<SDKState, RootState>>{
         console.error(e)
       }
 
-      return message as TransferMessage
+      return message as typeof nomadSDK.TransferMessage
     },
 
   resolveDomain: () => (network: string) => {

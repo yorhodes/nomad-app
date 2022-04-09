@@ -19,6 +19,7 @@ v1.3.0 (Apr 15th, 2022)
 v1.2.2 (Apr 11th, 2022)
 --------------------------------
 - fix, display correct destination address
+- "Complete Transfer" CTA animation, increase padding
 
 v1.2.1 (Apr 7th, 2022)
 --------------------------------
@@ -26,7 +27,7 @@ v1.2.1 (Apr 7th, 2022)
 - allow easy toggle between nomad/connext
 - upgrade connext package
 - fix connext instantiation in development
-- fix hanging on 'checking availability'
+- fix hanging on "checking availability"
 - fix bug sending native assets
 - add transfer alerts
 - add link to Bridge Guide

@@ -1,10 +1,12 @@
-import wETHIcon from '@/assets/token-logos/WETH.png'
-import USDTIcon from '@/assets/token-logos/USDT.png'
-import USDCIcon from '@/assets/token-logos/USDC.png'
-import DAIIcon from '@/assets/token-logos/DAI.png'
+import rWETHIcon from '@/assets/token-logos/rWETH.png'
+import kWETHIcon from '@/assets/token-logos/kWETH.png'
+// import gWETHIcon from '@/assets/token-logos/gWETH.png'
 import DEVIcon from '@/assets/token-logos/DEV.png'
 import wADAIcon from '@/assets/token-logos/wADA.png'
 import wEvmosIcon from '@/assets/token-logos/wEVMOS.png'
+import USDTIcon from '@/assets/token-logos/USDT.png'
+import USDCIcon from '@/assets/token-logos/USDC.png'
+import DAIIcon from '@/assets/token-logos/DAI.png'
 import ConnextIcon from '@/assets/icons/connext.svg'
 
 import { SdkBaseChainConfigParams } from '@connext/nxtp-sdk'
@@ -17,8 +19,9 @@ const {
   VUE_APP_RINKEBY_RPC,
   VUE_APP_KOVAN_RPC,
   VUE_APP_MOONBASEALPHA_RPC,
-  VUE_APP_MILKOMEDA_TESTNET_RPC,
   VUE_APP_EVMOS_TESTNET_RPC,
+  VUE_APP_MILKOMEDA_TESTNET_RPC,
+  // VUE_APP_GOERLI_RPC
 } = process.env
 
 export const tokens: { [key: string]: TokenMetadata } = {
@@ -39,8 +42,8 @@ export const tokens: { [key: string]: TokenMetadata } = {
     nativeNetwork: 'rinkeby',
     symbol: 'WETH',
     name: 'Rinkeby WETH',
-    icon: wETHIcon,
-    iconColors: ['#C0CEF7', '#7594EE'],
+    icon: rWETHIcon,
+    iconColors: ['#eda532', '#eda532'],
     decimals: 18,
     coinGeckoId: 'weth',
     tokenIdentifier: testnetTokens.WETH,
@@ -51,8 +54,8 @@ export const tokens: { [key: string]: TokenMetadata } = {
     nativeNetwork: 'rinkeby',
     symbol: 'ETH',
     name: 'Rinkeby ETH',
-    icon: wETHIcon,
-    iconColors: ['#C0CEF7', '#7594EE'],
+    icon: rWETHIcon,
+    iconColors: ['#eda532', '#eda532'],
     decimals: 18,
     coinGeckoId: 'ethereum',
     tokenIdentifier: null,
@@ -64,8 +67,8 @@ export const tokens: { [key: string]: TokenMetadata } = {
     nativeNetwork: 'kovan',
     symbol: 'kWETH',
     name: 'Kovan WETH',
-    icon: wETHIcon,
-    iconColors: ['#C0CEF7', '#7594EE'],
+    icon: kWETHIcon,
+    iconColors: ['#9B59B6', '#9B59B6'],
     decimals: 18,
     coinGeckoId: 'weth',
     tokenIdentifier: testnetTokens.kWETH,
@@ -76,8 +79,8 @@ export const tokens: { [key: string]: TokenMetadata } = {
     nativeNetwork: 'kovan',
     symbol: 'kETH',
     name: 'Kovan ETH',
-    icon: wETHIcon,
-    iconColors: ['#C0CEF7', '#7594EE'],
+    icon: kWETHIcon,
+    iconColors: ['#9B59B6', '#9B59B6'],
     decimals: 18,
     coinGeckoId: 'ethereum',
     tokenIdentifier: null,
@@ -85,6 +88,31 @@ export const tokens: { [key: string]: TokenMetadata } = {
     minAmt: 0.0028,
     wrappedAsset: 'kWETH',
   },
+  // gWETH: {
+  //   nativeNetwork: 'goerli',
+  //   symbol: 'gWETH',
+  //   name: 'Goerli WETH',
+  //   icon: gWETHIcon,
+  //   iconColors: ['#2980B9', '#2980B9'],
+  //   decimals: 18,
+  //   coinGeckoId: 'weth',
+  //   tokenIdentifier: testnetTokens.gWETH,
+  //   nativeOnly: false,
+  //   minAmt: 0.0028,
+  // },
+  // gETH: {
+  //   nativeNetwork: 'goerli',
+  //   symbol: 'gETH',
+  //   name: 'Goerli ETH',
+  //   icon: gWETHIcon,
+  //   iconColors: ['#2980B9', '#2980B9'],
+  //   decimals: 18,
+  //   coinGeckoId: 'ethereum',
+  //   tokenIdentifier: null,
+  //   nativeOnly: true,
+  //   minAmt: 0.0028,
+  //   wrappedAsset: 'gWETH',
+  // },
   USDT: {
     nativeNetwork: 'kovan',
     symbol: 'USDT',
@@ -134,7 +162,7 @@ export const tokens: { [key: string]: TokenMetadata } = {
     minAmt: 10,
   },
   milkADA: {
-    nativeNetwork: 'milkomedatestnet',
+    nativeNetwork: 'milkomedaC1testnet',
     symbol: 'mADA',
     name: 'milkADA',
     icon: wADAIcon,
@@ -147,7 +175,7 @@ export const tokens: { [key: string]: TokenMetadata } = {
     wrappedAsset: 'wADA',
   },
   wADA: {
-    nativeNetwork: 'milkomedatestnet',
+    nativeNetwork: 'milkomedaC1testnet',
     symbol: 'wADA',
     name: 'wADA',
     icon: wADAIcon,
@@ -192,13 +220,18 @@ export const networks: { [key: string]: NetworkMetadata } = {
   rinkeby: {
     name: 'rinkeby',
     displayName: 'Rinkeby',
-    connections: ['kovan', 'moonbasealpha', 'milkomedatestnet', 'evmostestnet'],
+    connections: [
+      'kovan',
+      'moonbasealpha',
+      'milkomedaC1testnet',
+      'evmostestnet',
+    ],
     chainID: 4,
     domainID: 2000,
     nativeToken: tokens.ETH,
     rpcUrl: VUE_APP_RINKEBY_RPC!,
     blockExplorer: 'https://rinkeby.etherscan.io',
-    icon: wETHIcon,
+    icon: rWETHIcon,
     confirmationTimeInMinutes: DEV_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
   },
   kovan: {
@@ -210,9 +243,21 @@ export const networks: { [key: string]: NetworkMetadata } = {
     nativeToken: tokens.kETH,
     rpcUrl: VUE_APP_KOVAN_RPC!,
     blockExplorer: 'https://kovan.etherscan.io',
-    icon: wETHIcon,
+    icon: kWETHIcon,
     confirmationTimeInMinutes: DEV_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
   },
+  // goerli: {
+  //   name: 'goerli',
+  //   displayName: 'Goerli',
+  //   connections: ['kovan', 'rinkeby'],
+  //   chainID: 5,
+  //   domainID: 9000,
+  //   nativeToken: tokens.gETH,
+  //   rpcUrl: VUE_APP_GOERLI_RPC!,
+  //   blockExplorer: 'https://goerli.etherscan.io',
+  //   icon: gWETHIcon,
+  //   confirmationTimeInMinutes: DEV_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
+  // }
   moonbasealpha: {
     name: 'moonbasealpha',
     displayName: 'Moonbase Alpha',
@@ -225,8 +270,8 @@ export const networks: { [key: string]: NetworkMetadata } = {
     icon: DEVIcon,
     confirmationTimeInMinutes: DEV_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
   },
-  milkomedatestnet: {
-    name: 'milkomedatestnet',
+  milkomedaC1testnet: {
+    name: 'milkomedaC1testnet',
     displayName: 'Milkomeda Testnet',
     connections: ['rinkeby'],
     chainID: 200101,
@@ -267,10 +312,10 @@ export const connextConfig: SdkBaseChainConfigParams = {
     // rinkeby
     providers: [VUE_APP_RINKEBY_RPC!],
   },
-  1287: {
-    // moonbasealpha
-    providers: [VUE_APP_MOONBASEALPHA_RPC!],
-  },
+  // 1287: {
+  //   // moonbasealpha
+  //   providers: [VUE_APP_MOONBASEALPHA_RPC!],
+  // },
   // 9000: {
   //   // evmos testnet
   //   providers: [VUE_APP_EVMOS_TESTNET_RPC!]

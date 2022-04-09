@@ -70,7 +70,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { utils, BigNumber } from 'ethers'
-import { TokenIdentifier, TransferMessage } from '@nomad-xyz/sdk/nomad'
+import { TokenIdentifier, TransferMessage } from '@nomad-xyz/sdk-bridge'
 import { NText, NDivider, useNotification } from 'naive-ui'
 
 import { useStore } from '@/store'
@@ -197,7 +197,7 @@ export default defineComponent({
         this.status = 2
         this.confirmAt = confirmAt
         console.log('status: 2')
-        console.log('confirm at: ', this.confirmAt.toString())
+        // console.log('confirm at: ', this.confirmAt.toString())
         return
       }
       this.status = (await message.events()).status

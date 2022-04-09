@@ -1,17 +1,40 @@
+const { defineConfig } = require('@vue/cli-service')
 const webpack = require('webpack')
 
-module.exports = {
-  configureWebpack: () => ({
+module.exports = defineConfig({
+  transpileDependencies: true,
+  configureWebpack: {
+    resolve: {
+      fallback: {
+        stream: require.resolve('stream-browserify'),
+        url: require.resolve('url/'),
+        crypto: require.resolve('crypto-browserify'),
+        assert: require.resolve('assert/'),
+        fs: false,
+        net: false,
+        tls: false,
+      },
+    },
+    module: {
+      rules: [
+        {
+          test: /\.wasm$/,
+          type: 'webassembly/sync',
+        },
+      ],
+    },
     plugins: [
       new webpack.ProvidePlugin({
         process: 'process/browser',
       }),
+      new webpack.ProvidePlugin({
+        Buffer: ['buffer', 'Buffer'],
+      }),
     ],
     devtool: 'source-map',
-  }),
-  // options...
-  devServer: {
-    proxy: 'http://localhost:8080/',
+    experiments: {
+      syncWebAssembly: true,
+      topLevelAwait: true,
+    },
   },
-  transpileDependencies: ['@sinclair/typebox'],
-}
+})

@@ -51,10 +51,10 @@
             <n-tooltip trigger="hover">
               <template #trigger>
                 <span class="opacity-50 cursor-pointer">
-                  | {{ truncateAddr(userInput.destinationAddr || walletAddress) }}
+                  | {{ truncateAddr(userInput.destinationAddress || walletAddress) }}
                 </span>
               </template>
-              {{ userInput.destinationAddr || walletAddress }}
+              {{ userInput.destinationAddress || walletAddress }}
             </n-tooltip>
           </div>
         </review-detail>

@@ -12,7 +12,13 @@ import ConnextIcon from '@/assets/icons/connext.svg'
 import { SdkBaseChainConfigParams } from '@connext/nxtp-sdk'
 
 import testnetTokens from './tokens.dev'
-import { TokenMetadata, NetworkMetadata } from './config.types'
+import { TokenMetadata, NetworkMetadata, NetworkName } from './config.types'
+import { AppConfig } from 'vue'
+
+const configuration = await import('@nomad-xyz/configuration')
+const config = configuration.getBuiltin('development')
+console.log(`Environment: ${config.environment}`)
+console.log('config', config)
 
 const {
   VUE_APP_ETHEREUM_RPC,
@@ -216,85 +222,113 @@ export const tokens: { [key: string]: TokenMetadata } = {
 // default confirmation time for dev, set on each network below
 const DEV_DEFAULT_CONFIRMATION_TIME_IN_MINUTES = 2
 
-export const networks: { [key: string]: NetworkMetadata } = {
-  rinkeby: {
-    name: 'rinkeby',
-    displayName: 'Rinkeby',
-    connections: [
-      'kovan',
-      'moonbasealpha',
-      'milkomedaC1testnet',
-      'evmostestnet',
-    ],
-    chainID: 4,
-    domainID: 2000,
-    nativeToken: tokens.ETH,
-    rpcUrl: VUE_APP_RINKEBY_RPC!,
-    blockExplorer: 'https://rinkeby.etherscan.io',
-    icon: rWETHIcon,
-    confirmationTimeInMinutes: DEV_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
-  },
-  kovan: {
-    name: 'kovan',
-    displayName: 'Kovan',
-    connections: ['rinkeby'],
-    chainID: 42,
-    domainID: 3000,
-    nativeToken: tokens.kETH,
-    rpcUrl: VUE_APP_KOVAN_RPC!,
-    blockExplorer: 'https://kovan.etherscan.io',
-    icon: kWETHIcon,
-    confirmationTimeInMinutes: DEV_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
-  },
-  // goerli: {
-  //   name: 'goerli',
-  //   displayName: 'Goerli',
-  //   connections: ['kovan', 'rinkeby'],
-  //   chainID: 5,
-  //   domainID: 9000,
-  //   nativeToken: tokens.gETH,
-  //   rpcUrl: VUE_APP_GOERLI_RPC!,
-  //   blockExplorer: 'https://goerli.etherscan.io',
-  //   icon: gWETHIcon,
-  //   confirmationTimeInMinutes: DEV_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
-  // }
-  moonbasealpha: {
-    name: 'moonbasealpha',
-    displayName: 'Moonbase Alpha',
-    connections: ['rinkeby'],
-    chainID: 1287,
-    domainID: 5000,
-    nativeToken: tokens.DEV,
-    rpcUrl: VUE_APP_MOONBASEALPHA_RPC!,
-    blockExplorer: 'https://moonbase-blockscout.testnet.moonbeam.network',
-    icon: DEVIcon,
-    confirmationTimeInMinutes: DEV_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
-  },
-  milkomedaC1testnet: {
-    name: 'milkomedaC1testnet',
-    displayName: 'Milkomeda Testnet',
-    connections: ['rinkeby'],
-    chainID: 200101,
-    domainID: 8000,
-    nativeToken: tokens.milkADA,
-    rpcUrl: VUE_APP_MILKOMEDA_TESTNET_RPC!,
-    blockExplorer: 'https://explorer-devnet-cardano-evm.c1.milkomeda.com',
-    icon: wADAIcon,
-    confirmationTimeInMinutes: DEV_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
-  },
-  evmostestnet: {
-    name: 'evmostestnet',
-    displayName: 'Evmos Testnet',
-    connections: ['rinkeby'],
-    chainID: 9000,
-    domainID: 9000,
-    nativeToken: tokens.tEVMOS,
-    rpcUrl: VUE_APP_EVMOS_TESTNET_RPC!,
-    blockExplorer: 'https://evm.evmos.org',
-    icon: wEvmosIcon,
-    confirmationTimeInMinutes: DEV_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
-  },
-}
+type Networks = { [key: string]: NetworkMetadata }
+
+// TODO: fix types
+const networks: Networks = {}
+Object.keys(config.bridgeGui).forEach(networkName => {
+  // TODO: update config with the bridge gui details and re-publish
+  const { displayName = '', nativeTokenSymbol: nativeToken }: any = config.bridgeGui[networkName] || {}
+  const { connections, name, domain } = config.protocol.networks[networkName]
+  const { chainId, blockExplorer } = config.protocol.networks[networkName].specs
+  const rpcUrl = config.rpcs[networkName][0]
+  const { optimisticSeconds } = config.protocol.networks[networkName].configuration
+  const confirmationTimeInMinutes = optimisticSeconds as number / 60
+
+
+  networks[networkName] = {
+    domainID: domain,
+    chainID: chainId,
+    name,
+    displayName,
+    nativeToken,
+    connections,
+    blockExplorer,
+    rpcUrl,
+    confirmationTimeInMinutes,
+    icon: '',
+  } as NetworkMetadata
+})
+
+
+console.log('networks', networks)
+
+export { networks }
+
+// export const networks: { [key: string]: NetworkMetadata } = {
+//   rinkeby: {
+//     name: 'rinkeby',
+//     displayName: 'Rinkeby',
+//     connections: ['kovan', 'moonbasealpha', 'milkomedaC1testnet', 'evmostestnet'],
+//     chainID: 4,
+//     domainID: 2000,
+//     nativeToken: tokens.ETH,
+//     rpcUrl: VUE_APP_RINKEBY_RPC!,
+//     blockExplorer: 'https://rinkeby.etherscan.io',
+//     icon: rWETHIcon,
+//     confirmationTimeInMinutes: DEV_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
+//   },
+//   kovan: {
+//     name: 'kovan',
+//     displayName: 'Kovan',
+//     connections: ['rinkeby'],
+//     chainID: 42,
+//     domainID: 3000,
+//     nativeToken: tokens.kETH,
+//     rpcUrl: VUE_APP_KOVAN_RPC!,
+//     blockExplorer: 'https://kovan.etherscan.io',
+//     icon: kWETHIcon,
+//     confirmationTimeInMinutes: DEV_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
+//   },
+//   // goerli: {
+//   //   name: 'goerli',
+//   //   displayName: 'Goerli',
+//   //   connections: ['kovan', 'rinkeby'],
+//   //   chainID: 5,
+//   //   domainID: 9000,
+//   //   nativeToken: tokens.gETH,
+//   //   rpcUrl: VUE_APP_GOERLI_RPC!,
+//   //   blockExplorer: 'https://goerli.etherscan.io',
+//   //   icon: gWETHIcon,
+//   //   confirmationTimeInMinutes: DEV_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
+//   // }
+//   moonbasealpha: {
+//     name: 'moonbasealpha',
+//     displayName: 'Moonbase Alpha',
+//     connections: ['rinkeby'],
+//     chainID: 1287,
+//     domainID: 5000,
+//     nativeToken: tokens.DEV,
+//     rpcUrl: VUE_APP_MOONBASEALPHA_RPC!,
+//     blockExplorer: 'https://moonbase-blockscout.testnet.moonbeam.network',
+//     icon: DEVIcon,
+//     confirmationTimeInMinutes: DEV_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
+//   },
+//   milkomedaC1testnet: {
+//     name: 'milkomedaC1testnet',
+//     displayName: 'Milkomeda Testnet',
+//     connections: ['rinkeby'],
+//     chainID: 200101,
+//     domainID: 8000,
+//     nativeToken: tokens.milkADA,
+//     rpcUrl: VUE_APP_MILKOMEDA_TESTNET_RPC!,
+//     blockExplorer: 'https://explorer-devnet-cardano-evm.c1.milkomeda.com',
+//     icon: wADAIcon,
+//     confirmationTimeInMinutes: DEV_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
+//   },
+//   evmostestnet: {
+//     name: 'evmostestnet',
+//     displayName: 'Evmos Testnet',
+//     connections: ['rinkeby'],
+//     chainID: 9000,
+//     domainID: 9000,
+//     nativeToken: tokens.tEVMOS,
+//     rpcUrl: VUE_APP_EVMOS_TESTNET_RPC!,
+//     blockExplorer: 'https://evm.evmos.org',
+//     icon: wEvmosIcon,
+//     confirmationTimeInMinutes: DEV_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
+//   },
+// }
 
 export const hubNetwork = networks.rinkeby
 

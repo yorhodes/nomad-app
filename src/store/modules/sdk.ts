@@ -22,6 +22,7 @@ import('@nomad-xyz/sdk-bridge').then((sdk) => {
   Object.values(networks).forEach(({ name, rpcUrl }) => {
     context.registerRpcProvider(name, rpcUrl)
   })
+  context.registerRpcProvider('xdai', 'https://dummyurl')
   console.log(context)
   nomad = context
 })

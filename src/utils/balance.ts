@@ -1,8 +1,7 @@
 import { Web3Provider } from '@ethersproject/providers'
 import { BigNumber } from '@ethersproject/bignumber'
-import { TokenIdentifier } from '@nomad-xyz/sdk-bridge'
-import { ERC20__factory } from '@nomad-xyz/contract-interfaces/bridge'
-import { BridgeContext } from '@nomad-xyz/sdk-bridge'
+import { TokenIdentifier, BridgeContext } from '@nomad-xyz/sdk-bridge'
+import { ERC20__factory } from '@nomad-xyz/contracts-bridge'
 
 type Address = string
 

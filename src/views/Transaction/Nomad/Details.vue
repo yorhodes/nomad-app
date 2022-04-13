@@ -84,7 +84,6 @@ import { nomadAPI, networks } from '@/config'
 import Detail from '@/views/Transaction/Detail.vue'
 import CopyHash from '@/components/CopyHash.vue'
 import StatusHeader from './Header.vue'
-import { NetworkName } from '@/config/config.types'
 
 interface ComponentData {
   transferMessage: TransferMessage | null
@@ -95,7 +94,6 @@ interface ComponentData {
   tokenId: TokenIdentifier | undefined
   originNet: string
   destNet: string
-  originNet: string
   originAddr: string
   destAddr: string
   timeSent: number | undefined
@@ -132,7 +130,6 @@ export default defineComponent({
       tokenId: undefined,
       originNet: '',
       destNet: '',
-      originNet: '',
       originAddr: '',
       destAddr: '',
       timeSent: undefined,

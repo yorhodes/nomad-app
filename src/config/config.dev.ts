@@ -4,6 +4,7 @@ import gWETHIcon from '@/assets/token-logos/gWETH.png'
 import USDTIcon from '@/assets/token-logos/USDT.png'
 import USDCIcon from '@/assets/token-logos/USDC.png'
 import DAIIcon from '@/assets/token-logos/DAI.png'
+import XDAIIcon from '@/assets/token-logos/XDAI.png'
 // import DEVIcon from '@/assets/token-logos/DEV.png'
 // import wADAIcon from '@/assets/token-logos/wADA.png'
 // import wEvmosIcon from '@/assets/token-logos/wEVMOS.png'
@@ -18,7 +19,8 @@ const {
   VUE_APP_ETHEREUM_RPC,
   VUE_APP_RINKEBY_RPC,
   VUE_APP_KOVAN_RPC,
-  VUE_APP_GOERLI_RPC
+  VUE_APP_GOERLI_RPC,
+  VUE_APP_XDAI_TESTNET_RPC,
   // VUE_APP_MOONBASEALPHA_RPC,
   // VUE_APP_EVMOS_TESTNET_RPC,
   // VUE_APP_MILKOMEDA_TESTNET_RPC,
@@ -149,6 +151,18 @@ export const tokens: { [key: string]: TokenMetadata } = {
     nativeOnly: false,
     minAmt: 10,
   },
+  XDAI: {
+    nativeNetwork: 'xdai',
+    symbol: 'XDAI',
+    name: 'XDAI',
+    icon: XDAIIcon,
+    iconColors: ['#03795B', '#03795B'],
+    decimals: 18,
+    coinGeckoId: 'xdai',
+    tokenIdentifier: null,
+    nativeOnly: true,
+    minAmt: 10,
+  }
   // DEV: {
   //   nativeNetwork: 'moonbasealpha',
   //   symbol: 'DEV',
@@ -246,13 +260,25 @@ export const networks: { [key: string]: NetworkMetadata } = {
     displayName: 'Goerli',
     connections: ['rinkeby'],
     chainID: 5,
-    domainID: 9000,
+    domainID: 8000,
     nativeToken: tokens.gETH,
     rpcUrl: VUE_APP_GOERLI_RPC!,
     blockExplorer: 'https://goerli.etherscan.io',
     icon: gWETHIcon,
     confirmationTimeInMinutes: DEV_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
   },
+  xdai: {
+    name: 'xdai',
+    displayName: 'xDai',
+    connections: ['rinkeby'],
+    chainID: 100,
+    domainID: 9000,
+    nativeToken: tokens.XDAI,
+    rpcUrl: VUE_APP_XDAI_TESTNET_RPC!,
+    blockExplorer: 'https://blockscout.com/xdai/testnet',
+    icon: XDAIIcon,
+    confirmationTimeInMinutes: DEV_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
+  }
   // moonbasealpha: {
   //   name: 'moonbasealpha',
   //   displayName: 'Moonbase Alpha',

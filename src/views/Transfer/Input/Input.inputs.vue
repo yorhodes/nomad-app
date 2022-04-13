@@ -17,7 +17,7 @@
       >
         <n-text class="opacity-50">Origin</n-text>
         <div class="flex flex-row items-center max-w-[300]">
-          <n-text class="font-bold text-base capitalize">
+          <n-text class="font-bold text-base">
             {{ getDisplayName(originNetwork) }}
           </n-text>
           <img src="@/assets/icons/select.svg" class="ml-1" />
@@ -52,7 +52,7 @@
       >
         <n-text class="opacity-50">Destination</n-text>
         <div class="flex flex-row items-center max-w-[300]">
-          <n-text class="font-bold text-base capitalize">
+          <n-text class="font-bold text-base">
             {{ getDisplayName(destinationNetwork) }}
           </n-text>
           <img src="@/assets/icons/select.svg" class="ml-1" />

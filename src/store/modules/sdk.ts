@@ -22,6 +22,9 @@ import('@nomad-xyz/sdk-bridge').then((sdk) => {
   Object.values(networks).forEach(({ name, rpcUrl }) => {
     context.registerRpcProvider(name, rpcUrl)
   })
+  if (environment === 'production') {
+    context.registerRpcProvider('xdai', process.env.VUE_APP_XDAI_RPC!)
+  }
   console.log(context)
   nomad = context
 })

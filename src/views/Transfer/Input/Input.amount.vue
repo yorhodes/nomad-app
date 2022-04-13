@@ -45,13 +45,22 @@
   />
 
   <!-- amount -->
-  <input
-    type="number"
-    ref="amount"
-    v-model="amt"
-    placeholder="0.00"
-    class="w-full text-5xl font-extra-light bg-transparent outline-none placeholder-white placeholder-opacity-60 text-center"
-  />
+  <div class="relative">
+    <input
+      type="number"
+      ref="amount"
+      v-model="amt"
+      placeholder="0.00"
+      class="inline-block text-5xl font-extra-light bg-transparent outline-none placeholder-white placeholder-opacity-60 text-center"
+    />
+    <button
+      v-if="balance && token.symbol && !token.nativeOnly"
+      class="capitalize absolute left-[100%] ml-2 h-full text-lg"
+      @click="max"
+    >
+      Max
+    </button>
+  </div>
 
   <!-- amount errors -->
   <p
@@ -185,6 +194,11 @@ export default defineComponent({
       const amtInUSD = (await getMinAmount(coinGeckoId)) * this.amt
       this.amtInUSD = amtInUSD.toFixed(2).toString()
     },
+    max() {
+      if (!this.balance || !this.token.symbol) return
+      const formattedBalance = toDecimals(this.balance, this.token.decimals)
+      this.amt = Number.parseFloat(formattedBalance)
+    }
   },
   watch: {
     token(newToken) {

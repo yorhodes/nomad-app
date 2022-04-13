@@ -162,7 +162,19 @@ export const tokens: { [key: string]: TokenMetadata } = {
     tokenIdentifier: null,
     nativeOnly: true,
     minAmt: 10,
-  }
+  },
+  WXDAI: {
+    nativeNetwork: 'xdai',
+    symbol: 'WXDAI',
+    name: 'WXDAI',
+    icon: XDAIIcon,
+    iconColors: ['#03795B', '#03795B'],
+    decimals: 18,
+    coinGeckoId: 'wrapped-xdai',
+    tokenIdentifier: testnetTokens.WXDAI,
+    nativeOnly: false,
+    minAmt: 10,
+  },
   // DEV: {
   //   nativeNetwork: 'moonbasealpha',
   //   symbol: 'DEV',
@@ -275,10 +287,10 @@ export const networks: { [key: string]: NetworkMetadata } = {
     domainID: 9000,
     nativeToken: tokens.XDAI,
     rpcUrl: VUE_APP_XDAI_TESTNET_RPC!,
-    blockExplorer: 'https://blockscout.com/xdai/testnet',
+    blockExplorer: 'https://blockscout.com/xdai/mainnet',
     icon: XDAIIcon,
     confirmationTimeInMinutes: DEV_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
-  }
+  },
   // moonbasealpha: {
   //   name: 'moonbasealpha',
   //   displayName: 'Moonbase Alpha',

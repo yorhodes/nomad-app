@@ -42,6 +42,11 @@ const TEST: TokenIdentifier = {
   id: '0xe71678794fff8846bff855f716b0ce9d9a78e844',
 }
 
+const WXDAI: TokenIdentifier = {
+  domain: 'xdai',
+  id: '0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d',
+}
+
 // const DEV: TokenIdentifier = {
 //   domain: 'moonbasealpha',
 //   id: '0x0000000000000000000000000000000000000802',
@@ -66,6 +71,7 @@ export default {
   USDT,
   DAI,
   TEST,
+  WXDAI,
   // DEV,
   // wADA,
   // wtEVMOS,

@@ -16,19 +16,6 @@ const environment = process.env.VUE_APP_NOMAD_ENVIRONMENT
 let nomadSDK: any
 let nomad: any
 
-import('@nomad-xyz/sdk-bridge').then((sdk) => {
-  nomadSDK = sdk
-  const context = new sdk.BridgeContext(environment)
-  Object.values(networks).forEach(({ name, rpcUrl }) => {
-    context.registerRpcProvider(name, rpcUrl)
-  })
-  if (environment === 'production') {
-    context.registerRpcProvider('xdai', process.env.VUE_APP_XDAI_RPC!)
-  }
-  console.log(context)
-  nomad = context
-})
-
 export interface SendData {
   isNative: boolean
   originNetwork: number
@@ -69,9 +56,24 @@ const mutations = <MutationTree<SDKState>>{
 }
 
 const actions = <ActionTree<SDKState, RootState>>{
+  async instantiateNomad({ dispatch }) {
+    await import('@nomad-xyz/sdk-bridge').then((sdk) => {
+      nomadSDK = sdk
+      nomad = new sdk.BridgeContext(environment)
+    })
+    Object.values(networks).forEach(({ name, rpcUrl }) => {
+      nomad.registerRpcProvider(name, rpcUrl)
+    })
+    if (environment === 'production') {
+      nomad.registerRpcProvider('xdai', process.env.VUE_APP_XDAI_RPC!)
+    }
+    console.log('nomad instantiated: ', nomad)
+    await dispatch('checkFailedHomes')
+  },
   async checkFailedHomes({ commit }) {
     await nomad.checkHomes(Object.keys(networks))
     const blacklist = nomad.blacklist()
+    console.log('blacklist', blacklist)
     commit(types.SET_BLACKLIST, blacklist)
   },
 

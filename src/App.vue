@@ -48,6 +48,7 @@ export default defineComponent({
     const { ethereum } = window
 
     // instantiate Nomad & Connext
+    await store.dispatch('instantiateNomad')
     await store.dispatch('instantiateConnext')
 
     if (ethereum && ethereum.isMetamask) {

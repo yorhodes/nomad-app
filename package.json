@@ -3,17 +3,16 @@
   "version": "1.4.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve --mode development",
     "build": "vue-cli-service build --mode debug",
-    "test:unit": "vue-cli-service test:unit",
-    "lint": "vue-cli-service lint",
     "build-dev": "vue-cli-service build --mode development",
     "build-prod": "vue-cli-service build --mode production",
     "build-staging": "vue-cli-service build --mode staging",
+    "lint": "vue-cli-service lint",
     "push-dev": "git push origin main:development -f",
     "push-staging": "git push origin main:staging -f",
+    "serve": "vue-cli-service serve --mode development",
     "serve-prod": "vue-cli-service serve --mode production",
-    "link-sdk": "pushd ~/code/nomad-monorepo/typescript/nomad-sdk && cp package.json src/package.json && cd src && npm link && popd && npm link @nomad-xyz/sdk"
+    "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
     "@connext/nxtp-sdk": "^0.1.34",

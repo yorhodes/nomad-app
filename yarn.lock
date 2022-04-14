@@ -1218,15 +1218,6 @@
     "@ethersproject/properties" "^5.6.0"
     "@ethersproject/transactions" "^5.6.0"
 
-"@ethersproject/experimental@^5.3.0":
-  version "5.6.0"
-  resolved "https://registry.yarnpkg.com/@ethersproject/experimental/-/experimental-5.6.0.tgz#c72ef00a79b746c522eb79736712169d71c55f64"
-  integrity sha512-lSEM/6t+BicbeyRxat5meoQhXZLoBEziVrxZqeCIhsPntvq4DlMobPBKXF0Iz3m0dMvl9uga7fHEO4YD9SgCgw==
-  dependencies:
-    "@ethersproject/web" "^5.6.0"
-    ethers "^5.6.0"
-    scrypt-js "3.0.1"
-
 "@ethersproject/hash@5.6.0", "@ethersproject/hash@^5.0.4", "@ethersproject/hash@^5.6.0":
   version "5.6.0"
   resolved "https://registry.yarnpkg.com/@ethersproject/hash/-/hash-5.6.0.tgz#d24446a5263e02492f9808baa99b6e2b4c3429a2"
@@ -1739,15 +1730,6 @@
   version "0.1.0-rc.10"
   resolved "https://registry.yarnpkg.com/@nomad-xyz/configuration/-/configuration-0.1.0-rc.10.tgz#c63416b61d90ed14c7c576ee991b9107cd9d0f85"
   integrity sha512-NLzMvInj0P9RQXqBYODCHZxbhn5vDZoAR+hsVHwgYRMcQUHFnPdA0DZIzeq0GfsOcvU6ixBcDwbeqX3R4xoc7A==
-
-"@nomad-xyz/contract-interfaces@^1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@nomad-xyz/contract-interfaces/-/contract-interfaces-1.2.0.tgz#d024e4635527c8006a31f6c80e36304544543842"
-  integrity sha512-Hx5961SWgn6FODeX3BGX4rf5WOJj0xw9a2driFjspgIGfLE96daXqDBnzroUe/BR4ROA82NNdm1Kbw/hKfL9PQ==
-  dependencies:
-    "@ethersproject/experimental" "^5.3.0"
-    "@types/node" "^16.10.2"
-    typescript "^4.4.3"
 
 "@nomad-xyz/contracts-bridge@^1.0.0-rc.2":
   version "1.0.0-rc.2"
@@ -2318,11 +2300,6 @@
   version "12.20.48"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.20.48.tgz#55f70bd432b6515828c0298689776861b90ca4fa"
   integrity sha512-4kxzqkrpwYtn6okJUcb2lfUu9ilnb3yhUOH6qX3nug8D2DupZ2drIkff2yJzYcNJVl3begnlcaBJ7tqiTTzjnQ==
-
-"@types/node@^16.10.2":
-  version "16.11.27"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.11.27.tgz#5da19383bdbeda99bc0d09cfbb88cab7297ebc51"
-  integrity sha512-C1pD3kgLoZ56Uuy5lhfOxie4aZlA3UMGLX9rXteq4WitEZH6Rl80mwactt9QG0w0gLFlN/kLBTFnGXtDVWvWQw==
 
 "@types/node@^8.0.0":
   version "8.10.66"
@@ -5867,7 +5844,7 @@ ethers@^4.0.40:
     uuid "2.0.1"
     xmlhttprequest "1.8.0"
 
-ethers@^5.0.0, ethers@^5.4.6, ethers@^5.4.7, ethers@^5.6.0:
+ethers@^5.0.0, ethers@^5.4.6, ethers@^5.4.7:
   version "5.6.4"
   resolved "https://registry.yarnpkg.com/ethers/-/ethers-5.6.4.tgz#23629e9a7d4bc5802dfb53d4da420d738744b53c"
   integrity sha512-62UIfxAQXdf67TeeOaoOoPctm5hUlYgfd0iW3wxfj7qRYKDcvvy0f+sJ3W2/Pyx77R8dblvejA8jokj+lS+ATQ==
@@ -11831,11 +11808,6 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
-
-typescript@^4.4.3:
-  version "4.6.3"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.6.3.tgz#eefeafa6afdd31d725584c67a0eaba80f6fc6c6c"
-  integrity sha512-yNIatDa5iaofVozS/uQJEl3JRWLKKGJKh6Yaiv0GLGSuhpFJe7P3SbHZ8/yjAHRQwKRoA6YZqlfjXWmVzoVSMw==
 
 typescript@~4.1.5:
   version "4.1.6"

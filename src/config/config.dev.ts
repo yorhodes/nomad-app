@@ -10,21 +10,9 @@ import XDAIIcon from '@/assets/token-logos/XDAI.png'
 // import wEvmosIcon from '@/assets/token-logos/wEVMOS.png'
 import ConnextIcon from '@/assets/icons/connext.svg'
 
-import { SdkBaseChainConfigParams } from '@connext/nxtp-sdk'
 
 import testnetTokens from './tokens.dev'
-import { TokenMetadata, NetworkMetadata } from './config.types'
-
-const {
-  VUE_APP_ETHEREUM_RPC,
-  VUE_APP_RINKEBY_RPC,
-  VUE_APP_KOVAN_RPC,
-  VUE_APP_GOERLI_RPC,
-  VUE_APP_XDAI_RPC,
-  // VUE_APP_MOONBASEALPHA_RPC,
-  // VUE_APP_EVMOS_TESTNET_RPC,
-  // VUE_APP_MILKOMEDA_TESTNET_RPC,
-} = process.env
+import { TokenMetadata } from './config.types'
 
 export const tokens: { [key: string]: TokenMetadata } = {
   // Only for use with connext in dev environment
@@ -239,118 +227,27 @@ export const tokens: { [key: string]: TokenMetadata } = {
   // },
 }
 
-// default confirmation time for dev, set on each network below
-const DEV_DEFAULT_CONFIRMATION_TIME_IN_MINUTES = 2
-
-export const networks: { [key: string]: NetworkMetadata } = {
-  rinkeby: {
-    name: 'rinkeby',
-    displayName: 'Rinkeby',
-    connections: ['kovan', 'goerli', 'xdai'],
-    chainID: 4,
-    domainID: 2000,
-    nativeToken: tokens.ETH,
-    rpcUrl: VUE_APP_RINKEBY_RPC!,
-    blockExplorer: 'https://rinkeby.etherscan.io',
-    icon: rWETHIcon,
-    confirmationTimeInMinutes: DEV_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
-  },
-  kovan: {
-    name: 'kovan',
-    displayName: 'Kovan',
-    connections: ['rinkeby'],
-    chainID: 42,
-    domainID: 3000,
-    nativeToken: tokens.kETH,
-    rpcUrl: VUE_APP_KOVAN_RPC!,
-    blockExplorer: 'https://kovan.etherscan.io',
-    icon: kWETHIcon,
-    confirmationTimeInMinutes: DEV_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
-  },
-  goerli: {
-    name: 'goerli',
-    displayName: 'Goerli',
-    connections: ['rinkeby'],
-    chainID: 5,
-    domainID: 8000,
-    nativeToken: tokens.gETH,
-    rpcUrl: VUE_APP_GOERLI_RPC!,
-    blockExplorer: 'https://goerli.etherscan.io',
-    icon: gWETHIcon,
-    confirmationTimeInMinutes: DEV_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
-  },
-  xdai: {
-    name: 'xdai',
-    displayName: 'xDai',
-    connections: ['rinkeby'],
-    chainID: 100,
-    domainID: 9000,
-    nativeToken: tokens.XDAI,
-    rpcUrl: VUE_APP_XDAI_RPC!,
-    blockExplorer: 'https://blockscout.com/xdai/mainnet',
-    icon: XDAIIcon,
-    confirmationTimeInMinutes: DEV_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
-  },
-  // moonbasealpha: {
-  //   name: 'moonbasealpha',
-  //   displayName: 'Moonbase Alpha',
-  //   connections: ['rinkeby'],
-  //   chainID: 1287,
-  //   domainID: 5000,
-  //   nativeToken: tokens.DEV,
-  //   rpcUrl: VUE_APP_MOONBASEALPHA_RPC!,
-  //   blockExplorer: 'https://moonbase-blockscout.testnet.moonbeam.network',
-  //   icon: DEVIcon,
-  //   confirmationTimeInMinutes: DEV_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
-  // },
-  // milkomedaC1testnet: {
-  //   name: 'milkomedaC1testnet',
-  //   displayName: 'Milkomeda Testnet',
-  //   connections: ['rinkeby'],
-  //   chainID: 200101,
-  //   domainID: 8000,
-  //   nativeToken: tokens.milkADA,
-  //   rpcUrl: VUE_APP_MILKOMEDA_TESTNET_RPC!,
-  //   blockExplorer: 'https://explorer-devnet-cardano-evm.c1.milkomeda.com',
-  //   icon: wADAIcon,
-  //   confirmationTimeInMinutes: DEV_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
-  // },
-  // evmostestnet: {
-  //   name: 'evmostestnet',
-  //   displayName: 'Evmos Testnet',
-  //   connections: ['rinkeby'],
-  //   chainID: 9000,
-  //   domainID: 9000,
-  //   nativeToken: tokens.tEVMOS,
-  //   rpcUrl: VUE_APP_EVMOS_TESTNET_RPC!,
-  //   blockExplorer: 'https://evm.evmos.org',
-  //   icon: wEvmosIcon,
-  //   confirmationTimeInMinutes: DEV_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
-  // },
-}
-
-export const hubNetwork = networks.rinkeby
-
-export const connextConfig: SdkBaseChainConfigParams = {
-  // must have Ethereum for some reason
-  1: {
-    // ethereum mainnet
-    providers: [VUE_APP_ETHEREUM_RPC!],
-  },
-  42: {
-    // kovan
-    providers: [VUE_APP_KOVAN_RPC!],
-  },
-  4: {
-    // rinkeby
-    providers: [VUE_APP_RINKEBY_RPC!],
-  },
-  // 1287: {
-  //   // moonbasealpha
-  //   providers: [VUE_APP_MOONBASEALPHA_RPC!],
-  // },
-  // 9000: {
-  //   // evmos testnet
-  //   providers: [VUE_APP_EVMOS_TESTNET_RPC!]
-  // },
-}
+// TODO: might be able to build this object using the RPCs in the config as well
+// export const connextConfig: SdkBaseChainConfigParams = {
+//   // must have Ethereum for some reason
+//   1: {
+//     // ethereum mainnet
+//     providers: [VUE_APP_ETHEREUM_RPC!],
+//   },
+//   42: {
+//     // kovan
+//     providers: [VUE_APP_KOVAN_RPC!],
+//   },
+//   4: {
+//     // rinkeby
+//     providers: [VUE_APP_RINKEBY_RPC!],
+//   },
+//   // 1287: {
+//   //   // moonbasealpha
+//   //   providers: [VUE_APP_MOONBASEALPHA_RPC!],
+//   // },
+//   // 9000: {
+//   //   // evmos testnet
+//   //   providers: [VUE_APP_EVMOS_TESTNET_RPC!]
+//   // },
+// }

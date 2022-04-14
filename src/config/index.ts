@@ -1,18 +1,27 @@
-import * as dev from './config.dev'
-import * as main from './config.main'
-import { TokenMetadata, NetworkMetadata } from './config.types'
 import { SdkBaseChainConfigParams } from '@connext/nxtp-sdk'
-
-export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000'
+import { NomadConfig } from '@nomad-xyz/configuration'
+// TODO: cleanup the dev / main files, might be able
+// to consolidate the config / token files by environment
+import { tokens as devTokens } from './config.dev'
+import { tokens as mainTokens } from './config.main'
+import { NetworkMetadata, NetworkMap } from './config.types'
 
 const environment = process.env.VUE_APP_NOMAD_ENVIRONMENT
-const currentEnv = chooseConfig(environment)
+
+// TODO: look into how await import works, might be better
+// to move to a single file where we import configuration
+// and then just export to use everywhere else
+const configuration = await import('@nomad-xyz/configuration')
+const config = configuration.getBuiltin(environment!)
+const ethereumRPCs = configuration.getBuiltin('production').rpcs.ethereum
+
 export const isProduction = environment === 'production'
 
-export const tokens = currentEnv.tokens
-export const networks = currentEnv.networks
-export const connextConfig = currentEnv.connextConfig
-export const hubNetwork = currentEnv.hubNetwork
+// NOTE: Is there a better way to define these, might make more sense to separate out prod from dev values
+export const tokens = isProduction ? mainTokens : devTokens
+export const networks = getNetworksFromConfig(config)
+export const connextConfig = getConnextConfigFromConfig(config, ethereumRPCs)
+export const hubNetwork = isProduction ? networks.ethereum : networks.rinkeby
 export const s3URL = isProduction
   ? 'https://nomadxyz-production-proofs.s3.us-west-2.amazonaws.com/'
   : 'https://nomadxyz-development-proofs.s3.us-west-2.amazonaws.com/'
@@ -25,24 +34,66 @@ export const nomadAPI = isProduction
 export const BUFFER_CONFIRMATION_TIME_IN_MINUTES = isProduction ? 25 : 5
 export const PROCESS_TIME_IN_MINUTES = isProduction ? 10 : 2
 
-function chooseConfig(environment: string | undefined): {
-  tokens: { [key: string]: TokenMetadata }
-  networks: { [key: string]: NetworkMetadata }
-  connextConfig: SdkBaseChainConfigParams
-  hubNetwork: NetworkMetadata
-} {
-  console.log('Env: ', environment)
-  switch (environment) {
-    case 'development':
-      return dev
+// TODO: move these helper functions to a utils file and export for testing
 
-    case 'staging':
-      return dev
+function getConnextConfigFromConfig(
+  config: NomadConfig,
+  ethereumRPCs: string[]
+): SdkBaseChainConfigParams {
+  const connextConfig: SdkBaseChainConfigParams = {}
 
-    case 'production':
-      return main
+  Object.keys(config.bridgeGui).forEach((networkName) => {
+    // TODO: add field to bridgeGui object
+    if (config.bridgeGui[networkName].connextEnabled) {
+      const { chainId } = config.protocol.networks[networkName].specs
 
-    default:
-      return dev
+      connextConfig[chainId] = {
+        providers: config.rpcs[networkName],
+      }
+    }
+  })
+
+  if (!connextConfig[1]) {
+    // must have Ethereum for some reason
+    connextConfig[1] = {
+      providers: ethereumRPCs,
+    }
   }
+
+  return connextConfig
+}
+
+function getNetworksFromConfig(config: NomadConfig): NetworkMap {
+  const networks: NetworkMap = {}
+
+  Object.keys(config.bridgeGui).forEach((networkName) => {
+    // TODO: add separate connections field to bridgeGui object
+    const { displayName, nativeTokenSymbol, connections } = config.bridgeGui[networkName]
+    const nativeToken = tokens[nativeTokenSymbol]
+    const {
+      name,
+      domain: domainID,
+    } = config.protocol.networks[networkName]
+    const { chainId: chainID, blockExplorer } =
+      config.protocol.networks[networkName].specs
+    const rpcUrl = config.rpcs[networkName][0] // only 1 supported at the moment in the sdk
+    const { optimisticSeconds } =
+      config.protocol.networks[networkName].configuration
+    const confirmationTimeInMinutes = (optimisticSeconds as number) / 60
+
+    networks[networkName] = {
+      domainID,
+      chainID,
+      name,
+      displayName,
+      nativeToken,
+      connections,
+      blockExplorer,
+      rpcUrl,
+      confirmationTimeInMinutes,
+      icon: '',
+    } as NetworkMetadata
+  })
+
+  return networks
 }

@@ -10,13 +10,8 @@ import wADAIcon from '@/assets/token-logos/wADA.png'
 import WSTRIcon from '@/assets/token-logos/WSTR.png'
 import CQTIcon from '@/assets/token-logos/CQT.png'
 
-import { SdkBaseChainConfigParams } from '@connext/nxtp-sdk'
-
 import mainnetTokens from './tokens.main'
-import { TokenMetadata, NetworkMetadata } from './config.types'
-
-const { VUE_APP_ETHEREUM_RPC, VUE_APP_MOONBEAM_RPC, VUE_APP_MILKOMEDA_RPC } =
-  process.env
+import { TokenMetadata } from './config.types'
 
 export const tokens: { [key: string]: TokenMetadata } = {
   WBTC: {
@@ -192,61 +187,59 @@ export const tokens: { [key: string]: TokenMetadata } = {
   },
 }
 
-// default confirmation time for prod, set on each network below
-const PROD_DEFAULT_CONFIRMATION_TIME_IN_MINUTES = 30
+// // default confirmation time for prod, set on each network below
+// const PROD_DEFAULT_CONFIRMATION_TIME_IN_MINUTES = 30
 
-export const networks: { [key: string]: NetworkMetadata } = {
-  ethereum: {
-    name: 'ethereum',
-    displayName: 'Ethereum',
-    connections: ['moonbeam', 'milkomedaC1'],
-    chainID: 1,
-    domainID: 6648936,
-    rpcUrl: VUE_APP_ETHEREUM_RPC!,
-    nativeToken: tokens.ETH,
-    blockExplorer: 'https://etherscan.io',
-    icon: wETHIcon,
-    confirmationTimeInMinutes: PROD_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
-  },
-  moonbeam: {
-    name: 'moonbeam',
-    displayName: 'Moonbeam',
-    connections: ['ethereum'],
-    chainID: 1284,
-    domainID: 1650811245,
-    rpcUrl: VUE_APP_MOONBEAM_RPC!,
-    nativeToken: tokens.GLMR,
-    blockExplorer: 'https://moonbeam.moonscan.io',
-    icon: DEVIcon,
-    confirmationTimeInMinutes: PROD_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
-  },
-  milkomedaC1: {
-    name: 'milkomedaC1',
-    displayName: 'Milkomeda C1',
-    connections: ['ethereum'],
-    chainID: 2001,
-    domainID: 25393,
-    nativeToken: tokens.milkADA,
-    rpcUrl: VUE_APP_MILKOMEDA_RPC!,
-    blockExplorer: 'https://explorer-mainnet-cardano-evm.c1.milkomeda.com',
-    icon: wADAIcon,
-    confirmationTimeInMinutes: PROD_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
-  },
-}
+// export const networks: { [key: string]: NetworkMetadata } = {
+//   ethereum: {
+//     name: 'ethereum',
+//     displayName: 'Ethereum',
+//     connections: ['moonbeam', 'milkomedaC1'],
+//     chainID: 1,
+//     domainID: 6648936,
+//     rpcUrl: VUE_APP_ETHEREUM_RPC!,
+//     nativeToken: tokens.ETH,
+//     blockExplorer: 'https://etherscan.io',
+//     icon: wETHIcon,
+//     confirmationTimeInMinutes: PROD_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
+//   },
+//   moonbeam: {
+//     name: 'moonbeam',
+//     displayName: 'Moonbeam',
+//     connections: ['ethereum'],
+//     chainID: 1284,
+//     domainID: 1650811245,
+//     rpcUrl: VUE_APP_MOONBEAM_RPC!,
+//     nativeToken: tokens.GLMR,
+//     blockExplorer: 'https://moonbeam.moonscan.io',
+//     icon: DEVIcon,
+//     confirmationTimeInMinutes: PROD_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
+//   },
+//   milkomedaC1: {
+//     name: 'milkomedaC1',
+//     displayName: 'Milkomeda C1',
+//     connections: ['ethereum'],
+//     chainID: 2001,
+//     domainID: 25393,
+//     nativeToken: tokens.milkADA,
+//     rpcUrl: VUE_APP_MILKOMEDA_RPC!,
+//     blockExplorer: 'https://explorer-mainnet-cardano-evm.c1.milkomeda.com',
+//     icon: wADAIcon,
+//     confirmationTimeInMinutes: PROD_DEFAULT_CONFIRMATION_TIME_IN_MINUTES,
+//   },
+// }
 
-export const hubNetwork = networks.ethereum
-
-export const connextConfig: SdkBaseChainConfigParams = {
-  1: {
-    // ethereum mainnet
-    providers: [VUE_APP_ETHEREUM_RPC!],
-  },
-  1284: {
-    // moonbeam mainnet
-    providers: [
-      VUE_APP_MOONBEAM_RPC!,
-      'https://moonbeam.api.onfinality.io/public',
-      'https://rpc.api.moonbeam.network',
-    ],
-  },
-}
+// export const connextConfig: SdkBaseChainConfigParams = {
+//   1: {
+//     // ethereum mainnet
+//     providers: [VUE_APP_ETHEREUM_RPC!],
+//   },
+//   1284: {
+//     // moonbeam mainnet
+//     providers: [
+//       VUE_APP_MOONBEAM_RPC!,
+//       'https://moonbeam.api.onfinality.io/public',
+//       'https://rpc.api.moonbeam.network',
+//     ],
+//   },
+// }

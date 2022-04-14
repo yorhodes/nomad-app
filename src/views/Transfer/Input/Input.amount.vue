@@ -46,16 +46,19 @@
 
   <!-- amount -->
   <div class="relative">
-    <input
+    <n-input
       type="number"
       ref="amount"
-      v-model="amt"
       placeholder="0.00"
-      class="inline-block text-5xl font-extra-light bg-transparent outline-none placeholder-white placeholder-opacity-60 text-center"
+      v-model:value="amt"
+      size="large"
+      autosize
+      style="min-width: 100px; min-height: 70px;"
+      class="input text-5xl overflow-visible font-extra-light bg-transparent outline-none text-center"
     />
     <button
       v-if="balance && token.symbol && !token.nativeOnly"
-      class="capitalize absolute left-[100%] ml-2 h-full text-lg"
+      class="capitalize absolute left-[100%] ml-2 h-full text-lg opacity-70"
       @click="max"
     >
       Max
@@ -84,7 +87,7 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
-import { NText, NTooltip } from 'naive-ui'
+import { NText, NTooltip, NInput } from 'naive-ui'
 import { utils, BigNumber } from 'ethers'
 import useVuelidate from '@vuelidate/core'
 import { helpers } from '@vuelidate/validators'
@@ -109,6 +112,7 @@ export default defineComponent({
   components: {
     NText,
     NTooltip,
+    NInput,
     TokenSelect,
   },
   data() {
@@ -198,7 +202,7 @@ export default defineComponent({
       if (!this.balance || !this.token.symbol) return
       const formattedBalance = toDecimals(this.balance, this.token.decimals)
       this.amt = Number.parseFloat(formattedBalance)
-    }
+    },
   },
   watch: {
     token(newToken) {
@@ -216,3 +220,25 @@ export default defineComponent({
   },
 })
 </script>
+
+<style scoped>
+.input {
+  outline: none !important;
+  border: none !important;
+  background-color: transparent !important;
+  --n-border-hover: none !important;
+  --n-border-focus: none !important;
+  --n-box-shadow-focus: none !important;
+  --n-border: none !important;
+}
+.input:hover {
+  outline: none !important;
+  border: none !important;
+  background-color: transparent !important;
+}
+.input:focus {
+  outline: none !important;
+  border: none !important;
+  background-color: transparent !important;
+}
+</style>

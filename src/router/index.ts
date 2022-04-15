@@ -23,6 +23,11 @@ const routes: Array<RouteRecordRaw> = [
     name: 'NomadTransaction',
     component: NomadTransaction,
   },
+  {
+    path: '/tx/nomad/:network/:id',
+    name: 'NomadTransaction',
+    component: NomadTransaction,
+  },
   // {
   //   path: '/tx/connext/:id',
   //   name: 'ConnextTransaction',

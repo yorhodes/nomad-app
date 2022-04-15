@@ -58,8 +58,8 @@
     />
     <button
       v-if="balance && token.symbol && !token.nativeOnly"
-      class="capitalize absolute left-[100%] ml-2 h-full text-lg opacity-70"
-      @click="max"
+      class="capitalize absolute left-[100%] h-full text-lg opacity-70"
+      @click="inputMax"
     >
       Max
     </button>
@@ -169,7 +169,7 @@ export default defineComponent({
                 value.toString(),
                 this.token.decimals
               )
-              return amtBN.lt(this.balance)
+              return amtBN.lte(this.balance)
             }
             return true
           }
@@ -198,7 +198,7 @@ export default defineComponent({
       const amtInUSD = (await getMinAmount(coinGeckoId)) * this.amt
       this.amtInUSD = amtInUSD.toFixed(2).toString()
     },
-    max() {
+    inputMax() {
       if (!this.balance || !this.token.symbol) return
       const formattedBalance = toDecimals(this.balance, this.token.decimals)
       this.amt = Number.parseFloat(formattedBalance)

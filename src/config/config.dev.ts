@@ -226,28 +226,3 @@ export const tokens: { [key: string]: TokenMetadata } = {
   //   minAmt: 10,
   // },
 }
-
-// TODO: might be able to build this object using the RPCs in the config as well
-// export const connextConfig: SdkBaseChainConfigParams = {
-//   // must have Ethereum for some reason
-//   1: {
-//     // ethereum mainnet
-//     providers: [VUE_APP_ETHEREUM_RPC!],
-//   },
-//   42: {
-//     // kovan
-//     providers: [VUE_APP_KOVAN_RPC!],
-//   },
-//   4: {
-//     // rinkeby
-//     providers: [VUE_APP_RINKEBY_RPC!],
-//   },
-//   // 1287: {
-//   //   // moonbasealpha
-//   //   providers: [VUE_APP_MOONBASEALPHA_RPC!],
-//   // },
-//   // 9000: {
-//   //   // evmos testnet
-//   //   providers: [VUE_APP_EVMOS_TESTNET_RPC!]
-//   // },
-// }

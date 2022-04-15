@@ -91,7 +91,7 @@ export default defineComponent({
       if (transferMessage) {
         console.log('transferMessage', transferMessage)
         const txHash = transferMessage.receipt.transactionHash
-        this.$router.push(`/tx/nomad/${originNetwork}/${txHash}`)
+        this.$router.push(`/tx/nomad/${txHash}`)
       } else {
         this.notification.warning({
           title: 'Transaction send failed',

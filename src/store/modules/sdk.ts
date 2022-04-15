@@ -242,13 +242,12 @@ const actions = <ActionTree<SDKState, RootState>>{
 
     // get proof
     const index = BigNumber.from(tx.leafIndex).toNumber()
-    const s3Res = await fetch(`${s3URL}${originNetwork.name.toLowerCase()}_${index}`)
+    const s3Res = await fetch(`${s3URL}${originNetwork.name}_${index}`)
     const data = (await s3Res.json()) as any
     console.log('proof: ', data)
 
     // get replica contract
-    const core = nomad.getCore(tx.destination)
-    const replica = core?.getReplica(tx.origin)
+    const replica = nomad.getReplicaFor(tx.destination, tx.origin)
 
     if (!replica) {
       console.error('missing replica, unable to process transaction')

@@ -20,7 +20,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/tx/nomad/:network/:id',
-    name: 'NomadTransaction[DEPRECATED]',
+    name: 'NomadTransaction',
     component: NomadTransaction,
   },
   // {

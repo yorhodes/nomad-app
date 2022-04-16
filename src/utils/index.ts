@@ -1,7 +1,7 @@
 import { BigNumber, utils } from 'ethers'
 
 import { networks, tokens, hubNetwork } from '@/config'
-import { NetworkMetadata, TokenMetadata } from '@/config/config.types'
+import { NetworkMetadata, TokenMetadata, NetworkName } from '@/config/config.types'
 
 const coinGeckoIds = Object.values(tokens).map((t) => t.coinGeckoId)
 
@@ -15,6 +15,19 @@ export type NaiveOption = {
   label: string
   value: string
   key: string
+}
+
+export function toNetworkName(name: string): NetworkName | undefined {
+  switch(name.toLowerCase()) {
+    case 'moonbeam':
+      return 'moonbeam'
+    case 'milkomedac1':
+      return 'milkomedaC1'
+    case 'ethereum':
+      return 'ethereum'
+    default:
+      throw new Error('not a supported network')
+  }
 }
 
 /**

@@ -23,11 +23,6 @@ const routes: Array<RouteRecordRaw> = [
     name: 'NomadTransaction[DEPRECATED]',
     component: NomadTransaction,
   },
-  {
-    path: '/tx/nomad/:id',
-    name: 'NomadTransaction',
-    component: NomadTransaction,
-  },
   // {
   //   path: '/tx/connext/:id',
   //   name: 'ConnextTransaction',

@@ -79,7 +79,7 @@ import { TokenIdentifier, TransferMessage } from '@nomad-xyz/sdk/nomad'
 import { NText, NDivider, NTime, useNotification } from 'naive-ui'
 
 import { useStore } from '@/store'
-import { fromBytes32, getNetworkByDomainID, truncateAddr } from '@/utils'
+import { fromBytes32, toNetworkName, truncateAddr } from '@/utils'
 import { nomadAPI, networks } from '@/config'
 import Detail from '@/views/Transaction/Detail.vue'
 import CopyHash from '@/components/CopyHash.vue'
@@ -139,45 +139,53 @@ export default defineComponent({
   },
 
   async mounted() {
-    const { id } = this.$route.params
-    const res = await fetch(`${nomadAPI}${id}`)
-    const tx = (await res.json())[0] as any
-    console.log('tx data: ', tx)
-    this.status = tx.state
-    this.originAddr = tx.sender.toLowerCase()
-    this.destAddr = fromBytes32(tx.recipient)
-    this.originNet = getNetworkByDomainID(tx.origin).name
-    this.destNet = getNetworkByDomainID(tx.destination).name
-    this.tokenId = {
-      domain: tx.tokenDomain,
-      id: tx.tokenId,
+    const { network, id } = this.$route.params
+    this.originNet = toNetworkName(network as string)!
+    const txData = {
+      network: this.originNet,
+      hash: id,
     }
-    if (tx.dispatchedAt > 0) {
-      this.timeSent = tx.dispatchedAt * 1000
-    }
+    const message = await this.store.getters.getTxMessage(txData)
+    this.transferMessage = message
+    console.log('transaction:\n', message)
 
+    // destination network
+    this.destNet = this.store.getters.resolveDomainName(message.destination)
+    // destination/origin addr
+    this.originAddr = message.receipt.from
+    this.destAddr = fromBytes32(message.to)
+    // get token
+    this.tokenId = message.token
     const token = await this.store.getters.resolveRepresentation(
-      this.destNet,
-      this.tokenId
+      message.origin,
+      message.token
     )
-    this.tokenSymbol = await token.symbol()
-    const decimals = await token.decimals()
-    this.amount = utils.formatUnits(tx.amount, decimals)
-
-    if (tx.state === 2) {
-      const message = await this.store.getters.getTxMessage({
-        network: this.originNet,
-        hash: id,
-      })
-      this.confirmAt = await message.confirmAt()
+    if (token) {
+      try {
+        // token symbol
+        this.tokenSymbol = await token.symbol()
+        // amount divided by decimals
+        const amountBN = message.amount.toString()
+        const tokenDecimals = await token.decimals()
+        this.amount = await utils.formatUnits(amountBN, tokenDecimals)
+      } catch (e) {
+        console.log(e)
+      }
     }
 
-    // update status every 30 seconds
-    if (tx.state < 3) {
-      setInterval(() => {
-        this.updateStatus()
-      }, 30000)
+    // status
+    try {
+      await this.updateStatus()
+    } catch (e) {
+      this.status = 0
+      console.error(e)
     }
+
+    setInterval(async () => {
+      if (this.status < 3) {
+        await this.updateStatus()
+      }
+    }, 30000)
   },
 
   methods: {
@@ -201,15 +209,24 @@ export default defineComponent({
       const res = await fetch(`${nomadAPI}${id}`)
       const tx = (await res.json())[0] as any
       console.log('tx data: ', tx)
-      this.status = tx.state
+
+      if (tx.dispatchedAt > 0) {
+        this.timeSent = tx.dispatchedAt * 1000
+      }
 
       if (tx.state === 2) {
         const message = await this.store.getters.getTxMessage({
           network: this.originNet,
           hash: id,
         })
-        this.confirmAt = await message.confirmAt()
+        try {
+          this.confirmAt = await message.confirmAt()
+        } catch(e) {
+          console.error(e)
+        }
       }
+      // set status after we have confirmAt
+      this.status = tx.state
     }
   },
 

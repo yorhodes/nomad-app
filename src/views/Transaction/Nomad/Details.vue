@@ -43,14 +43,19 @@
       <copy-hash v-if="destAddr" :address="destAddr" />
       <n-text v-else>{{ nullVal }}</n-text>
     </detail>
-    <!-- <detail title="TRANSFER INITIATED">
-      <n-text>{{ timeSent || nullVal }}</n-text>
-    </detail> -->
+    <detail title="TRANSFER INITIATED">
+      <n-time
+        v-if="timeSent"
+        :time="timeSent"
+        format="yyyy-MM-dd hh:mm"
+      />
+      <n-text v-else>{{ nullVal }}</n-text>
+    </detail>
 
     <n-divider />
 
     <!-- link to block explorer -->
-    <div class="flex flex-row">
+    <div class="flex flex-row" v-if="explorerLink">
       <a
         :href="explorerLink"
         class="flex items-center hover:underline"
@@ -69,17 +74,16 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { utils, BigNumber } from 'ethers'
+import { BigNumber, utils } from 'ethers'
 import { TokenIdentifier, TransferMessage } from '@nomad-xyz/sdk/nomad'
-import { NText, NDivider, useNotification } from 'naive-ui'
+import { NText, NDivider, NTime, useNotification } from 'naive-ui'
 
 import { useStore } from '@/store'
-import { truncateAddr, fromBytes32 } from '@/utils'
-import { networks } from '@/config'
+import { fromBytes32, toNetworkName, truncateAddr } from '@/utils'
+import { nomadAPI, networks } from '@/config'
 import Detail from '@/views/Transaction/Detail.vue'
 import CopyHash from '@/components/CopyHash.vue'
 import StatusHeader from './Header.vue'
-import { NetworkName } from '@/config/config.types'
 
 interface ComponentData {
   transferMessage: TransferMessage | null
@@ -87,12 +91,12 @@ interface ComponentData {
   confirmAt: BigNumber | null
   amount: string
   tokenSymbol: string
-  tokenId: TokenIdentifier
-  destNet: string
+  tokenId: TokenIdentifier | undefined
   originNet: string
+  destNet: string
   originAddr: string
   destAddr: string
-  timeSent: string
+  timeSent: number | undefined
   nullVal: string
   truncateAddr: (addr: string) => string
 }
@@ -103,6 +107,7 @@ export default defineComponent({
     Detail,
     NText,
     NDivider,
+    NTime,
     CopyHash,
   },
 
@@ -122,11 +127,12 @@ export default defineComponent({
       confirmAt: null,
       amount: '',
       tokenSymbol: '',
-      destNet: '',
+      tokenId: undefined,
       originNet: '',
+      destNet: '',
       originAddr: '',
       destAddr: '',
-      timeSent: '19:12 PM UTC, 12/23/2021',
+      timeSent: undefined,
       nullVal: '—',
       truncateAddr,
     } as ComponentData
@@ -134,10 +140,7 @@ export default defineComponent({
 
   async mounted() {
     const { network, id } = this.$route.params
-    this.originNet = network as NetworkName
-    if (network === 'milkomedac1') {
-      this.originNet = 'milkomedaC1'
-    }
+    this.originNet = toNetworkName(network as string)!
     const txData = {
       network: this.originNet,
       hash: id,
@@ -169,40 +172,23 @@ export default defineComponent({
         console.log(e)
       }
     }
+
     // status
     try {
-      await this.getStatus(message)
+      await this.updateStatus()
     } catch (e) {
+      this.status = 0
       console.error(e)
     }
 
     setInterval(async () => {
       if (this.status < 3) {
-        await this.getStatus(message)
+        await this.updateStatus()
       }
     }, 30000)
   },
 
   methods: {
-    async getStatus(message: TransferMessage) {
-      if (!message) return
-      const process = await message.getProcess()
-      if (process) {
-        this.status = 3
-        console.log('status: 3')
-        return
-      }
-      const confirmAt = await message.confirmAt()
-      if (confirmAt && !confirmAt.isZero()) {
-        this.status = 2
-        this.confirmAt = confirmAt
-        console.log('status: 2')
-        console.log('confirm at: ', this.confirmAt.toString())
-        return
-      }
-      this.status = (await message.events()).status
-      console.log('status: ', this.status)
-    },
     async addToken() {
       const payload = {
         network: this.destNet,
@@ -218,10 +204,35 @@ export default defineComponent({
         console.error(error)
       }
     },
+    async updateStatus() {
+      const { id } = this.$route.params
+      const res = await fetch(`${nomadAPI}${id}`)
+      const tx = (await res.json())[0] as any
+      console.log('tx data: ', tx)
+
+      if (tx.dispatchedAt > 0) {
+        this.timeSent = tx.dispatchedAt * 1000
+      }
+
+      if (tx.state === 2) {
+        const message = await this.store.getters.getTxMessage({
+          network: this.originNet,
+          hash: id,
+        })
+        try {
+          this.confirmAt = await message.confirmAt()
+        } catch(e) {
+          console.error(e)
+        }
+      }
+      // set status after we have confirmAt
+      this.status = tx.state
+    }
   },
 
   computed: {
     explorerLink(): string {
+      if (!this.originNet) return ''
       const n = networks[this.originNet]
       return `${n.blockExplorer}/tx/${this.$route.params.id}`
     },

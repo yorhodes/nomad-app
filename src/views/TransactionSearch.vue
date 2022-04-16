@@ -82,7 +82,6 @@ import { NCard, NPopselect, NTabs, NTabPane, useNotification } from 'naive-ui'
 import NomadButton from '@/components/Button.vue'
 import { connextScanURL } from '@/config'
 import { generateNetworkOptions } from '@/utils'
-
 export default defineComponent({
   components: {
     NCard,

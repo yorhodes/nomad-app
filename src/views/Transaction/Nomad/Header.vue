@@ -76,7 +76,7 @@
     :class="[status < 3 ? 'bg-[#5185d0]' : 'bg-[#2fbb72]']"
   >
     <!-- complete -->
-    <span class="flex flex-col items-center" v-if="status === 3">
+    <span class="flex flex-col items-center" v-if="status >= 3">
       <img src="@/assets/icons/check.svg" alt="check" class="mb-2" />
       <n-text class="uppercase opacity-80">Transfer complete</n-text>
     </span>
@@ -91,7 +91,7 @@
         Please click below to submit a transaction to complete your transfer.
       </n-text>
       <n-text
-        @click="process"
+        @click="processTx"
         class="flex flex-row items-center uppercase mt-1 cursor-pointer"
       >
         Complete transfer
@@ -227,17 +227,12 @@ export default defineComponent({
     }
   },
   methods: {
-    async process() {
+    async processTx() {
       try {
-        const { network, id } = this.$route.params
-        let originNet = network as NetworkName
-        if (network === 'milkomedac1') {
-          originNet = 'milkomedaC1'
-        }
-        const receipt = await this.store.dispatch('processTx', {
-          origin: originNet,
-          hash: id,
-        })
+        const receipt = await this.store.dispatch(
+          'processTx',
+          this.$route.params.id
+        )
         if (receipt) {
           this.notification.success({
             title: 'Success',
@@ -255,16 +250,17 @@ export default defineComponent({
   computed: {
     showAlerts() {
       if (!this.status) return false
-      return this.status >= 0 && this.status !== 3
+      return this.status >= 0 && this.status < 3
     },
     stepperStatus(): number {
+      if (!this.status) return 1
       if (this.status === 0) {
         return 1
       } else if (this.status === 1) {
         return 2
       } else if (this.status === 2) {
         return 4
-      } else if (this.status === 3) {
+      } else if (this.status >= 3) {
         return 5
       }
       return 1

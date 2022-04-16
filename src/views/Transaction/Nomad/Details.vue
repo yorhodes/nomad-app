@@ -189,6 +189,21 @@ export default defineComponent({
         console.error(error)
       }
     },
+    async updateStatus() {
+      const { id } = this.$route.params
+      const res = await fetch(`${nomadAPI}${id}`)
+      const tx = (await res.json())[0] as any
+      console.log('tx data: ', tx)
+      this.status = tx.state
+
+      if (tx.state === 2) {
+      const message = await this.store.getters.getTxMessage({
+        network: this.originNet,
+        hash: id,
+      })
+      this.confirmAt = await message.confirmAt()
+    }
+    }
   },
 
   computed: {

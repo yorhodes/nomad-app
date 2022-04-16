@@ -171,6 +171,13 @@ export default defineComponent({
       })
       this.confirmAt = await message.confirmAt()
     }
+
+    // update status every 30 seconds
+    if (tx.state < 3) {
+      setInterval(() => {
+        this.updateStatus()
+      }, 30000)
+    }
   },
 
   methods: {
@@ -197,12 +204,12 @@ export default defineComponent({
       this.status = tx.state
 
       if (tx.state === 2) {
-      const message = await this.store.getters.getTxMessage({
-        network: this.originNet,
-        hash: id,
-      })
-      this.confirmAt = await message.confirmAt()
-    }
+        const message = await this.store.getters.getTxMessage({
+          network: this.originNet,
+          hash: id,
+        })
+        this.confirmAt = await message.confirmAt()
+      }
     }
   },
 

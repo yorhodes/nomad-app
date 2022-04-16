@@ -7,6 +7,10 @@ Unreleased
 --------------------------------
 - WalletConnect support
 
+v1.3.2 (Apr 15th, 2022)
+--------------------------------
+- Use indexer API to get tx status
+
 v1.2.2 (Apr 11th, 2022)
 --------------------------------
 - fix, display correct destination address

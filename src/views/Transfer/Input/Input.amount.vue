@@ -156,7 +156,7 @@ export default defineComponent({
                 value.toString(),
                 this.token.decimals
               )
-              return amtBN.lt(this.balance)
+              return amtBN.lte(this.balance)
             }
             return true
           }

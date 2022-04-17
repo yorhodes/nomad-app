@@ -7,6 +7,11 @@ Unreleased
 --------------------------------
 - WalletConnect support
 
+v1.3.3 (Apr 15th, 2022)
+--------------------------------
+- Fix regression in `processTx` function
+- Fix fall back on confirmationTime calculation if `confirmAt` value is not available
+
 v1.3.2 (Apr 15th, 2022)
 --------------------------------
 - Use indexer API to get tx status

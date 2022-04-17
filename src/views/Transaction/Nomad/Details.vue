@@ -215,6 +215,13 @@ export default defineComponent({
       }
 
       if (tx.state === 2) {
+        if (tx.relayedAt && tx.relayedAt > 0) {
+          // calculate confirmation time (in case confirmAt check errors out)
+          // give 10 minute padding
+          const { confirmationTimeInMinutes } = networks[this.originNet]
+          const confirmationTime = (confirmationTimeInMinutes + 10) * 60
+          this.confirmAt = tx.relayedAt + confirmationTime
+        }
         const message = await this.store.getters.getTxMessage({
           network: this.originNet,
           hash: id,

@@ -10,7 +10,7 @@ import * as types from '@/store/mutation-types'
 import { networks, s3URL, nomadAPI } from '@/config/index'
 import { getBalance, getNativeBalance, getERC20Balance } from '@/utils/balance'
 import { isNativeToken, getNetworkByDomainID } from '@/utils/index'
-import { NetworkMetadata, NetworkName } from '@/config/config.types'
+import { NetworkMetadata } from '@/config/config.types'
 
 const environment = process.env.VUE_APP_NOMAD_ENVIRONMENT
 function getNomadContext() {
@@ -234,10 +234,11 @@ const actions = <ActionTree<SDKState, RootState>>{
     const res = await fetch(`${nomadAPI}${txId}`)
     const tx = (await res.json())[0] as any
 
-    // switch network and register signer
+    // switch network
     const originNetwork = getNetworkByDomainID(tx.origin)
     const destNetwork = getNetworkByDomainID(tx.destination)
     await dispatch('switchNetwork', destNetwork.name)
+    // register signer
     await dispatch('registerSigner', destNetwork)
 
     // get proof
@@ -247,14 +248,14 @@ const actions = <ActionTree<SDKState, RootState>>{
     console.log('proof: ', data)
 
     // get replica contract
-    const replica = nomad.getReplicaFor(tx.destination, tx.origin)
+    const replica = nomad.getReplicaFor(tx.origin, tx.destination)
 
     if (!replica) {
       console.error('missing replica, unable to process transaction')
       return
     }
 
-    // connect signer
+    // get signer and connect replica
     const signer = nomad.getSigner(tx.destination)
     if (!signer) {
       console.error('missing signer, unable to process transaction')

@@ -50,7 +50,7 @@ const mutations = <MutationTree<SDKState>>{
   },
 
   [types.SET_BLACKLIST](state: SDKState, blacklist: Set<number>) {
-    console.log('{dispatch} transaction send in process: ', blacklist)
+    console.log('{dispatch} set blacklist: ', blacklist)
     state.blacklist = blacklist
   },
 }
@@ -73,7 +73,6 @@ const actions = <ActionTree<SDKState, RootState>>{
   async checkFailedHomes({ commit }) {
     await nomad.checkHomes(Object.keys(networks))
     const blacklist = nomad.blacklist()
-    console.log('blacklist', blacklist)
     commit(types.SET_BLACKLIST, blacklist)
   },
 
@@ -259,6 +258,7 @@ const getters = <GetterTree<SDKState, RootState>>{
       .filter((n) => !state.blacklist.has(networks[n].domainID))
       .map((n) => networks[n])
   },
+  blacklist: (state: SDKState) => () => state.blacklist,
   getGasPrice: () => async (network: string | number) => {
     try {
       const provider = nomad.getProvider(network)

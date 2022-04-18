@@ -6,6 +6,8 @@ This change log is manually updated at the moment.
 Unreleased
 --------------------------------
 - WalletConnect support
+- SDK upgrade
+- Fix failedHomes banner display
 
 v1.3.1 (Apr 15th, 2022)
 --------------------------------

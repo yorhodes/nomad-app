@@ -58,7 +58,7 @@ import { RepeatOutline } from '@vicons/ionicons5'
 import NomadButton from '@/components/Button.vue'
 
 import { networks, tokens } from '@/config/index'
-import { TokenMetadata } from '@/config/config.types'
+import { TokenMetadata } from '@/config/types'
 import { useStore } from '@/store'
 
 export default defineComponent({

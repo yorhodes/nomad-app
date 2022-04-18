@@ -185,7 +185,7 @@ import {
   PROCESS_TIME_IN_MINUTES,
 } from '@/config'
 import { minutesTilConfirmation } from '@/utils/time'
-import { NetworkName } from '@/config/config.types'
+import { NetworkName } from '@/config/types'
 
 export default defineComponent({
   props: {

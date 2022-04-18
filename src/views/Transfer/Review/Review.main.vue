@@ -141,7 +141,7 @@ import { AlertCircle } from '@vicons/ionicons5'
 import { useStore } from '@/store'
 import { networks } from '@/config'
 import { toDecimals, isEthereumNetwork, truncateAddr } from '@/utils'
-import { NetworkName } from '@/config/config.types'
+import { NetworkName } from '@/config/types'
 
 import Breadcrumb from '@/components/Breadcrumb.vue'
 import TransferSteps from '../Transfer.steps.vue'

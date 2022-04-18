@@ -10,7 +10,7 @@ import {
   MainnetNetwork,
   TestnetNetwork,
   TokenMetadata,
-} from '@/config/config.types'
+} from '@/config/types'
 import instantiateConnextSDK from '@/utils/connext'
 import { tokens } from '@/config'
 

@@ -6,6 +6,8 @@ export type MainnetNetwork = 'ethereum' | 'moonbeam' | 'milkomedaC1'
 export type TestnetNetwork = 'rinkeby' | 'kovan' | 'goerli' | 'xdai'
 export type NetworkName = MainnetNetwork | TestnetNetwork
 
+export type TokenIdentifierMap = { [key: string]: TokenIdentifier }
+export type TokenMetadataMap = { [key: string]: TokenMetadata }
 export type NetworkMap = { [key: string]: NetworkMetadata }
 
 export type TokenMetadata = {

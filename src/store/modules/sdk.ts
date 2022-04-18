@@ -9,7 +9,7 @@ import * as types from '@/store/mutation-types'
 import { networks, s3URL, nomadAPI } from '@/config/index'
 import { getBalance, getNativeBalance, getERC20Balance } from '@/utils/balance'
 import { isNativeToken, getNetworkByDomainID } from '@/utils/index'
-import { NetworkMetadata } from '@/config/config.types'
+import { NetworkMetadata } from '@/config/types'
 
 const environment = process.env.VUE_APP_NOMAD_ENVIRONMENT
 

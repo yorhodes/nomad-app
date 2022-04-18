@@ -7,7 +7,7 @@ import { MutationTree, ActionTree, GetterTree } from 'vuex'
 import { RootState } from '@/store'
 import * as types from '@/store/mutation-types'
 import { BigNumber } from 'ethers'
-import { TokenMetadata } from '@/config/config.types'
+import { TokenMetadata } from '@/config/types'
 import { nullToken } from '@/utils'
 
 export interface UserInputState {

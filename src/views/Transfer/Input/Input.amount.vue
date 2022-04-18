@@ -45,13 +45,25 @@
   />
 
   <!-- amount -->
-  <input
-    type="number"
-    ref="amount"
-    v-model="amt"
-    placeholder="0.00"
-    class="w-full text-5xl font-extra-light bg-transparent outline-none placeholder-white placeholder-opacity-60 text-center"
-  />
+  <div class="relative">
+    <n-input
+      type="number"
+      ref="amount"
+      placeholder="0.0"
+      v-model:value="amt"
+      size="large"
+      autosize
+      style="min-width: 100px; max-width: 300px; min-height: 70px"
+      class="input text-5xl overflow-visible font-extra-light bg-transparent outline-none text-center"
+    />
+    <button
+      v-if="balance && token.symbol && !token.nativeOnly"
+      class="capitalize absolute left-[100%] ml-2 h-full text-lg opacity-70"
+      @click="max"
+    >
+      Max
+    </button>
+  </div>
 
   <!-- amount errors -->
   <p
@@ -75,7 +87,7 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
-import { NText, NTooltip } from 'naive-ui'
+import { NText, NTooltip, NInput } from 'naive-ui'
 import { utils, BigNumber } from 'ethers'
 import useVuelidate from '@vuelidate/core'
 import { helpers } from '@vuelidate/validators'
@@ -86,7 +98,7 @@ import { TokenMetadata } from '@/config/config.types'
 import TokenSelect from './Input.tokens.vue'
 
 interface ComponentData {
-  amt: number | null
+  amt: string
   showTokenSelect: boolean
   amtInUSD: string
   toDecimals: (
@@ -100,12 +112,13 @@ export default defineComponent({
   components: {
     NText,
     NTooltip,
+    NInput,
     TokenSelect,
   },
   data() {
     return {
       showTokenSelect: false,
-      amt: null,
+      amt: '',
       amtInUSD: '',
       toDecimals,
     } as ComponentData
@@ -127,7 +140,7 @@ export default defineComponent({
       amt: {
         required: helpers.withMessage('Enter an amount to bridge', () => {
           if (!this.amt) return false
-          return this.amt > 0
+          return Number.parseFloat(this.amt) > 0
         }),
         noToken: helpers.withMessage(
           'No token selected',
@@ -182,8 +195,17 @@ export default defineComponent({
         this.amtInUSD = ''
         return
       }
-      const amtInUSD = (await getMinAmount(coinGeckoId)) * this.amt
+      const amtInUSD =
+        (await getMinAmount(coinGeckoId)) * Number.parseFloat(this.amt)
       this.amtInUSD = amtInUSD.toFixed(2).toString()
+    },
+    max() {
+      if (!this.balance || !this.token.symbol) return
+      const formattedBalance = toDecimals(this.balance, this.token.decimals)
+      this.amt = formattedBalance
+
+      const input = this.$refs.amount as typeof NInput
+      input.inputMirrorElRef.innerHTML = formattedBalance
     },
   },
   watch: {
@@ -192,8 +214,7 @@ export default defineComponent({
       this.updateAmtInUSD(newToken.coinGeckoId)
     },
     async amt(newAmt) {
-      this.v$.amt.$touch()
-      this.store.dispatch('setSendAmount', newAmt || 0)
+      this.store.dispatch('setSendAmount', newAmt || '0')
       if (this.token.coinGeckoId) {
         // TODO: we might want to debounce this function depending on performance
         await this.updateAmtInUSD(this.token.coinGeckoId)
@@ -202,3 +223,25 @@ export default defineComponent({
   },
 })
 </script>
+
+<style scoped>
+.input {
+  outline: none !important;
+  border: none !important;
+  background-color: transparent !important;
+  --n-border-hover: none !important;
+  --n-border-focus: none !important;
+  --n-box-shadow-focus: none !important;
+  --n-border: none !important;
+}
+.input:hover {
+  outline: none !important;
+  border: none !important;
+  background-color: transparent !important;
+}
+.input:focus {
+  outline: none !important;
+  border: none !important;
+  background-color: transparent !important;
+}
+</style>

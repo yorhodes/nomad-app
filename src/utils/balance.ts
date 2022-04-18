@@ -1,51 +1,23 @@
 import { Web3Provider } from '@ethersproject/providers'
 import { BigNumber } from '@ethersproject/bignumber'
-import { NomadContext } from '@nomad-xyz/sdk'
-import { TokenIdentifier } from '@nomad-xyz/sdk/nomad'
-import { Address } from '@nomad-xyz/sdk/utils'
-import { ERC20__factory } from '@nomad-xyz/contract-interfaces/bridge'
+import { TokenIdentifier, BridgeContext } from '@nomad-xyz/sdk-bridge'
+import { ERC20__factory } from '@nomad-xyz/contracts-bridge'
 
-export async function getBalances(
-  context: NomadContext,
-  token: TokenIdentifier,
-  address: Address
-): Promise<Record<number, BigNumber> | undefined> {
-  try {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    const representations = await context.resolveRepresentations(token)
-    const balances: Record<number, BigNumber> = {}
-    let domain, instance
-
-    for ([domain, instance] of representations.tokens.entries()) {
-      console.log({ instance })
-      balances[domain] = await instance.balanceOf(address)
-    }
-    return balances
-  } catch (e) {
-    console.log('getBalances error', e)
-  }
-}
+type Address = string
 
 export async function getBalance(
-  context: NomadContext,
+  context: BridgeContext,
   token: TokenIdentifier,
   address: Address,
   domain: number
 ): Promise<BigNumber | undefined> {
-  let key, instance, balance
-  const representations = await context.resolveRepresentations(token)
-  const tokenEntries = representations.tokens.entries()
-
-  for ([key, instance] of tokenEntries) {
-    if (domain === key) {
-      balance = await instance.balanceOf(address)
-      return balance
-    }
-  }
+  const contract = await context.resolveRepresentation(domain, token)
+  if (!contract) return BigNumber.from(0)
+  return await contract.balanceOf(address)
 }
 
 export async function getNativeBalance(
-  context: NomadContext,
+  context: BridgeContext,
   network: string,
   address: string
 ): Promise<BigNumber | undefined> {

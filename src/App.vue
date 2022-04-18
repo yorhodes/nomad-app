@@ -8,7 +8,7 @@
         title="Under maintenance, temporarily unavailable:"
       >
         <span
-          v-for="domain in failedHomes"
+          v-for="(domain, i) in failedHomes"
           :key="domain"
           class="capitalize mr-2"
         >
@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { defineComponent } from 'vue'
 import { BigNumber } from 'ethers'
 import { useStore } from '@/store'
 import { getNetworkByChainID } from '@/utils'
@@ -43,6 +43,11 @@ export default defineComponent({
     Footer,
     CardAlert,
   },
+
+  data: () => ({
+    failedHomes: new Set(),
+  }),
+
   async mounted() {
     const store = useStore()
     const { ethereum } = window
@@ -50,6 +55,11 @@ export default defineComponent({
     // instantiate Nomad & Connext
     await store.dispatch('instantiateNomad')
     await store.dispatch('instantiateConnext')
+
+    // set failedHomes
+    setInterval(() => {
+      this.failedHomes = store.getters.blacklist()
+    }, 3000)
 
     if (ethereum && ethereum.isMetamask) {
       // check if user is connected
@@ -82,13 +92,6 @@ export default defineComponent({
     }
   },
 
-  setup() {
-    const store = useStore()
-
-    return {
-      failedHomes: computed(() => store.state.sdk.blacklist),
-    }
-  },
   methods: { getNetworkByDomainID },
 })
 </script>

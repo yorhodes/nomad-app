@@ -1,11 +1,11 @@
-import { BigNumber, utils, BytesLike } from 'ethers'
+import { BigNumber, utils } from 'ethers'
 
 import { networks, tokens, hubNetwork } from '@/config'
 import {
   NetworkMetadata,
   TokenMetadata,
   NetworkName,
-} from '@/config/config.types'
+} from '@/config/types'
 
 const coinGeckoIds = Object.values(tokens).map((t) => t.coinGeckoId)
 

@@ -2,9 +2,8 @@ import { SdkBaseChainConfigParams } from '@connext/nxtp-sdk'
 import { NomadConfig } from '@nomad-xyz/configuration'
 // TODO: cleanup the dev / main files, might be able
 // to consolidate the config / token files by environment
-import { tokens as devTokens } from './config.dev'
-import { tokens as mainTokens } from './config.main'
-import { NetworkMetadata, NetworkMap } from './config.types'
+import { testnetTokens, mainnetTokens } from './tokens'
+import { NetworkMetadata, NetworkMap } from './types'
 
 const environment = process.env.VUE_APP_NOMAD_ENVIRONMENT
 
@@ -17,8 +16,7 @@ const ethereumRPCs = configuration.getBuiltin('production').rpcs.ethereum
 
 export const isProduction = environment === 'production'
 
-// NOTE: Is there a better way to define these, might make more sense to separate out prod from dev values
-export const tokens = isProduction ? mainTokens : devTokens
+export const tokens = isProduction ? mainnetTokens : testnetTokens
 export const networks = getNetworksFromConfig(config)
 export const connextConfig = getConnextConfigFromConfig(config, ethereumRPCs)
 export const hubNetwork = isProduction ? networks.ethereum : networks.rinkeby

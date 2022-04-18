@@ -7,7 +7,7 @@ import {
   MainnetNetwork,
   TestnetNetwork,
   TokenMetadata,
-} from '@/config/config.types'
+} from '@/config/types'
 
 export type SwapData = {
   origin: MainnetNetwork | TestnetNetwork

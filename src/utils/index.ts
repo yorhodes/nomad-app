@@ -25,6 +25,16 @@ export function toNetworkName(name: string): NetworkName | undefined {
       return 'milkomedaC1'
     case 'ethereum':
       return 'ethereum'
+    case 'kovan':
+      return 'kovan'
+    case 'rinkeby':
+      return 'rinkeby'
+    case 'goerli':
+      return 'goerli'
+    // case 'moonbasealpha':
+    //   return 'moonbasealpha'
+    // case 'evmostestnet':
+    //   return 'evmostestnet'
     default:
       throw new Error('not a supported network')
   }

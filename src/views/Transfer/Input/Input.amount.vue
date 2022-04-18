@@ -53,7 +53,7 @@
       v-model:value="amt"
       size="large"
       autosize
-      style="min-width: 100px; max-width: 300px; min-height: 70px;"
+      style="min-width: 100px; max-width: 300px; min-height: 70px"
       class="input text-5xl overflow-visible font-extra-light bg-transparent outline-none text-center"
     />
     <button
@@ -195,7 +195,8 @@ export default defineComponent({
         this.amtInUSD = ''
         return
       }
-      const amtInUSD = (await getMinAmount(coinGeckoId)) * Number.parseFloat(this.amt)
+      const amtInUSD =
+        (await getMinAmount(coinGeckoId)) * Number.parseFloat(this.amt)
       this.amtInUSD = amtInUSD.toFixed(2).toString()
     },
     max() {
@@ -203,7 +204,7 @@ export default defineComponent({
       const formattedBalance = toDecimals(this.balance, this.token.decimals)
       this.amt = formattedBalance
 
-      const input = (this.$refs.amount as typeof NInput)
+      const input = this.$refs.amount as typeof NInput
       input.inputMirrorElRef.innerHTML = formattedBalance
     },
   },

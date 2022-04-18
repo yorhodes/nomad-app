@@ -1,7 +1,11 @@
 import { BigNumber, utils, BytesLike } from 'ethers'
 
 import { networks, tokens, hubNetwork } from '@/config'
-import { NetworkMetadata, TokenMetadata, NetworkName } from '@/config/config.types'
+import {
+  NetworkMetadata,
+  TokenMetadata,
+  NetworkName,
+} from '@/config/config.types'
 
 const coinGeckoIds = Object.values(tokens).map((t) => t.coinGeckoId)
 
@@ -18,7 +22,7 @@ export type NaiveOption = {
 }
 
 export function toNetworkName(name: string): NetworkName | undefined {
-  switch(name.toLowerCase()) {
+  switch (name.toLowerCase()) {
     case 'moonbeam':
       return 'moonbeam'
     case 'milkomedac1':

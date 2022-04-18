@@ -45,7 +45,7 @@ export default defineComponent({
   },
 
   data: () => ({
-    failedHomes: new Set()
+    failedHomes: new Set(),
   }),
 
   async mounted() {

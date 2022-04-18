@@ -44,11 +44,7 @@
       <n-text v-else>{{ nullVal }}</n-text>
     </detail>
     <detail title="TRANSFER INITIATED">
-      <n-time
-        v-if="timeSent"
-        :time="timeSent"
-        format="yyyy-MM-dd hh:mm"
-      />
+      <n-time v-if="timeSent" :time="timeSent" format="yyyy-MM-dd hh:mm" />
       <n-text v-else>{{ nullVal }}</n-text>
     </detail>
 
@@ -228,13 +224,13 @@ export default defineComponent({
         })
         try {
           this.confirmAt = await message.confirmAt()
-        } catch(e) {
+        } catch (e) {
           console.error(e)
         }
       }
       // set status after we have confirmAt
       this.status = tx.state
-    }
+    },
   },
 
   computed: {

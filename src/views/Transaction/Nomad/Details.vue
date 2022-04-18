@@ -220,7 +220,7 @@ export default defineComponent({
           // give 10 minute padding
           const { confirmationTimeInMinutes } = networks[this.originNet]
           const confirmationTime = (confirmationTimeInMinutes + 10) * 60
-          this.confirmAt = tx.relayedAt + confirmationTime
+          this.confirmAt = BigNumber.from(tx.relayedAt + confirmationTime)
         }
         const message = await this.store.getters.getTxMessage({
           network: this.originNet,

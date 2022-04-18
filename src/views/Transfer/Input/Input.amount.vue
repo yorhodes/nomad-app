@@ -49,11 +49,11 @@
     <n-input
       type="number"
       ref="amount"
-      placeholder="0.00"
+      placeholder="0.0"
       v-model:value="amt"
       size="large"
       autosize
-      style="min-width: 100px; min-height: 70px;"
+      style="min-width: 100px; max-width: 300px; min-height: 70px;"
       class="input text-5xl overflow-visible font-extra-light bg-transparent outline-none text-center"
     />
     <button
@@ -98,7 +98,7 @@ import { TokenMetadata } from '@/config/config.types'
 import TokenSelect from './Input.tokens.vue'
 
 interface ComponentData {
-  amt: number | null
+  amt: string
   showTokenSelect: boolean
   amtInUSD: string
   toDecimals: (
@@ -118,7 +118,7 @@ export default defineComponent({
   data() {
     return {
       showTokenSelect: false,
-      amt: null,
+      amt: '',
       amtInUSD: '',
       toDecimals,
     } as ComponentData
@@ -140,7 +140,7 @@ export default defineComponent({
       amt: {
         required: helpers.withMessage('Enter an amount to bridge', () => {
           if (!this.amt) return false
-          return this.amt > 0
+          return Number.parseFloat(this.amt) > 0
         }),
         noToken: helpers.withMessage(
           'No token selected',
@@ -195,13 +195,16 @@ export default defineComponent({
         this.amtInUSD = ''
         return
       }
-      const amtInUSD = (await getMinAmount(coinGeckoId)) * this.amt
+      const amtInUSD = (await getMinAmount(coinGeckoId)) * Number.parseFloat(this.amt)
       this.amtInUSD = amtInUSD.toFixed(2).toString()
     },
     max() {
       if (!this.balance || !this.token.symbol) return
       const formattedBalance = toDecimals(this.balance, this.token.decimals)
-      this.amt = Number.parseFloat(formattedBalance)
+      this.amt = formattedBalance
+
+      const input = (this.$refs.amount as typeof NInput)
+      input.inputMirrorElRef.innerHTML = formattedBalance
     },
   },
   watch: {

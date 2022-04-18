@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { defineComponent } from 'vue'
 import { BigNumber } from 'ethers'
 import { useStore } from '@/store'
 import { getNetworkByChainID } from '@/utils'

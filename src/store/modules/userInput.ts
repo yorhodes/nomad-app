@@ -65,8 +65,8 @@ const actions = <ActionTree<UserInputState, RootState>>{
     commit(types.SET_DESTINATION_ADDRESS, address)
   },
 
-  setSendAmount({ commit }, amount: number) {
-    commit(types.SET_SEND_AMOUNT, amount)
+  setSendAmount({ commit }, amount: string) {
+    commit(types.SET_SEND_AMOUNT, Number.parseFloat(amount))
   },
 
   async setOriginNetwork({ commit, rootGetters }, network: string) {

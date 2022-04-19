@@ -1,5 +1,8 @@
 import { TokenMetadataMap } from './types'
-import { testnetTokenIdentifiers, mainnetTokenIdentifiers } from './tokenIdentifiers'
+import {
+  testnetTokenIdentifiers,
+  mainnetTokenIdentifiers,
+} from './tokenIdentifiers'
 
 // TESTNET TOKEN ICONS
 import rWETHIcon from '@/assets/token-logos/rWETH.png'
@@ -25,7 +28,6 @@ import CQTIcon from '@/assets/token-logos/CQT.png'
 import USDTIcon from '@/assets/token-logos/USDT.png'
 import USDCIcon from '@/assets/token-logos/USDC.png'
 import DAIIcon from '@/assets/token-logos/DAI.png'
-
 
 export const testnetTokens: TokenMetadataMap = {
   // Only for use with connext in dev environment

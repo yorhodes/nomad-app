@@ -1,6 +1,5 @@
 import { TokenIdentifierMap } from './types'
 
-
 // --- TESTNET TOKEN IDENTIFIERS ---
 // IMPORTANT make name same as tokens[token].symbol value
 export const testnetTokenIdentifiers: TokenIdentifierMap = {
@@ -40,20 +39,19 @@ export const testnetTokenIdentifiers: TokenIdentifierMap = {
     domain: 'xdai',
     id: '0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d',
   },
-//   DEV: {
-//     domain: 'moonbasealpha',
-//     id: '0x0000000000000000000000000000000000000802',
-//   },
-//   wADA: {
-//   domain: 'milkomedaC1testnet',
-//   id: '0x65a51E52eCD17B641f8F0D1d56a6c9738951FDC9',
-//   },
-//   wtEVMOS: {
-//     domain: 'evmostestnet',
-//     id: '0xEE8003bdB024a4195D433c555d55AA663B8C022C',
-//   },
+  //   DEV: {
+  //     domain: 'moonbasealpha',
+  //     id: '0x0000000000000000000000000000000000000802',
+  //   },
+  //   wADA: {
+  //   domain: 'milkomedaC1testnet',
+  //   id: '0x65a51E52eCD17B641f8F0D1d56a6c9738951FDC9',
+  //   },
+  //   wtEVMOS: {
+  //     domain: 'evmostestnet',
+  //     id: '0xEE8003bdB024a4195D433c555d55AA663B8C022C',
+  //   },
 }
-
 
 // --- MAINNET TOKEN IDENTIFIERS ---
 // IMPORTANT make name same as tokens[token].symbol value

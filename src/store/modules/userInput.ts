@@ -7,14 +7,15 @@ import { MutationTree, ActionTree, GetterTree } from 'vuex'
 import { RootState } from '@/store'
 import * as types from '@/store/mutation-types'
 import { BigNumber } from 'ethers'
-import { TokenMetadata } from '@/config/config.types'
+import { networks } from '@/config'
+import { TokenMetadata, NetworkName } from '@/config/config.types'
 import { nullToken } from '@/utils'
 
 export interface UserInputState {
   destinationAddress: string
   sendAmount: number
-  originNetwork: string
-  destinationNetwork: string
+  originNetwork: NetworkName | ''
+  destinationNetwork: NetworkName | ''
   token: TokenMetadata
   gasEst: BigNumber | null
 }
@@ -40,12 +41,12 @@ const mutations = <MutationTree<UserInputState>>{
     state.sendAmount = amount
   },
 
-  [types.SET_ORIGIN_NETWORK](state: UserInputState, network: string) {
+  [types.SET_ORIGIN_NETWORK](state: UserInputState, network: NetworkName | '') {
     console.log('{dispatch} set origin network: ', network)
     state.originNetwork = network
   },
 
-  [types.SET_DESTINATION_NETWORK](state: UserInputState, network: string) {
+  [types.SET_DESTINATION_NETWORK](state: UserInputState, network: NetworkName | '') {
     console.log('{dispatch} set destination network: ', network)
     state.destinationNetwork = network
   },
@@ -69,8 +70,14 @@ const actions = <ActionTree<UserInputState, RootState>>{
     commit(types.SET_SEND_AMOUNT, Number.parseFloat(amount))
   },
 
-  async setOriginNetwork({ commit, rootGetters }, network: string) {
+  async setOriginNetwork({ commit, state, rootGetters }, network: NetworkName) {
     commit(types.SET_ORIGIN_NETWORK, network)
+
+    // clear destination network if there is not a connection
+    const { connections } = networks[network]
+    const hasConnection = connections.includes(state.destinationNetwork as NetworkName)
+    if (!hasConnection) commit(types.SET_DESTINATION_NETWORK, '')
+
     try {
       const gasPrice = await rootGetters.getGasPrice(network)
       commit(types.SET_GAS_EST, gasPrice)
@@ -84,7 +91,7 @@ const actions = <ActionTree<UserInputState, RootState>>{
   },
 
   clearDestinationNetwork({ commit }) {
-    commit(types.SET_DESTINATION_NETWORK, null)
+    commit(types.SET_DESTINATION_NETWORK, '')
   },
 
   async setToken({ commit, state, dispatch }, token: TokenMetadata) {

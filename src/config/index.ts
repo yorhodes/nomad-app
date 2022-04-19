@@ -66,12 +66,10 @@ function getNetworksFromConfig(config: NomadConfig): NetworkMap {
 
   Object.keys(config.bridgeGui).forEach((networkName) => {
     // TODO: add separate connections field to bridgeGui object
-    const { displayName, nativeTokenSymbol, connections } = config.bridgeGui[networkName]
+    const { displayName, nativeTokenSymbol, connections } =
+      config.bridgeGui[networkName]
     const nativeToken = tokens[nativeTokenSymbol]
-    const {
-      name,
-      domain: domainID,
-    } = config.protocol.networks[networkName]
+    const { name, domain: domainID } = config.protocol.networks[networkName]
     const { chainId: chainID, blockExplorer } =
       config.protocol.networks[networkName].specs
     const rpcUrl = config.rpcs[networkName][0] // only 1 supported at the moment in the sdk

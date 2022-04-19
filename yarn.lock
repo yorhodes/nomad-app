@@ -1731,6 +1731,11 @@
   resolved "https://registry.yarnpkg.com/@nomad-xyz/configuration/-/configuration-0.1.0-rc.12.tgz#63cb27386886d0c4286f7be1d7a2bedf3616150e"
   integrity sha512-fkvN9YjXgIJkUulE7L552bfn0dsP4NOeJCrdp0YUELwbmOKJilLIN3i8igQ17z3uYwPViRhYDoFdEQH6EaCFNQ==
 
+"@nomad-xyz/configuration@^0.1.0-rc.11":
+  version "0.1.0-rc.11"
+  resolved "https://registry.yarnpkg.com/@nomad-xyz/configuration/-/configuration-0.1.0-rc.11.tgz#a49ab7dfb87748399197e810b415e0f5d1bce36b"
+  integrity sha512-d7XRVk+BihWBMZH4iISp0QZOGwLa64jt+0BHVzG+KVE1K/du5VNOHwphTp0bcMeMSMT1NLWuEUo1Ztom8J6csw==
+
 "@nomad-xyz/contracts-bridge@^1.0.0-rc.2":
   version "1.0.0-rc.2"
   resolved "https://registry.yarnpkg.com/@nomad-xyz/contracts-bridge/-/contracts-bridge-1.0.0-rc.2.tgz#11d7bc4e00a8abecbf0723240d1c5f485cb7cfac"

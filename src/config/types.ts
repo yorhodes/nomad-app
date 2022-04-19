@@ -35,4 +35,5 @@ export type NetworkMetadata = {
   blockExplorer: string
   icon: string
   confirmationTimeInMinutes: number
+  manualProcessing: boolean
 }

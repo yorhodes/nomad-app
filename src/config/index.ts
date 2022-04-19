@@ -1,7 +1,5 @@
 import { SdkBaseChainConfigParams } from '@connext/nxtp-sdk'
 import { NomadConfig } from '@nomad-xyz/configuration'
-// TODO: cleanup the dev / main files, might be able
-// to consolidate the config / token files by environment
 import { testnetTokens, mainnetTokens } from './tokens'
 import { NetworkMetadata, NetworkMap } from './types'
 
@@ -66,7 +64,7 @@ function getNetworksFromConfig(config: NomadConfig): NetworkMap {
 
   Object.keys(config.bridgeGui).forEach((networkName) => {
     // TODO: add separate connections field to bridgeGui object
-    const { displayName, nativeTokenSymbol, connections } =
+    const { displayName, nativeTokenSymbol, connections, manualProcessing } =
       config.bridgeGui[networkName]
     const nativeToken = tokens[nativeTokenSymbol]
     const { name, domain: domainID } = config.protocol.networks[networkName]
@@ -76,18 +74,20 @@ function getNetworksFromConfig(config: NomadConfig): NetworkMap {
     const { optimisticSeconds } =
       config.protocol.networks[networkName].configuration
     const confirmationTimeInMinutes = (optimisticSeconds as number) / 60
+    const icon = nativeToken.icon
 
     networks[networkName] = {
-      domainID,
-      chainID,
+      icon,
       name,
+      rpcUrl,
+      chainID,
+      domainID,
       displayName,
       nativeToken,
       connections,
       blockExplorer,
-      rpcUrl,
+      manualProcessing,
       confirmationTimeInMinutes,
-      icon: '',
     } as NetworkMetadata
   })
 

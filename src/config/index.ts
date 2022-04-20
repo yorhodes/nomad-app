@@ -10,7 +10,7 @@ const environment = process.env.VUE_APP_NOMAD_ENVIRONMENT
 // and then just export to use everywhere else
 const configuration = await import('@nomad-xyz/configuration')
 const config = configuration.getBuiltin(environment!)
-const ethereumRPCs = configuration.getBuiltin('production').rpcs.ethereum
+const ethereumRPCs = [process.env.VUE_APP_ETHEREUM_RPC!]
 
 export const isProduction = environment === 'production'
 

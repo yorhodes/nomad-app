@@ -206,6 +206,13 @@ export default defineComponent({
       const tx = (await res.json())[0] as any
       console.log('tx data: ', tx)
 
+      // due to a delay from when a transaction occurs
+      // to when it is indexed by the indexer, the
+      // transaction here might not exist yet
+      if (!tx) {
+        return
+      }
+
       if (tx.dispatchedAt > 0) {
         this.timeSent = tx.dispatchedAt * 1000
       }

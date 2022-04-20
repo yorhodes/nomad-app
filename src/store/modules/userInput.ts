@@ -11,6 +11,7 @@ import { TokenMetadata } from '@/config/config.types'
 import { nullToken } from '@/utils'
 
 export interface UserInputState {
+  acceptedTerms: string | null
   destinationAddress: string
   sendAmount: number
   originNetwork: string
@@ -20,6 +21,7 @@ export interface UserInputState {
 }
 
 const state: UserInputState = {
+  acceptedTerms: localStorage.getItem('accept_terms_date'),
   destinationAddress: '',
   sendAmount: 0,
   originNetwork: '',
@@ -29,6 +31,12 @@ const state: UserInputState = {
 }
 
 const mutations = <MutationTree<UserInputState>>{
+  [types.SET_ACCEPTED_TERMS](state: UserInputState) {
+    const date = Date.now().toString()
+    localStorage.setItem('accept_terms_date', date)
+    state.acceptedTerms = date
+  },
+
   [types.SET_DESTINATION_ADDRESS](state: UserInputState, address: string) {
     console.log('{dispatch} set destination address: ', address)
     state.destinationAddress = address
@@ -61,6 +69,10 @@ const mutations = <MutationTree<UserInputState>>{
 }
 
 const actions = <ActionTree<UserInputState, RootState>>{
+  acceptTerms({ commit }) {
+    commit(types.SET_ACCEPTED_TERMS)
+  },
+
   async setDestinationAddress({ commit }, address: string) {
     commit(types.SET_DESTINATION_ADDRESS, address)
   },

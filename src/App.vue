@@ -1,5 +1,7 @@
 <template>
   <div class="app-container">
+    <Disclaimer />
+
     <div class="header"><Nav /></div>
     <div class="main flex flex-col items-center m-auto relative">
       <!-- Display if any Homes are in a failed state -->
@@ -34,6 +36,7 @@ import { RouterView } from 'vue-router'
 import Nav from '@/components/Layout/Nav.vue'
 import Footer from '@/components/Layout/Footer.vue'
 import CardAlert from '@/components/CardAlert.vue'
+import Disclaimer from '@/views/Disclaimer.vue'
 import { getNetworkByDomainID } from '@/utils'
 
 export default defineComponent({
@@ -42,6 +45,7 @@ export default defineComponent({
     Nav,
     Footer,
     CardAlert,
+    Disclaimer,
   },
 
   data: () => ({

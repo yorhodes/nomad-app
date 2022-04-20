@@ -17,7 +17,10 @@ export const isProduction = environment === 'production'
 export const tokens = isProduction ? mainnetTokens : testnetTokens
 export const networks = getNetworksFromConfig(config)
 export const connextConfig = getConnextConfigFromConfig(config, ethereumRPCs)
-export const hubNetwork = isProduction ? networks.ethereum : networks.rinkeby
+
+// gui assumes that there is only 1 hub at the moment
+export const hubNetwork = Object.values(networks).find(network => network.manualProcessing)
+
 export const s3URL = isProduction
   ? 'https://nomadxyz-production-proofs.s3.us-west-2.amazonaws.com/'
   : 'https://nomadxyz-development-proofs.s3.us-west-2.amazonaws.com/'

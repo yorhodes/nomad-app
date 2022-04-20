@@ -43,9 +43,9 @@ export const testnetTokens: TokenMetadataMap = {
     nativeOnly: false,
     minAmt: 10,
   },
-  WETH: {
+  rWETH: {
     nativeNetwork: 'rinkeby',
-    symbol: 'WETH',
+    symbol: 'rWETH',
     name: 'Rinkeby WETH',
     icon: rWETHIcon,
     iconColors: ['#eda532', '#eda532'],
@@ -55,9 +55,9 @@ export const testnetTokens: TokenMetadataMap = {
     nativeOnly: false,
     minAmt: 0.0028,
   },
-  ETH: {
+  rETH: {
     nativeNetwork: 'rinkeby',
-    symbol: 'ETH',
+    symbol: 'rETH',
     name: 'Rinkeby ETH',
     icon: rWETHIcon,
     iconColors: ['#eda532', '#eda532'],
@@ -66,7 +66,7 @@ export const testnetTokens: TokenMetadataMap = {
     tokenIdentifier: null,
     nativeOnly: true,
     minAmt: 0.0028,
-    wrappedAsset: 'WETH',
+    wrappedAsset: 'rWETH',
   },
   kWETH: {
     nativeNetwork: 'kovan',
@@ -154,10 +154,10 @@ export const testnetTokens: TokenMetadataMap = {
     nativeOnly: false,
     minAmt: 10,
   },
-  XDAI: {
+  xDai: {
     nativeNetwork: 'xdai',
-    symbol: 'XDAI',
-    name: 'XDAI',
+    symbol: 'xDai',
+    name: 'xDai',
     icon: XDAIIcon,
     iconColors: ['#03795B', '#03795B'],
     decimals: 18,
@@ -166,7 +166,7 @@ export const testnetTokens: TokenMetadataMap = {
     nativeOnly: true,
     minAmt: 10,
   },
-  WXDAI: {
+  wxDai: {
     nativeNetwork: 'xdai',
     symbol: 'WXDAI',
     name: 'WXDAI',

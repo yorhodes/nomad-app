@@ -18,7 +18,8 @@
         <n-text class="opacity-50">Origin</n-text>
         <div class="flex flex-row items-center max-w-[300]">
           <n-text class="font-bold text-base">
-            {{ getDisplayName(originNetwork) }}
+            <span v-if="originNetwork">{{ getDisplayName(originNetwork) }}</span>
+            <span v-else class="capitalize opacity-60">Select network</span>
           </n-text>
           <img src="@/assets/icons/select.svg" class="ml-1" />
         </div>
@@ -43,7 +44,7 @@
         class="validation-err text-red-500 text-xs"
         v-if="v$.destinationNetwork.$invalid"
       >
-        * required
+        {{ v$.destinationNetwork.$errors[0].$message }}
       </p>
       <!-- network selector -->
       <div
@@ -53,7 +54,8 @@
         <n-text class="opacity-50">Destination</n-text>
         <div class="flex flex-row items-center max-w-[300]">
           <n-text class="font-bold text-base">
-            {{ getDisplayName(destinationNetwork) }}
+            <span v-if="destinationNetwork">{{ getDisplayName(destinationNetwork) }}</span>
+            <span v-else class="capitalize opacity-60">Select network</span>
           </n-text>
           <img src="@/assets/icons/select.svg" class="ml-1" />
         </div>
@@ -112,11 +114,12 @@
 import { defineComponent, computed } from 'vue'
 import { NText, NDivider, NButton } from 'naive-ui'
 import useVuelidate from '@vuelidate/core'
-import { required } from '@vuelidate/validators'
+import { required, helpers } from '@vuelidate/validators'
 
 import { useStore } from '@/store'
 import { truncateAddr, isValidAddress } from '@/utils/index'
 import { networks } from '@/config'
+import { NetworkName } from '@/config/config.types'
 import NetworkSelect from './Input.networks.vue'
 import EditRecipient from './Input.recipient.vue'
 
@@ -161,7 +164,20 @@ export default defineComponent({
   validations() {
     return {
       originNetwork: { required, $lazy: true },
-      destinationNetwork: { required, $lazy: true },
+      destinationNetwork: {
+        required: helpers.withMessage(
+          '* required',
+          () => !!this.destinationNetwork
+        ),
+        noToken: helpers.withMessage(
+          '* invalid',
+          () => {
+            const { connections } = networks[this.originNetwork]
+            return connections.includes(this.destinationNetwork as NetworkName)
+          }
+        ),
+        $lazy: true,
+      },
       destinationAddr: {
         required,
         isValid: (value: string) => isValidAddress(value),
@@ -170,8 +186,8 @@ export default defineComponent({
     }
   },
   methods: {
-    getDisplayName(name: string) {
-      if (!name) return 'Select Network'
+    getDisplayName(name: NetworkName) {
+      if (!name) return
       return networks[name].displayName
     },
   },

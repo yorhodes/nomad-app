@@ -7,6 +7,10 @@ Unreleased
 --------------------------------
 - WalletConnect support
 
+v1.4.1 (Apr 19th, 2022)
+--------------------------------
+- Robust network validation
+
 v1.4.0 (Apr 18th, 2022)
 --------------------------------
 - SDK upgrade

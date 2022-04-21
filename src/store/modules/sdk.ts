@@ -143,7 +143,7 @@ const actions = <ActionTree<SDKState, RootState>>{
 
     nomad.clearSigners()
     nomad.missingProviders
-      .map(numberString => parseInt(numberString))
+      .map((numberString) => parseInt(numberString))
       .forEach((domain: number) => {
         const network = getNetworkByDomainID(domain)
         nomad.registerRpcProvider(networkName, network.rpcUrl)

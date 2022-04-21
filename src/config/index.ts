@@ -1,5 +1,8 @@
 import { testnetTokens, mainnetTokens } from './tokens'
-import { getNetworksFromConfig, getConnextConfigFromConfig } from '@/utils/config'
+import {
+  getNetworksFromConfig,
+  getConnextConfigFromConfig,
+} from '@/utils/config'
 
 const environment = process.env.VUE_APP_NOMAD_ENVIRONMENT!
 
@@ -9,10 +12,14 @@ const config = configuration.getBuiltin(environment)
 export const isProduction = environment === 'production'
 export const tokens = isProduction ? mainnetTokens : testnetTokens
 export const networks = getNetworksFromConfig(config, tokens)
-export const connextConfig = getConnextConfigFromConfig(config, [process.env.VUE_APP_ETHEREUM_RPC!])
+export const connextConfig = getConnextConfigFromConfig(config, [
+  process.env.VUE_APP_ETHEREUM_RPC!,
+])
 
 // gui assumes that there is only 1 hub at the moment
-export const hubNetwork = Object.values(networks).find(network => network.manualProcessing)!
+export const hubNetwork = Object.values(networks).find(
+  (network) => network.manualProcessing
+)!
 
 export const s3URL = isProduction
   ? 'https://nomadxyz-production-proofs.s3.us-west-2.amazonaws.com/'

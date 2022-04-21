@@ -3,11 +3,7 @@ import { NxtpSdk } from '@connext/nxtp-sdk'
 import { Logger } from '@connext/nxtp-utils'
 
 import { connextConfig, isProduction } from '@/config'
-import {
-  MainnetNetwork,
-  TestnetNetwork,
-  TokenMetadata,
-} from '@/config/types'
+import { MainnetNetwork, TestnetNetwork, TokenMetadata } from '@/config/types'
 
 export type SwapData = {
   origin: MainnetNetwork | TestnetNetwork

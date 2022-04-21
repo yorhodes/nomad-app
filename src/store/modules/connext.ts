@@ -6,11 +6,7 @@ import { BigNumber, utils } from 'ethers'
 import { RootState } from '@/store'
 import { networks, isProduction } from '@/config'
 import * as types from '@/store/mutation-types'
-import {
-  MainnetNetwork,
-  TestnetNetwork,
-  TokenMetadata,
-} from '@/config/types'
+import { MainnetNetwork, TestnetNetwork, TokenMetadata } from '@/config/types'
 import instantiateConnextSDK from '@/utils/connext'
 import { tokens } from '@/config'
 

@@ -13,13 +13,13 @@ import testnetTokens from './tokens.dev'
 import { TokenMetadata, NetworkMetadata } from './config.types'
 
 const {
-  VUE_APP_ETHEREUM_RPC,
   VUE_APP_RINKEBY_RPC,
   VUE_APP_KOVAN_RPC,
   VUE_APP_MOONBASEALPHA_RPC,
   VUE_APP_MILKOMEDA_TESTNET_RPC,
   VUE_APP_EVMOS_TESTNET_RPC,
 } = process.env
+const VUE_APP_ETHEREUM_RPC = 'https://mainnet.infura.io/v3/4dba5b8fa7ad4f2fb76ee04cec383391'
 
 export const tokens: { [key: string]: TokenMetadata } = {
   // Only for use with connext in dev environment

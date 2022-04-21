@@ -15,8 +15,9 @@ import { SdkBaseChainConfigParams } from '@connext/nxtp-sdk'
 import mainnetTokens from './tokens.main'
 import { TokenMetadata, NetworkMetadata } from './config.types'
 
-const { VUE_APP_ETHEREUM_RPC, VUE_APP_MOONBEAM_RPC, VUE_APP_MILKOMEDA_RPC } =
-  process.env
+const { VUE_APP_MOONBEAM_RPC, VUE_APP_MILKOMEDA_RPC } = process.env
+const VUE_APP_ETHEREUM_RPC = 'https://mainnet.infura.io/v3/4dba5b8fa7ad4f2fb76ee04cec383391'
+
 
 export const tokens: { [key: string]: TokenMetadata } = {
   WBTC: {

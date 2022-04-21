@@ -1726,10 +1726,10 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@nomad-xyz/configuration@^0.1.0-rc.10":
-  version "0.1.0-rc.10"
-  resolved "https://registry.yarnpkg.com/@nomad-xyz/configuration/-/configuration-0.1.0-rc.10.tgz#c63416b61d90ed14c7c576ee991b9107cd9d0f85"
-  integrity sha512-NLzMvInj0P9RQXqBYODCHZxbhn5vDZoAR+hsVHwgYRMcQUHFnPdA0DZIzeq0GfsOcvU6ixBcDwbeqX3R4xoc7A==
+"@nomad-xyz/configuration@^0.1.0-rc.12":
+  version "0.1.0-rc.12"
+  resolved "https://registry.yarnpkg.com/@nomad-xyz/configuration/-/configuration-0.1.0-rc.12.tgz#63cb27386886d0c4286f7be1d7a2bedf3616150e"
+  integrity sha512-fkvN9YjXgIJkUulE7L552bfn0dsP4NOeJCrdp0YUELwbmOKJilLIN3i8igQ17z3uYwPViRhYDoFdEQH6EaCFNQ==
 
 "@nomad-xyz/contracts-bridge@^1.0.0-rc.2":
   version "1.0.0-rc.2"
@@ -1769,23 +1769,23 @@
     ethers "^5.4.6"
     web3 "^1.6.1"
 
-"@nomad-xyz/sdk-bridge@^1.0.0-rc.7":
-  version "1.0.0-rc.7"
-  resolved "https://registry.yarnpkg.com/@nomad-xyz/sdk-bridge/-/sdk-bridge-1.0.0-rc.7.tgz#75e566bf36e2f3405a99e5077c00c76245efc520"
-  integrity sha512-pp+SCUN+aDrteE8t1e5uiew+lHUEgNYNrhkCsYOKJ1Gr6eVLTkYbB/UCGdJDrbPkDZawUXqVKH6STfFZoYO/bg==
+"@nomad-xyz/sdk-bridge@^1.0.0-rc.8":
+  version "1.0.0-rc.8"
+  resolved "https://registry.yarnpkg.com/@nomad-xyz/sdk-bridge/-/sdk-bridge-1.0.0-rc.8.tgz#f788155f46e883225b7fc5ef221e44249b49891c"
+  integrity sha512-Wb1lQtkoMZKcSerPw9wXe/L11SrLLtjgdFFjLiGa2JLSgBejAPDgN6HDx7V2Xm+bNIhZWDDFZ6U1Qykxddv16w==
   dependencies:
-    "@nomad-xyz/configuration" "^0.1.0-rc.10"
+    "@nomad-xyz/configuration" "^0.1.0-rc.12"
     "@nomad-xyz/contracts-bridge" "^1.0.0-rc.2"
-    "@nomad-xyz/sdk" "^2.0.0-rc.7"
+    "@nomad-xyz/sdk" "^2.0.0-rc.8"
     ethers "^5.0.0"
     web3 "^1.6.1"
 
-"@nomad-xyz/sdk@^2.0.0-rc.7":
-  version "2.0.0-rc.7"
-  resolved "https://registry.yarnpkg.com/@nomad-xyz/sdk/-/sdk-2.0.0-rc.7.tgz#31c37053d2e1a35fbab80cbb9bd75015b38837ec"
-  integrity sha512-n3LjKZEYefeMc8z3gFsHgpn3qo7jN4auU2YxYNDIz+2yNKgwTE7pwhEKs7Hjc/uZVj24R87eH2SpC8vdUr3CnA==
+"@nomad-xyz/sdk@^2.0.0-rc.8":
+  version "2.0.0-rc.8"
+  resolved "https://registry.yarnpkg.com/@nomad-xyz/sdk/-/sdk-2.0.0-rc.8.tgz#4ce654039379b169ecd8b4f3f1ef109a3bf5fcbf"
+  integrity sha512-ZANNkLlUj69O/87nrLg18rvb0dLkq1IcyBB74GgNGSZbnAIqiQa/lUMMeyND7HbRv2fA/+VER0N6DqF1kGgK5g==
   dependencies:
-    "@nomad-xyz/configuration" "^0.1.0-rc.10"
+    "@nomad-xyz/configuration" "^0.1.0-rc.12"
     "@nomad-xyz/contracts-core" "^1.0.0-rc.2"
     "@nomad-xyz/multi-provider" "^1.0.0-rc.4"
     ethers "^5.0.0"

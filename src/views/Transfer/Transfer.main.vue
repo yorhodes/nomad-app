@@ -1,10 +1,11 @@
 <template>
-  <transfer-input v-if="step === 1" @next="step = 2" />
-  <transfer-review v-if="step === 2" @back="step = 1" />
+  <transfer-input v-if="step === 1" />
+  <transfer-review v-if="step === 2" />
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, computed } from 'vue'
+import { useStore } from '@/store'
 import TransferInput from './Input/Input.main.vue'
 import TransferReview from './Review/Review.main.vue'
 
@@ -13,8 +14,11 @@ export default defineComponent({
     TransferInput,
     TransferReview,
   },
-  data: () => ({
-    step: 1,
-  }),
+  setup: () => {
+    const store = useStore()
+    return {
+      step: computed(() => store.state.userInput.step),
+    }
+  },
 })
 </script>

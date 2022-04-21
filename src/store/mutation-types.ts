@@ -3,6 +3,7 @@ export const SET_WALLET_CONNECTION = 'wallet/SET_WALLET_CONNECTION'
 export const SET_WALLET_ADDRESS = 'wallet/SET_WALLET_ADDRESS'
 
 // userInput
+export const SET_TRANSFER_STEP = 'userInput/SET_TRANSFER_STEP'
 export const SET_DISABLE_CONNEXT = 'userInput/SET_DISABLE_CONNEXT'
 export const OVERRIDE_CONNEXT = 'userInput/OVERRIDE_CONNEXT'
 export const SET_DESTINATION_ADDRESS = 'userInput/SET_DESTINATION_ADDRESS'

@@ -198,11 +198,9 @@ const actions = <ActionTree<SDKState, RootState>>{
       return transferMessage
     } catch (e) {
       await dispatch('checkFailedHomes')
-      console.error(e)
+      commit(types.SET_SENDING, false)
+      throw e
     }
-
-    commit(types.SET_SENDING, false)
-    return null
   },
   async processTx({ dispatch }, txId: string) {
     // get transfer message

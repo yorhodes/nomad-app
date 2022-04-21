@@ -22,7 +22,6 @@ import { networks, connextScanURL } from '@/config'
 import { isNativeToken, getNetworkDomainIDByName } from '@/utils'
 
 export default defineComponent({
-  emits: ['back'],
   props: {
     protocol: {
       // TODO: make better type
@@ -63,7 +62,7 @@ export default defineComponent({
       }
       // clear user input and switch back to input screen
       this.store.dispatch('clearInputs')
-      this.$emit('back')
+      this.store.dispatch('setTransferStep', 1)
     },
     async bridge() {
       const {
@@ -84,19 +83,17 @@ export default defineComponent({
         amnt: utils.parseUnits(sendAmount.toString(), token.decimals),
         recipient: destinationAddress,
       }
+
       // send tx
-      // null if not successful
-      const transferMessage = await this.store.dispatch('send', payload)
-      // handle tx success/error
-      if (transferMessage) {
+      try {
+        const transferMessage = await this.store.dispatch('send', payload)
         console.log('transferMessage', transferMessage)
         const txHash = transferMessage.receipt.transactionHash
         this.$router.push(`/tx/nomad/${originNetwork}/${txHash}`)
-      } else {
-        this.notification.warning({
+      } catch (e: any) {
+        this.notification.error({
           title: 'Transaction send failed',
-          content:
-            'We encountered an error while dispatching your transaction.',
+          description: e.message,
         })
       }
     },
@@ -118,7 +115,6 @@ export default defineComponent({
         this.notification.error({
           title: 'Error sending Connext transaction',
           description: e.message,
-          duration: 3000,
         })
       }
     },

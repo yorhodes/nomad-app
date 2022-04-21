@@ -210,22 +210,23 @@ export default defineComponent({
         this.timeSent = tx.dispatchedAt * 1000
       }
 
-      if (tx.state === 2) {
-        if (tx.relayedAt && tx.relayedAt > 0) {
-          // calculate confirmation time (in case confirmAt check errors out)
-          // give 10 minute padding
-          const { confirmationTimeInMinutes } = networks[this.originNet]
-          const confirmationTime = (confirmationTimeInMinutes + 10) * 60
-          this.confirmAt = BigNumber.from(tx.relayedAt + confirmationTime)
-        }
-        const message = await this.store.getters.getTxMessage({
-          network: this.originNet,
-          hash: id,
-        })
+      if (tx.state === 2 && !this.confirmAt) {
         try {
+          const message = await this.store.getters.getTxMessage({
+            network: this.originNet,
+            hash: id,
+          })
           this.confirmAt = await message.confirmAt()
         } catch (e) {
-          console.error(e)
+          if (tx.relayedAt && tx.relayedAt > 0) {
+            // calculate confirmation time (in case confirmAt check errors out)
+            // give 10 minute padding
+            const { confirmationTimeInMinutes } = networks[this.originNet]
+            const confirmationTime = (confirmationTimeInMinutes + 10) * 60
+            this.confirmAt = BigNumber.from(tx.relayedAt + confirmationTime)
+          } else {
+            console.error(e)
+          }
         }
       }
       // set status after we have confirmAt

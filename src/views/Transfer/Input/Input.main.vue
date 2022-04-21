@@ -36,8 +36,6 @@ import TransferInputs from './Input.inputs.vue'
 import NomadButton from '@/components/Button.vue'
 
 export default defineComponent({
-  emits: ['next'],
-
   components: {
     BgBlur,
     TransferSteps,
@@ -65,7 +63,9 @@ export default defineComponent({
   methods: {
     async next() {
       const valid = await this.v$.$validate()
-      if (valid) this.$emit('next')
+      if (valid) {
+        this.store.dispatch('setTransferStep', 2)
+      }
     },
   },
 })

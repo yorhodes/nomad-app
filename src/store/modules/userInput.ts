@@ -11,7 +11,10 @@ import { networks } from '@/config'
 import { TokenMetadata, NetworkName } from '@/config/config.types'
 import { nullToken } from '@/utils'
 
+type TransferStep = 1 | 2
+
 export interface UserInputState {
+  step: TransferStep
   destinationAddress: string
   sendAmount: number
   originNetwork: NetworkName | ''
@@ -21,6 +24,7 @@ export interface UserInputState {
 }
 
 const state: UserInputState = {
+  step: 1,
   destinationAddress: '',
   sendAmount: 0,
   originNetwork: '',
@@ -30,6 +34,11 @@ const state: UserInputState = {
 }
 
 const mutations = <MutationTree<UserInputState>>{
+  [types.SET_TRANSFER_STEP](state: UserInputState, step: TransferStep) {
+    console.log('{dispatch} set transfer step: ', step)
+    state.step = step
+  },
+
   [types.SET_DESTINATION_ADDRESS](state: UserInputState, address: string) {
     console.log('{dispatch} set destination address: ', address)
     state.destinationAddress = address
@@ -62,6 +71,10 @@ const mutations = <MutationTree<UserInputState>>{
 }
 
 const actions = <ActionTree<UserInputState, RootState>>{
+  setTransferStep({ commit }, step: TransferStep) {
+    commit(types.SET_TRANSFER_STEP, step)
+  },
+
   async setDestinationAddress({ commit }, address: string) {
     commit(types.SET_DESTINATION_ADDRESS, address)
   },

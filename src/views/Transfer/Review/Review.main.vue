@@ -128,7 +128,7 @@
       </div>
 
       <!-- Send -->
-      <review-send :protocol="protocol" @back="$emit('back')" />
+      <review-send :protocol="protocol" />
     </div>
   </div>
 </template>
@@ -151,7 +151,6 @@ import ReviewDetail from './Review.detail.vue'
 import ReviewSend from './Review.send.vue'
 
 export default defineComponent({
-  emits: ['back'],
   components: {
     Breadcrumb,
     NIcon,
@@ -228,7 +227,7 @@ export default defineComponent({
     back() {
       if (this.sending || this.preparingSwap) return
       this.store.dispatch('resetTransferQuote')
-      this.$emit('back')
+      this.store.dispatch('setTransferStep', 1)
     },
   },
   computed: {

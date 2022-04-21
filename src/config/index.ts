@@ -16,11 +16,6 @@ export const connextConfig = getConnextConfigFromConfig(config, [
   process.env.VUE_APP_ETHEREUM_RPC!,
 ])
 
-// gui assumes that there is only 1 hub at the moment
-export const hubNetwork = Object.values(networks).find(
-  (network) => network.manualProcessing
-)!
-
 export const s3URL = isProduction
   ? 'https://nomadxyz-production-proofs.s3.us-west-2.amazonaws.com/'
   : 'https://nomadxyz-development-proofs.s3.us-west-2.amazonaws.com/'

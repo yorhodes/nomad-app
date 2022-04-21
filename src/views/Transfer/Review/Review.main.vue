@@ -85,7 +85,7 @@
         <review-detail
           v-if="
             protocol === 'nomad' &&
-            isEthereumNetwork(userInput.destinationNetwork)
+            requiresManualProcessing
           "
           title="Processing Gas Fee"
         >
@@ -143,7 +143,7 @@ import { NIcon, NSkeleton, NTooltip, useNotification } from 'naive-ui'
 import { AlertCircle } from '@vicons/ionicons5'
 import { useStore } from '@/store'
 import { networks } from '@/config'
-import { toDecimals, isEthereumNetwork, truncateAddr } from '@/utils'
+import { toDecimals, truncateAddr } from '@/utils'
 import { NetworkName } from '@/config/types'
 
 import Breadcrumb from '@/components/Breadcrumb.vue'
@@ -195,7 +195,6 @@ export default defineComponent({
   }),
 
   methods: {
-    isEthereumNetwork,
     truncateAddr,
     nativeAssetSymbol(network: NetworkName) {
       return networks[network].nativeToken.symbol
@@ -242,6 +241,11 @@ export default defineComponent({
       const total = relayerFee.add(routerFee)
       const formatted = toDecimals(total, 18, 4)
       return `${formatted} ${this.userInput.token.symbol}`
+    },
+    requiresManualProcessing(): boolean {
+      const network = this.userInput.destinationNetwork
+      if (!network) return false
+      return !!networks[network].manualProcessing
     },
   },
 })

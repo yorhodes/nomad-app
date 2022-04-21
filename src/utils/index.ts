@@ -1,6 +1,6 @@
 import { BigNumber, utils } from 'ethers'
 
-import { networks, tokens, hubNetwork } from '@/config'
+import { networks, tokens } from '@/config'
 import { NetworkMetadata, TokenMetadata, NetworkName } from '@/config/types'
 
 const coinGeckoIds = Object.values(tokens).map((t) => t.coinGeckoId)
@@ -126,13 +126,6 @@ export function getNetworkByDomainID(domainID: number): NetworkMetadata {
 export function getNetworkDomainIDByName(networkName: string): number {
   const network = networks[networkName]
   return network.domainID
-}
-
-/**
- * Given a network name, return a boolean if that network is the hub network's name
- */
-export function isEthereumNetwork(networkName: string): boolean {
-  return networkName === hubNetwork.name
 }
 
 // TOKEN

@@ -24,7 +24,7 @@
   </n-alert>
   <!-- Return to process -->
   <n-alert
-    v-else-if="destinationNetwork === hubNetwork.name && showAlerts"
+    v-else-if="requiresManualProcessing && showAlerts"
     title="Transfer pending"
     type="default"
     class="mb-5 rounded-md"
@@ -34,10 +34,7 @@
         <alert-circle-outline />
       </n-icon>
     </template>
-    Return to this page once bridging is complete to collect your funds on
-    <span class="capitalize">
-      {{ hubNetwork.name }}
-    </span>
+    Return to this page once bridging is complete to collect your funds on {{ getDisplayName(destinationNetwork) }}.
     <a
       href="https://docs.nomad.xyz/bridge/nomad-gui.html#bridging-through-nomad"
       target="_blank"
@@ -48,7 +45,7 @@
   </n-alert>
   <!-- Processing is subsidized -->
   <n-alert
-    v-else-if="destinationNetwork !== hubNetwork.name && showAlerts"
+    v-else-if="!requiresManualProcessing && showAlerts"
     title="Transfer pending"
     type="default"
     class="mb-5 rounded-md"
@@ -86,9 +83,7 @@
       v-else-if="readyToManualProcess"
     >
       <n-text class="mb-2 opacity-80 text-center">
-        Your funds have been bridged back to
-        <span class="capitalize">{{ hubNetwork.name }}!</span>
-        Please click below to submit a transaction to complete your transfer.
+        Your funds have been bridged back to {{ getDisplayName(destinationNetwork) }}! Please click below to submit a transaction to complete your transfer.
       </n-text>
       <n-text @click="processTx" class="uppercase mt-1 cursor-pointer p-2">
         <span class="click-me flex flex-row items-center">
@@ -180,7 +175,6 @@ import { BigNumber } from 'ethers'
 import { useStore } from '@/store'
 import {
   networks,
-  hubNetwork,
   BUFFER_CONFIRMATION_TIME_IN_MINUTES,
   PROCESS_TIME_IN_MINUTES,
 } from '@/config'
@@ -213,7 +207,6 @@ export default defineComponent({
   },
   data: () => ({
     PROCESS_TIME_IN_MINUTES,
-    hubNetwork,
     showStatus: false,
   }),
   setup: () => {
@@ -245,6 +238,10 @@ export default defineComponent({
           content: (e as Error).message,
         })
       }
+    },
+    getDisplayName(network: NetworkName) {
+      if (!network) return
+      return networks[network].displayName
     },
   },
   computed: {
@@ -299,16 +296,17 @@ export default defineComponent({
         this.confirmationTime
       return Math.floor(fraction * 100)
     },
+    requiresManualProcessing(): boolean {
+      if (!this.destinationNetwork) return false
+      return !!networks[this.destinationNetwork].manualProcessing
+    },
     readyToManualProcess(): boolean {
       if (!this.confirmAt || !this.destinationNetwork) return false
-      // hub is not subsidized
-      const destinationNetworkIsHub =
-        this.destinationNetwork === hubNetwork.name
       // get timestamp in seconds
       const now = BigNumber.from(Date.now()).div(1000)
       // check if confirmAt time has passed
       // check if network is one that needs manual processing
-      return now.gt(this.confirmAt) && destinationNetworkIsHub
+      return now.gt(this.confirmAt) && this.requiresManualProcessing
     },
   },
 })

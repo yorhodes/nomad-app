@@ -17,7 +17,7 @@ export type NaiveOption = {
   key: string
 }
 
-export function toNetworkName(name: string): NetworkName | undefined {
+export function toNetworkName(name: string): NetworkName {
   switch (name.toLowerCase()) {
     case 'moonbeam':
       return 'moonbeam'

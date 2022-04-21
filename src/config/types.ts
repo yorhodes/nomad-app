@@ -1,10 +1,7 @@
 import { TokenIdentifier } from '@nomad-xyz/sdk-bridge'
+import { networks } from './index'
 
-// TODO: derive these string types from the networks
-// listed inside the config bridgeGui map
-export type MainnetNetwork = 'ethereum' | 'moonbeam' | 'milkomedaC1'
-export type TestnetNetwork = 'rinkeby' | 'kovan' | 'goerli' | 'xdai'
-export type NetworkName = MainnetNetwork | TestnetNetwork
+export type NetworkName = keyof typeof networks
 
 export type TokenIdentifierMap = { [key: string]: TokenIdentifier }
 export type TokenMetadataMap = { [key: string]: TokenMetadata }

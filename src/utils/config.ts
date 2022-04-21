@@ -9,7 +9,6 @@ export const getConnextConfigFromConfig = (
   const connextConfig: SdkBaseChainConfigParams = {}
 
   Object.keys(config.bridgeGui).forEach((networkName) => {
-    // TODO: add field to bridgeGui object
     if (config.bridgeGui[networkName].connextEnabled) {
       const { chainId } = config.protocol.networks[networkName].specs
 
@@ -36,7 +35,6 @@ export const getNetworksFromConfig = (
   const networks: NetworkMap = {}
 
   Object.keys(config.bridgeGui).forEach((networkName) => {
-    // TODO: add separate connections field to bridgeGui object
     const { displayName, nativeTokenSymbol, connections, manualProcessing } =
       config.bridgeGui[networkName]
     const nativeToken = tokens[nativeTokenSymbol]

@@ -83,10 +83,7 @@
           <n-skeleton v-else :width="150" :height="21" round size="small" />
         </review-detail>
         <review-detail
-          v-if="
-            protocol === 'nomad' &&
-            requiresManualProcessing
-          "
+          v-if="protocol === 'nomad' && requiresManualProcessing"
           title="Processing Gas Fee"
         >
           <div class="flex flex-row items-center transform">

@@ -34,7 +34,8 @@
         <alert-circle-outline />
       </n-icon>
     </template>
-    Return to this page once bridging is complete to collect your funds on {{ getDisplayName(destinationNetwork) }}.
+    Return to this page once bridging is complete to collect your funds on
+    {{ getDisplayName(destinationNetwork) }}.
     <a
       href="https://docs.nomad.xyz/bridge/nomad-gui.html#bridging-through-nomad"
       target="_blank"
@@ -83,7 +84,9 @@
       v-else-if="readyToManualProcess"
     >
       <n-text class="mb-2 opacity-80 text-center">
-        Your funds have been bridged back to {{ getDisplayName(destinationNetwork) }}! Please click below to submit a transaction to complete your transfer.
+        Your funds have been bridged back to
+        {{ getDisplayName(destinationNetwork) }}! Please click below to submit a
+        transaction to complete your transfer.
       </n-text>
       <n-text @click="processTx" class="uppercase mt-1 cursor-pointer p-2">
         <span class="click-me flex flex-row items-center">

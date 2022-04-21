@@ -264,7 +264,8 @@ export default defineComponent({
     },
     confirmationTime(): number | undefined {
       if (!this.destinationNetwork) return
-      return networks[this.destinationNetwork].confirmationTimeInMinutes
+      const { confirmationTimeInMinutes } = networks[this.destinationNetwork]
+      return Math.ceil(confirmationTimeInMinutes)
     },
     minutesRemaining(): number | undefined {
       if (!this.confirmationTime) return

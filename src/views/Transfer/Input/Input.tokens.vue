@@ -57,7 +57,7 @@ import { NModal, NCard, NText, NButton, NIcon } from 'naive-ui'
 import { RepeatOutline } from '@vicons/ionicons5'
 import NomadButton from '@/components/Button.vue'
 
-import { networks, tokens } from '@/config/index'
+import { networks, tokens } from '@/config'
 import { TokenMetadata } from '@/config/types'
 import { useStore } from '@/store'
 

@@ -5,7 +5,7 @@
 import { MutationTree, ActionTree } from 'vuex'
 import { RootState } from '@/store'
 import * as types from '@/store/mutation-types'
-import { networks } from '@/config/index'
+import { networks } from '@/config'
 import * as mmUtils from '@/utils/metamask'
 import { getNetworkByChainID, nullToken } from '@/utils'
 import { TokenIdentifier } from '@nomad-xyz/sdk-bridge'

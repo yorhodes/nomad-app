@@ -3,13 +3,10 @@ import { NomadConfig } from '@nomad-xyz/configuration'
 import { testnetTokens, mainnetTokens } from './tokens'
 import { NetworkMetadata, NetworkMap } from './types'
 
-const environment = process.env.VUE_APP_NOMAD_ENVIRONMENT
+const environment = process.env.VUE_APP_NOMAD_ENVIRONMENT!
 
-// TODO: look into how await import works, might be better
-// to move to a single file where we import configuration
-// and then just export to use everywhere else
 const configuration = await import('@nomad-xyz/configuration')
-const config = configuration.getBuiltin(environment!)
+const config = configuration.getBuiltin(environment)
 const ethereumRPCs = [process.env.VUE_APP_ETHEREUM_RPC!]
 
 export const isProduction = environment === 'production'

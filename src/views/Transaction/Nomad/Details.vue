@@ -217,32 +217,37 @@ export default defineComponent({
         }
   
         if (tx.state === 2) {
-          if (tx.relayedAt && tx.relayedAt > 0) {
-            // calculate confirmation time (in case confirmAt check errors out)
-            // give 10 minute padding
-            const { confirmationTimeInMinutes } = networks[this.originNet]
-            const confirmationTime = (confirmationTimeInMinutes + 10) * 60
-            this.confirmAt = BigNumber.from(tx.relayedAt + confirmationTime)
-          }
-
           try {
             this.confirmAt = await message.confirmAt()
           } catch (e) {
+            if (tx.relayedAt && tx.relayedAt > 0) {
+              // calculate confirmation time (in case confirmAt check errors out)
+              // give 5 minute padding
+              const { confirmationTimeInMinutes } = networks[this.originNet]
+              const confirmationTime = (confirmationTimeInMinutes + 5) * 60
+              this.confirmAt = BigNumber.from(tx.relayedAt + confirmationTime)
+            }
             console.error(e)
           }
         }
         // set status after we have confirmAt
         this.status = tx.state
       } else {
-        const { status } = await message.events()
-        if (status === 2) {
-          try {
-            this.confirmAt = await message.confirmAt()
-          } catch (e) {
-            console.error(e)
-          }
+        const processed = await message.getProcess()
+        if (processed) {
+          this.status = 3
+          return
         }
-        this.status = status
+        try {
+          this.confirmAt = await message.confirmAt()
+          if (this.confirmAt && !this.confirmAt.isZero()) {
+            this.status = 2
+          } else {
+            this.status = 0
+          }
+        } catch (e) {
+          console.error(e)
+        }
       }
 
     },

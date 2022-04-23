@@ -206,30 +206,45 @@ export default defineComponent({
       const tx = (await res.json())[0] as any
       console.log('tx data: ', tx)
 
-      if (tx.dispatchedAt > 0) {
-        this.timeSent = tx.dispatchedAt * 1000
+      const message = await this.store.getters.getTxMessage({
+        network: toNetworkName(this.originNet),
+        hash: id,
+      })
+
+      if (tx) {
+        if (tx.dispatchedAt > 0) {
+          this.timeSent = tx.dispatchedAt * 1000
+        }
+  
+        if (tx.state === 2) {
+          if (tx.relayedAt && tx.relayedAt > 0) {
+            // calculate confirmation time (in case confirmAt check errors out)
+            // give 10 minute padding
+            const { confirmationTimeInMinutes } = networks[this.originNet]
+            const confirmationTime = (confirmationTimeInMinutes + 10) * 60
+            this.confirmAt = BigNumber.from(tx.relayedAt + confirmationTime)
+          }
+
+          try {
+            this.confirmAt = await message.confirmAt()
+          } catch (e) {
+            console.error(e)
+          }
+        }
+        // set status after we have confirmAt
+        this.status = tx.state
+      } else {
+        const { status } = await message.events()
+        if (status === 2) {
+          try {
+            this.confirmAt = await message.confirmAt()
+          } catch (e) {
+            console.error(e)
+          }
+        }
+        this.status = status
       }
 
-      if (tx.state === 2) {
-        if (tx.relayedAt && tx.relayedAt > 0) {
-          // calculate confirmation time (in case confirmAt check errors out)
-          // give 10 minute padding
-          const { confirmationTimeInMinutes } = networks[this.originNet]
-          const confirmationTime = (confirmationTimeInMinutes + 10) * 60
-          this.confirmAt = BigNumber.from(tx.relayedAt + confirmationTime)
-        }
-        const message = await this.store.getters.getTxMessage({
-          network: this.originNet,
-          hash: id,
-        })
-        try {
-          this.confirmAt = await message.confirmAt()
-        } catch (e) {
-          console.error(e)
-        }
-      }
-      // set status after we have confirmAt
-      this.status = tx.state
     },
   },
 
